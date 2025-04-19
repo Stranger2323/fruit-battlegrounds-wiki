@@ -1,0 +1,730 @@
+{% extends "base.html" %}
+
+{% block title %}Bosses - Fruit Battlegrounds Wiki{% endblock %}
+
+{% block content %}
+<div class="bosses-page" data-aos="fade-in" data-aos-duration="600">
+    <div class="header-accent"></div>
+    <div class="section-header" data-aos="fade-down">
+        <h1 class="section-title display-4 mb-3">Bosses</h1>
+        <p class="lead mb-4 text-muted">
+            Bosses spawn every hour (with an exception of Katakuri who spawns at 30 minutes the first time and spawns every 1 hour and 30 minutes from then on) 
+            and are mainly used for gaining EXP for your fruit. They are also a requirement for Soru and awakening certain fruits to their 
+            awakened forms. Bosses will despawn after 18 minutes if not killed.
+        </p>
+    </div>
+
+    <div class="alert alert-info custom-alert mb-5" data-aos="fade-up" data-aos-delay="100">
+        <div class="alert-icon"><i class="bi bi-info-circle-fill"></i></div>
+        <div class="alert-content">
+            Each boss has a 1% chance of dropping a physical fruit. To equip the fruit, click the physical fruit slot in your moveset bar, 
+            and it will replace the current fruit you have equipped.
+        </div>
+    </div>
+
+    <div class="row boss-grid">
+        {% for boss in bosses %}
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ (loop.index0 * 100) + 150 }}">
+            <div class="card boss-card boss-card-{{ boss.name.lower().replace(' ', '-') }}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="boss-title">
+                        <h5 class="mb-0 card-title-boss">{{ boss.name }}</h5>
+                        <div class="boss-difficulty">
+                            {% if boss.health >= 10000 %}
+                            <span class="difficulty-indicator difficulty-hard"></span>
+                            <span class="difficulty-label">Hard</span>
+                            {% elif boss.health >= 5000 %}
+                            <span class="difficulty-indicator difficulty-medium"></span>
+                            <span class="difficulty-label">Medium</span>
+                            {% else %}
+                            <span class="difficulty-indicator difficulty-easy"></span>
+                            <span class="difficulty-label">Easy</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <span class="badge bg-location">{{ boss.location }}</span>
+                </div>
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                        {% if boss.image %}
+                        <div class="boss-image-container">
+                            <img src="{{ url_for('static', filename='images/bosses/' + boss.image) }}" alt="{{ boss.name }}" class="boss-image">
+                            <div class="boss-image-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="no-image-container">
+                            <i class="fas fa-user-slash"></i>
+                            <span>No Image</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text small">{{ boss.description }}</p>
+                            <div class="boss-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-heart"></i></div>
+                                    <div class="stat-info">
+                                        <div class="stat-label">Health</div>
+                                        <div class="stat-value">{{ "{:,}".format(boss.health) }}</div>
+                                        {% if boss.name == 'Marco' %}<span class="stat-detail"><i class="fas fa-layer-group me-1"></i>Phases: P1: 2k, P2: 6k</span>
+                                        {% elif boss.name == 'Cake Queen' %}<span class="stat-detail"><i class="fas fa-layer-group me-1"></i>Phases: P1: 1.6k, P2: 10k</span>
+                                        {% elif boss.name == 'Katakuri' %}<span class="stat-detail"><i class="fas fa-layer-group me-1"></i>Phases: P1: 2k, P2: 8k</span>
+                                        {% elif boss.name == 'Kaido' %}<span class="stat-detail"><i class="fas fa-layer-group me-1"></i>Phases: P1: 5k, P2: 10k</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                                    <div class="stat-info">
+                                        <div class="stat-label">Rewards</div>
+                                        <div class="stat-value">{{ "{:,}".format(boss.exp_reward) }} EXP</div>
+                                        <div class="stat-value">{{ boss.gem_reward }} Gems</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if boss.fruit_drops %}
+                            <div class="boss-drops">
+                                <div class="drops-label"><i class="fas fa-apple-alt"></i>Drops (1%)</div>
+                                <div class="d-flex flex-wrap gap-1 mt-1">
+                                    {% for drop in boss.fruit_drops %}
+                                    <span class="fruit-drop-badge">{{ drop.fruit.name }}</span>
+                                    {% endfor %}
+                                    {# Manually add DoughV2 drop for Katakuri as DB doesn't handle OR drops easily #}
+                                    {% if boss.name == 'Katakuri' %}
+                                    <span class="fruit-drop-badge">DoughV2</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boss strategy moved outside the row to span full width -->
+                <div class="card-footer bg-transparent border-top-0 pt-0 px-3 pb-3">
+                    <div class="boss-strategy-toggle">
+                        <button class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#strategy{{ boss.name | replace(' ', '') }}" 
+                                aria-expanded="false" 
+                                aria-controls="strategy{{ boss.name | replace(' ', '') }}">
+                            <span>
+                                <i class="fas fa-chess-knight me-2"></i>Strategy
+                            </span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="collapse mt-3" id="strategy{{ boss.name | replace(' ', '') }}">
+                        <div class="strategy-container">
+                            {% if boss.name == 'Marco' %}
+                            <p>Marco has two phases. In the first phase, he has 2,000 HP and uses basic Phoenix attacks. 
+                            In the second phase, he has 6,000 HP and uses more powerful abilities.</p>
+                            
+                            <h6 class="strategy-title"><i class="fas fa-chess me-2"></i>Strategy</h6>
+                            <ul class="strategy-list">
+                                <li>Stay at a medium distance to avoid his close-range attacks</li>
+                                <li>Use ranged abilities to deal damage safely</li>
+                                <li>When he uses his healing move, back off and wait for it to end</li>
+                                <li>Save your most powerful moves for his second phase</li>
+                            </ul>
+                            
+                            {% elif boss.name == 'Kaido' %}
+                            <p>Kaido is one of the most powerful bosses with two forms. His human form has high damage attacks, 
+                            and his dragon form has area-of-effect abilities that are hard to dodge.</p>
+                            
+                            <h6 class="strategy-title"><i class="fas fa-chess me-2"></i>Strategy</h6>
+                            <ul class="strategy-list">
+                                <li>Keep moving to avoid his Boro Breath attack</li>
+                                <li>Attack from behind when possible</li>
+                                <li>During his dragon form, stay at range and use mobility skills to avoid his attacks</li>
+                                <li>Coordinate with other players to attack from different angles</li>
+                            </ul>
+                            
+                            {% elif boss.name == 'Cake Queen' %}
+                            <p>The Cake Queen (Big Mom) has a phase 1 with 1,600 HP and a more powerful phase 2 with 10,000 HP. 
+                            She uses Soul abilities that can deal high damage.</p>
+                            
+                            <h6 class="strategy-title"><i class="fas fa-chess me-2"></i>Strategy</h6>
+                            <ul class="strategy-list">
+                                <li>Stay away from her Prometheus and Zeus attacks</li>
+                                <li>Use mobility abilities to escape her area attacks</li>
+                                <li>Attack from a distance when she's using her soul abilities</li>
+                                <li>Save your strongest attacks for phase 2</li>
+                            </ul>
+                            
+                            {% elif boss.name == 'Katakuri' %}
+                            <p>Katakuri has two phases, using Dough in phase 1 (2,000 HP) and Dough V2 in phase 2 (8,000 HP). 
+                            He has powerful area attacks and can predict your movements.</p>
+                            
+                            <h6 class="strategy-title"><i class="fas fa-chess me-2"></i>Strategy</h6>
+                            <ul class="strategy-list">
+                                <li>Be unpredictable with your attacks to counter his Future Sight</li>
+                                <li>Stay mobile to avoid his donut-shaped projectiles</li>
+                                <li>Use ranged attacks to deal damage safely</li>
+                                <li>Coordinate with other players to attack from multiple angles</li>
+                            </ul>
+                            
+                            {% else %}
+                            <p>No specific strategy available for this boss yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-5 pt-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="section-header mb-4">
+            <h2 class="section-title">Boss Fighting Tips</h2>
+            <div class="section-subtitle">Master Your Strategy</div>
+        </div>
+        
+        <div class="tips-card">
+            <div class="tips-header">
+                <i class="fas fa-lightbulb me-2"></i>
+                <h5 class="mb-0">General Tips</h5>
+            </div>
+            <div class="tips-body">
+                <ul class="tips-list">
+                    <li data-aos="fade-up" data-aos-delay="350">
+                        <div class="tip-icon"><i class="fas fa-users"></i></div>
+                        <div class="tip-content">
+                            <h6>Group Up</h6>
+                            <p>Fighting bosses with other players makes them easier to defeat. 
+                            The rewards are based on damage dealt, not who gets the final hit.</p>
+                        </div>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="400">
+                        <div class="tip-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="tip-content">
+                            <h6>Stay Away on Spawn</h6>
+                            <p>When bosses first spawn, many players use their ultimate moves. 
+                            Stay back for a few seconds to avoid getting caught in the crossfire.</p>
+                        </div>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="450">
+                        <div class="tip-icon"><i class="fas fa-bullseye"></i></div>
+                        <div class="tip-content">
+                            <h6>Minimum Damage</h6>
+                            <p>You need to deal a minimum amount of damage to receive the maximum rewards. 
+                            For Marco, it's 500 damage. For other bosses, try to deal at least 5-10% of their total health.</p>
+                        </div>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="500">
+                        <div class="tip-icon"><i class="fas fa-level-up-alt"></i></div>
+                        <div class="tip-content">
+                            <h6>Leveling New Fruits</h6>
+                            <p>To level up a new fruit fast, server hop until you find one with a boss spawning soon. 
+                            Equip your main high level fruit, deal enough damage to the boss for max exp, reset character, 
+                            equip the new fruit and stay in the fruit inventory section. Then wait for the boss to die and you'll get the exp towards the fruit selected.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Base Styles for Bosses Page */
+.bosses-page {
+    position: relative;
+    padding-top: 2rem;
+}
+
+.header-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #ff5722, #ff9800);
+    border-radius: 5px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.section-subtitle {
+    color: var(--bs-secondary);
+    font-size: 1.1rem;
+    margin-top: -0.5rem;
+}
+
+/* Custom Alert */
+.custom-alert {
+    display: flex;
+    border: none;
+    border-left: 4px solid #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    font-size: 1.5rem;
+    color: #17a2b8;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+/* Boss Card Styles */
+.boss-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: none;
+    height: auto;
+}
+
+.boss-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.boss-card .card-header {
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    border-bottom: none;
+}
+
+.boss-title {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.card-title-boss {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.boss-difficulty {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.difficulty-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.difficulty-easy {
+    background-color: #2ecc71;
+    box-shadow: 0 0 5px #2ecc71;
+}
+
+.difficulty-medium {
+    background-color: #f39c12;
+    box-shadow: 0 0 5px #f39c12;
+}
+
+.difficulty-hard {
+    background-color: #e74c3c;
+    box-shadow: 0 0 5px #e74c3c;
+}
+
+.difficulty-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.badge.bg-location {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Boss Image */
+.boss-image-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.boss-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.boss-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 50%;
+}
+
+.boss-card:hover .boss-image {
+    transform: scale(1.1);
+}
+
+.boss-card:hover .boss-image-overlay {
+    opacity: 1;
+}
+
+.no-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    color: #adb5bd;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.no-image-container i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* Boss Stats */
+.boss-stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.stat-info {
+    flex: 1;
+    line-height: 1.3;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #343a40;
+}
+
+.stat-detail {
+    font-size: 0.8rem;
+    color: #5a6268;
+    display: block;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.stat-detail i {
+    opacity: 0.7;
+}
+
+/* Boss Drops */
+.boss-drops {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.drops-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.fruit-drop-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #e7f1ff;
+    color: #0056b3;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.fruit-drop-badge:hover {
+    background-color: #d0e1ff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Boss Strategy Toggle */
+.boss-strategy-toggle .btn-outline-primary {
+    color: #ff5722;
+    border-color: #ff5722;
+    transition: all 0.2s ease;
+    background-color: transparent;
+}
+
+.boss-strategy-toggle .btn-outline-primary:hover,
+.boss-strategy-toggle .btn-outline-primary:focus {
+    background-color: rgba(255, 87, 34, 0.1);
+    color: #ff5722;
+    border-color: #ff5722;
+}
+
+.boss-strategy-toggle .toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.boss-strategy-toggle .btn:not(.collapsed) .toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Strategy Container */
+.strategy-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.strategy-title {
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.strategy-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.strategy-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+}
+
+.strategy-list li:before {
+    content: "•";
+    color: #ff5722;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* Tips Section */
+.tips-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.tips-header {
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.tips-body {
+    padding: 20px;
+}
+
+.tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tips-list li {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tips-list li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.tip-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.tip-content {
+    flex: 1;
+}
+
+.tip-content h6 {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.tip-content p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Animation enhancements */
+[data-aos] {
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .boss-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .boss-card .card-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .badge.bg-location {
+        align-self: flex-start;
+    }
+}
+
+/* Add alignment for grid row */
+.boss-grid {
+    align-items: start;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize any interactive elements
+    
+    // Add click event for boss images to show larger version
+    const bossImages = document.querySelectorAll('.boss-image-container');
+    bossImages.forEach(image => {
+        image.addEventListener('click', function() {
+            const imgSrc = this.querySelector('img').src;
+            const modal = document.createElement('div');
+            modal.classList.add('modal', 'fade');
+            modal.setAttribute('tabindex', '-1');
+            modal.innerHTML = `
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center p-0">
+                            <img src="${imgSrc}" class="img-fluid" alt="Boss Image">
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            modal.addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modal);
+            });
+        });
+    });
+    
+    // Handle strategy buttons
+    const strategyButtons = document.querySelectorAll('.boss-strategy-toggle button');
+    strategyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const isCollapsed = this.classList.contains('collapsed');
+            if (!isCollapsed) {
+                // When expanded
+                this.querySelector('.toggle-icon').classList.add('fa-chevron-up');
+                this.querySelector('.toggle-icon').classList.remove('fa-chevron-down');
+            } else {
+                // When collapsed
+                this.querySelector('.toggle-icon').classList.add('fa-chevron-down');
+                this.querySelector('.toggle-icon').classList.remove('fa-chevron-up');
+            }
+        });
+    });
+    
+    // Animate boss cards on scroll
+    if (typeof AOS !== 'undefined') {
+        setTimeout(() => {
+            AOS.refresh();
+        }, 500);
+    }
+});
+</script>
+{% endblock %} 

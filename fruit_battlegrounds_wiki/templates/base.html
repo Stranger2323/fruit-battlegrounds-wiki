@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Fruit Battlegrounds Wiki{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- html2canvas library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Turbo Drive -->
+    <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@7.3.0/dist/turbo.min.js" defer></script>
+    <style>
+        /* Cursor Follower Styles */
+        .cursor-follower {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            background: rgba(0, 160, 255, 0.15);
+            border: 1.5px solid rgba(0, 160, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease-out, height 0.3s ease-out, background-color 0.3s ease, border-color 0.3s ease, transform 0.1s ease-out, box-shadow 0.3s ease-out;
+            z-index: 9999;
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            box-shadow: 0 4px 12px rgba(0, 160, 255, 0.4);
+            left: 0;
+            top: 0;
+        }
+        
+        .cursor-follower.hover {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 105, 0, 0.1);
+            border: 1.5px solid rgba(255, 105, 0, 0.5);
+            box-shadow: 0 6px 18px rgba(255, 105, 0, 0.4);
+        }
+
+        /* Click effect */
+        .cursor-follower.clicking {
+            transform: translate(-50%, -50%) scale(0.85);
+            box-shadow: 0 2px 8px rgba(0, 160, 255, 0.5);
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 12px; /* BIGGER dot */
+            height: 12px;
+            background-color: white; /* Always WHITE */
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            transition: width 0.2s ease-out, height 0.2s ease-out, transform 0.1s ease-out, box-shadow 0.2s ease-out;
+            left: 0;
+            top: 0;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+        }
+        
+        .cursor-dot.hover {
+            width: 8px;
+            height: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Click effect */
+        .cursor-dot.clicking {
+            transform: translate(-50%, -50%) scale(1.4);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+        }
+        
+        /* One Piece Inspired Particle Effect */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Haki/Lightning style particles */
+        .particle-haki {
+            background: #000;
+            box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.8);
+            opacity: 0.9;
+        }
+        
+        /* Haki lightning effect */
+        .particle-lightning {
+            background: #000;
+            box-shadow: 0 0 4px 2px rgba(255, 0, 0, 0.8);
+            opacity: 0.9;
+            border-radius: 2px;
+        }
+        
+        /* Energy/Flame style particles */
+        .particle-energy {
+            background: linear-gradient(to bottom right, #ff9900, #ff0000);
+            box-shadow: 0 0 8px 2px rgba(255, 153, 0, 0.6);
+            opacity: 0.9;
+        }
+        
+        /* Ice/Water style particles */
+        .particle-ice {
+            background: linear-gradient(to bottom right, #00ccff, #0066ff);
+            box-shadow: 0 0 8px 2px rgba(0, 204, 255, 0.6);
+            opacity: 0.9;
+        }
+        
+        /* Click wave effect */
+        .click-wave {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            background: rgba(0, 170, 255, 0.15);
+            border: 2px solid rgba(0, 170, 255, 0.3);
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 9997;
+            animation: waveExpand 0.8s ease-out forwards;
+        }
+        
+        @keyframes waveExpand {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes particleFadeOut {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x), var(--y)) scale(0.1);
+            }
+        }
+        
+        @keyframes lightningFadeOut {
+            0% {
+                opacity: 0.9;
+                transform: translate(-50%, -50%) rotate(var(--angle)) scale(1, 1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) rotate(var(--angle)) scale(1.2, 1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(var(--angle)) scale(0.8, 0.8);
+            }
+        }
+        
+        #screenshot-canvas {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .cursor-follower, .cursor-dot, .particle, .click-wave, #screenshot-canvas {
+                display: none;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Cursor Follower Elements -->
+    <div class="cursor-follower"></div>
+    <div class="cursor-dot"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top modern-navbar" data-aos="fade-down">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+                <span class="fruit-icon me-2">🍎</span>
+                <span class="brand-text">Fruit Battlegrounds Wiki</span>
+                <span class="pirate-icon ms-2"><i class="fas fa-skull-crossbones"></i></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-fancy" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-fancy" href="{{ url_for('fruits') }}">Fruits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-fancy" href="{{ url_for('bosses') }}">Bosses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-fancy" href="{{ url_for('maps') }}">Maps</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-fancy" href="{{ url_for('mechanics') }}">Mechanics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-fancy" href="{{ url_for('leveling_guide') }}">Leveling</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-fancy" href="{{ url_for('codes') }}">Codes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-fancy" href="{{ url_for('updates') }}">Updates</a>
+                    </li>
+                </ul>
+                <form class="search-form" action="{{ url_for('search') }}" method="get">
+                    <div class="modern-search">
+                        <input type="search" name="q" placeholder="Search..." class="modern-search-input">
+                        <button type="submit" class="modern-search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="nav-water-animation">
+            <div class="water-wave wave1"></div>
+            <div class="water-wave wave2"></div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Spacer for better footer separation -->
+    <div class="spacer mb-5"></div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Fruit Battlegrounds Wiki</h5>
+                    <p>The ultimate resource for all Fruit Battlegrounds players, featuring guides, tips, and up-to-date information.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('fruits') }}" class="text-white-50">Fruits</a></li>
+                        <li><a href="{{ url_for('bosses') }}" class="text-white-50">Bosses</a></li>
+                        <li><a href="{{ url_for('maps') }}" class="text-white-50">Maps</a></li>
+                        <li><a href="{{ url_for('mechanics') }}" class="text-white-50">Game Mechanics</a></li>
+                        <li><a href="{{ url_for('codes') }}" class="text-white-50">Codes</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Community</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50"><i class="fab fa-discord me-2"></i>Discord Server</a></li>
+                        <li><a href="#" class="text-white-50"><i class="fab fa-reddit me-2"></i>Reddit</a></li>
+                        <li><a href="#" class="text-white-50"><i class="fab fa-twitter me-2"></i>Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">© <span id="currentYear"></span> Fruit Battlegrounds Wiki. Not affiliated with Roblox or the game developers.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white-50 me-3">Privacy Policy</a>
+                    <a href="#" class="text-white-50">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Set active navigation link based on current page
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link-fancy');
+            
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (currentPath === linkPath || 
+                    (currentPath.includes(linkPath) && linkPath !== '/')) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Special case for home page
+            if (currentPath === '/' || currentPath === '/home') {
+                document.querySelector('a[href="/"]')?.classList.add('active');
+            }
+        });
+        
+        // Advanced Cursor Following Effect with Pixel Sampling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create cursor elements
+            const cursorFollower = document.querySelector('.cursor-follower');
+            const cursorDot = document.querySelector('.cursor-dot');
+            
+            // Tracking variables
+            let mouseX = 0;
+            let mouseY = 0;
+            let followerX = 0;
+            let followerY = 0;
+            let dotX = 0;
+            let dotY = 0;
+            const followerEase = 0.08; // Slower, smoother follower
+            const dotEase = 0.25;      // Faster, more direct dot
+            
+            // Storage keys for cursor position
+            const CURSOR_X_KEY = 'fruit_battlegrounds_cursor_x';
+            const CURSOR_Y_KEY = 'fruit_battlegrounds_cursor_y';
+            
+            // Default colors
+            let followerBgColor = 'rgba(0, 160, 255, 0.15)';
+            let followerBorderColor = 'rgba(0, 160, 255, 0.5)';
+            let dotColor = 'rgb(255, 255, 255)';
+            
+            // Flags for controlling screenshot updates
+            let isUpdatingScreenshot = false;
+            let screenshotUpdateNeeded = true;
+            let lastScreenshotTime = 0;
+            const screenshotUpdateInterval = 2000; // Update screenshot every 2 seconds
+            
+            // --- Helper Functions ---
+            
+            // Save cursor position to localStorage (throttled to avoid excessive writes)
+            const saveCursorPosition = throttle(function() {
+                localStorage.setItem(CURSOR_X_KEY, mouseX.toString());
+                localStorage.setItem(CURSOR_Y_KEY, mouseY.toString());
+            }, 100);
+            
+            // Restore cursor position from localStorage
+            function restoreCursorPosition() {
+                const savedX = localStorage.getItem(CURSOR_X_KEY);
+                const savedY = localStorage.getItem(CURSOR_Y_KEY);
+                
+                if (savedX && savedY) {
+                    // Set mouse position directly
+                    mouseX = parseInt(savedX);
+                    mouseY = parseInt(savedY);
+                    
+                    // Set follower and dot positions directly for instant positioning
+                    followerX = mouseX;
+                    followerY = mouseY;
+                    dotX = mouseX;
+                    dotY = mouseY;
+                    
+                    // Apply positions immediately
+                    cursorFollower.style.left = `${followerX}px`;
+                    cursorFollower.style.top = `${followerY}px`;
+                    cursorDot.style.left = `${dotX}px`;
+                    cursorDot.style.top = `${dotY}px`;
+                }
+            }
+            
+            // Throttle function to limit how often a function is called
+            function throttle(func, limit) {
+                let lastCall = 0;
+                return function(...args) {
+                    const now = Date.now();
+                    if (now - lastCall >= limit) {
+                        lastCall = now;
+                        func.apply(this, args);
+                    }
+                }
+            }
+            
+            // Create a hidden canvas element for the screenshot
+            const screenshotCanvas = document.createElement('canvas');
+            screenshotCanvas.id = 'screenshot-canvas';
+            document.body.appendChild(screenshotCanvas);
+            let screenshotCtx = screenshotCanvas.getContext('2d');
+            
+            // --- Event Listeners ---
+            
+            // Initial screenshot
+            window.addEventListener('load', function() {
+                // Wait a moment for all elements to render properly
+                setTimeout(updateScreenshot, 500);
+            });
+            
+            // Update screenshot on window resize
+            window.addEventListener('resize', function() {
+                screenshotUpdateNeeded = true;
+            });
+            
+            // Track mouse position
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // Save cursor position whenever it moves
+                saveCursorPosition();
+            });
+            
+            // Apply colors based on current position - throttled to improve performance
+            const updateColors = throttle(function() {
+                // Get pixel color at cursor position
+                const pixelColor = getPixelColor(mouseX, mouseY);
+                
+                if (!pixelColor) return;
+                
+                // Update dot color to exactly match pixel color
+                dotColor = pixelColor.rgb;
+                
+                // Set contrasting follower color based on brightness
+                const brightnessThreshold = 160;
+                
+                if (pixelColor.brightness > brightnessThreshold) {
+                    // Dark follower for light backgrounds
+                    followerBgColor = 'rgba(0, 160, 255, 0.15)';
+                    followerBorderColor = 'rgba(0, 160, 255, 0.5)';
+                } else {
+                    // Light follower for dark backgrounds
+                    followerBgColor = 'rgba(255, 171, 0, 0.15)';
+                    followerBorderColor = 'rgba(255, 171, 0, 0.5)';
+                }
+            }, 30);
+            
+            document.addEventListener('mousemove', updateColors);
+            
+            // Create a Haki thunder effect on click
+            function createParticleEffect(x, y) {
+                // Create smaller particles in a burst pattern
+                const numParticles = 15 + Math.floor(Math.random() * 10); // 15-25 particles
+                
+                for (let i = 0; i < numParticles; i++) {
+                    // Create particle element
+                    const particle = document.createElement('div');
+                    particle.className = 'particle particle-haki';
+                    
+                    // Smaller size between 1-4px
+                    const size = 1 + (Math.random() * 3);
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // Position at click location
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    
+                    // Random direction vector for particle movement
+                    const angle = Math.random() * Math.PI * 2; // Random angle
+                    const distance = 30 + (Math.random() * 70); // Random distance 30-100px
+                    const xDistance = Math.cos(angle) * distance;
+                    const yDistance = Math.sin(angle) * distance;
+                    
+                    // Set CSS variables for animation
+                    particle.style.setProperty('--x', `${xDistance}px`);
+                    particle.style.setProperty('--y', `${yDistance}px`);
+                    
+                    // Set animation properties
+                    const duration = 0.4 + (Math.random() * 0.5); // 0.4-0.9s duration
+                    particle.style.animation = `particleFadeOut ${duration}s ease-out forwards`;
+                    
+                    // Add to DOM
+                    document.body.appendChild(particle);
+                    
+                    // Remove after animation completes
+                    setTimeout(() => {
+                        particle.remove();
+                    }, duration * 1000);
+                }
+                
+                // Add lightning-like particles for Haki thunder effect
+                const numLightning = 5 + Math.floor(Math.random() * 5); // 5-10 lightning
+                for (let i = 0; i < numLightning; i++) {
+                    const lightning = document.createElement('div');
+                    lightning.className = 'particle particle-lightning';
+                    
+                    // Thinner, elongated lightning particles
+                    const width = 1 + (Math.random() * 2);
+                    const height = 8 + (Math.random() * 15);
+                    lightning.style.width = `${width}px`;
+                    lightning.style.height = `${height}px`;
+                    
+                    // Random angle for the lightning
+                    const angle = (Math.random() * Math.PI * 2);
+                    lightning.style.left = `${x}px`;
+                    lightning.style.top = `${y}px`;
+                    lightning.style.setProperty('--angle', `${angle}rad`);
+                    lightning.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
+                    
+                    // Custom animation to simulate lightning
+                    const duration = 0.2 + (Math.random() * 0.3);
+                    lightning.style.animation = `lightningFadeOut ${duration}s ease-out forwards`;
+                    
+                    document.body.appendChild(lightning);
+                    
+                    setTimeout(() => {
+                        lightning.remove();
+                    }, duration * 1000);
+                }
+                
+                // Create a brief flash effect
+                const flash = document.createElement('div');
+                flash.className = 'particle';
+                flash.style.width = '30px';
+                flash.style.height = '30px';
+                flash.style.background = 'radial-gradient(circle, rgba(255,0,0,0.4) 0%, rgba(0,0,0,0) 70%)';
+                flash.style.left = `${x}px`;
+                flash.style.top = `${y}px`;
+                flash.style.opacity = '1';
+                document.body.appendChild(flash);
+                
+                // Animate the flash
+                setTimeout(() => {
+                    flash.style.transition = 'all 0.2s ease-out';
+                    flash.style.opacity = '0';
+                    flash.style.width = '60px';
+                    flash.style.height = '60px';
+                    
+                    setTimeout(() => {
+                        flash.remove();
+                    }, 200);
+                }, 50);
+            }
+            
+            // Click effect listeners
+            document.addEventListener('mousedown', (e) => {
+                cursorFollower.classList.add('clicking');
+                cursorDot.classList.add('clicking');
+
+                // Create a wave effect on click
+                createWaveEffect(e.clientX, e.clientY);
+                // Create One Piece inspired particle effect instead of ripple
+                // createParticleEffect(e.clientX, e.clientY); // Commented out to remove particle effect
+            });
+            
+            document.addEventListener('mouseup', () => {
+                cursorFollower.classList.remove('clicking');
+                cursorDot.classList.remove('clicking');
+            });
+            
+            // Create wave effect on click
+            function createWaveEffect(x, y) {
+                const wave = document.createElement('div');
+                wave.className = 'click-wave';
+                
+                // Set position
+                wave.style.left = `${x}px`;
+                wave.style.top = `${y}px`;
+                
+                // Set size
+                const size = 40 + Math.random() * 20;
+                wave.style.width = `${size}px`;
+                wave.style.height = `${size}px`;
+                
+                // Add to DOM
+                document.body.appendChild(wave);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    wave.remove();
+                }, 800); // Match the animation duration
+            }
+            
+            // Hover effect on clickable elements
+            const clickableElements = document.querySelectorAll('a, button, input, textarea, .nav-link, .btn, [role="button"]');
+            clickableElements.forEach(el => {
+                el.addEventListener('mouseenter', function() {
+                    cursorFollower.classList.add('hover');
+                    cursorDot.classList.add('hover');
+                    screenshotUpdateNeeded = true; // Update screenshot when hovering to capture hover effects
+                });
+                
+                el.addEventListener('mouseleave', function() {
+                    cursorFollower.classList.remove('hover');
+                    cursorDot.classList.remove('hover');
+                });
+            });
+            
+            // --- Animation Loop ---
+            function updateCursor() {
+                const distXFollower = mouseX - followerX;
+                const distYFollower = mouseY - followerY;
+                const distXDot = mouseX - dotX;
+                const distYDot = mouseY - dotY;
+                
+                // Apply different easing
+                followerX += distXFollower * followerEase;
+                followerY += distYFollower * followerEase;
+                dotX += distXDot * dotEase;
+                dotY += distYDot * dotEase;
+                
+                // Apply positions
+                cursorFollower.style.left = `${followerX}px`;
+                cursorFollower.style.top = `${followerY}px`;
+                cursorDot.style.left = `${dotX}px`;
+                cursorDot.style.top = `${dotY}px`;
+                
+                // Apply colors (unless hovering or clicking)
+                if (!cursorFollower.classList.contains('hover') && !cursorFollower.classList.contains('clicking')) {
+                    cursorFollower.style.backgroundColor = followerBgColor;
+                    cursorFollower.style.borderColor = followerBorderColor;
+                }
+                
+                // Always apply white color to the dot
+                cursorDot.style.backgroundColor = 'white';
+                
+                // Continue the animation loop
+                requestAnimationFrame(updateCursor);
+            }
+            
+            // --- Initialization ---
+            if (window.innerWidth > 768) {
+                document.body.style.cursor = 'none';
+                // Set initial colors
+                cursorFollower.style.backgroundColor = followerBgColor;
+                cursorFollower.style.borderColor = followerBorderColor;
+                cursorDot.style.backgroundColor = 'white';
+                
+                // Restore cursor position from previous page if available
+                restoreCursorPosition();
+                
+                // Start animation
+                updateCursor();
+                
+                // Only attach click effects on desktop
+                document.addEventListener('mousedown', (e) => {
+                    cursorFollower.classList.add('clicking');
+                    cursorDot.classList.add('clicking');
+                    // Create a wave effect on click
+                    createWaveEffect(e.clientX, e.clientY);
+                });
+                
+                document.addEventListener('mouseup', () => {
+                    cursorFollower.classList.remove('clicking');
+                    cursorDot.classList.remove('clicking');
+                });
+                
+                // Hover effect on clickable elements (desktop only)
+                const clickableElements = document.querySelectorAll('a, button, input, textarea, .nav-link, .btn, [role="button"]');
+                clickableElements.forEach(el => {
+                    el.addEventListener('mouseenter', function() {
+                        cursorFollower.classList.add('hover');
+                        cursorDot.classList.add('hover');
+                        screenshotUpdateNeeded = true; // Update screenshot when hovering to capture hover effects
+                    });
+                    
+                    el.addEventListener('mouseleave', function() {
+                        cursorFollower.classList.remove('hover');
+                        cursorDot.classList.remove('hover');
+                    });
+                });
+            } else {
+                // On mobile devices, ensure cursor elements are hidden and normal cursor is shown
+                document.body.style.cursor = 'auto';
+                if (cursorFollower) cursorFollower.style.display = 'none';
+                if (cursorDot) cursorDot.style.display = 'none';
+            }
+            
+            // Create wave effect on click (function will only be called on desktop)
+            function createWaveEffect(x, y) {
+                const wave = document.createElement('div');
+                wave.className = 'click-wave';
+                
+                // Set position
+                wave.style.left = `${x}px`;
+                wave.style.top = `${y}px`;
+                
+                // Set size
+                const size = 40 + Math.random() * 20;
+                wave.style.width = `${size}px`;
+                wave.style.height = `${size}px`;
+                
+                // Add to DOM
+                document.body.appendChild(wave);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    wave.remove();
+                }, 800); // Match the animation duration
+            }
+            
+            // Handle page transitions through links
+            document.addEventListener('click', function(e) {
+                // Check if the click is on a link
+                let target = e.target;
+                while (target && target !== document) {
+                    if (target.tagName === 'A') {
+                        // Check if it's an internal link (same domain)
+                        const href = target.getAttribute('href');
+                        if (href && !href.startsWith('http') && !href.startsWith('#')) {
+                            // Save cursor position right before navigation
+                            localStorage.setItem(CURSOR_X_KEY, mouseX.toString());
+                            localStorage.setItem(CURSOR_Y_KEY, mouseY.toString());
+                        }
+                        break;
+                    }
+                    target = target.parentNode;
+                }
+            });
+        });
+    </script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS with faster, smoother settings
+        AOS.init({
+            duration: 500, // Faster animation duration (was 800)
+            once: true, // Animation happens only once
+            offset: 50, // Trigger animation sooner (was 100)
+            easing: 'ease-out-cubic' // Smoother easing
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.custom-navbar');
+            if (window.scrollY > 50) { // Change 50 to the scroll distance you prefer
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+
+    {# Add Lightning Effect Script #}
+    <script>
+        function initializeMythicalBadges() {
+            var Lightning = function(element) {
+                var _this = this;
+                var canvas = element;
+                if (!canvas) return; // Exit if canvas is null
+                var context = canvas.getContext("2d");
+                // Set initial canvas size - adjust these if needed based on badge size
+                canvas.width = element.offsetWidth || 80; 
+                canvas.height = element.offsetHeight || 30;
+                
+                var intervalId = null; // Store interval ID
+
+                this.clear = function() {
+                    // Use clearRect instead of re-setting width/height which can cause issues
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                };
+
+                this.strike = function(x1, y1, x2, y2, color1, color2, drawOrbs) {
+                    var x = x2 - x1;
+                    var y = y2 - y1;
+                    var segments = 8; // Reduced segments for smaller area
+                    var variance = 0.2; // How much the lightning can deviate
+                    var distance = Math.sqrt(x * x + y * y);
+                    var segmentLength = distance / segments;
+
+                    var prevX = x1;
+                    var prevY = y1;
+
+                    if (drawOrbs) {
+                        context.fillStyle = color1;
+                        context.beginPath();
+                        context.arc(x1, y1, 2 + (Math.random() * 1.5), 0, 2 * Math.PI, false);
+                        context.fill();
+                    }
+
+                    for (var i = 1; i <= segments; i++) {
+                        var currentProgress = i / segments;
+                        var deviationScale = (distance / segmentLength) * variance;
+                        
+                        // Calculate target point without deviation
+                        var targetX = x1 + currentProgress * x;
+                        var targetY = y1 + currentProgress * y;
+
+                        // Add random deviation, reducing towards the end points
+                        var deviationX = (Math.random() - 0.5) * segmentLength * deviationScale * (1 - Math.abs(currentProgress - 0.5) * 2);
+                        var deviationY = (Math.random() - 0.5) * segmentLength * deviationScale * (1 - Math.abs(currentProgress - 0.5) * 2);
+                        
+                        // Don't deviate the last point
+                        var finalX = (i === segments) ? x2 : targetX + deviationX;
+                        var finalY = (i === segments) ? y2 : targetY + deviationY;
+
+                        // --- Draw thicker base line (darker, like Haki) ---
+                        context.strokeStyle = color1; // Darker color (e.g., a dim red/purple)
+                        context.lineWidth = 1.5 + Math.random() * 1; // Slightly thicker, variable
+                        context.beginPath();
+                        context.moveTo(prevX, prevY);
+                        context.lineTo(finalX, finalY);
+                        context.stroke();
+
+                        // --- Draw thinner core line (brighter, like lightning) ---
+                        context.strokeStyle = color2; // Brighter color (e.g., light blue/white)
+                        context.lineWidth = 0.5 + Math.random() * 0.5; // Thin core
+                        context.beginPath();
+                        context.moveTo(prevX, prevY);
+                        context.lineTo(finalX, finalY);
+                        context.stroke();
+
+                        prevX = finalX;
+                        prevY = finalY;
+                    }
+
+                    if (drawOrbs) {
+                        context.fillStyle = color2;
+                        context.beginPath();
+                        context.arc(x2, y2, 2 + (Math.random() * 1.5), 0, 2 * Math.PI, false);
+                        context.fill();
+                    }
+                };
+                
+                // Stop existing animation if any
+                this.stop = function() {
+                    if (intervalId) {
+                        clearInterval(intervalId);
+                        intervalId = null;
+                    }
+                    this.clear(); // Clear the canvas when stopping
+                };
+
+                // Start animation
+                this.start = function() {
+                    this.stop(); // Ensure previous interval is cleared
+                    var strikeCount = 0;
+                    var maxStrikes = 3; // Draw 3 bolts per cycle
+                    var intervalTime = 100; // ms between redraw cycles
+                    var colorOuter1 = "rgba(80, 0, 20, 0.7)"; 
+                    var colorInner1 = "rgba(200, 200, 255, 0.9)";
+                    var colorOuter2 = "rgba(120, 0, 50, 0.6)";
+                    var colorInner2 = "rgba(230, 230, 255, 1)";
+
+                    intervalId = setInterval(() => {
+                         if (!document.body.contains(canvas)) { // Check if canvas is still in DOM
+                            this.stop();
+                            return;
+                        }
+                        if (strikeCount < maxStrikes) {
+                            var randomX1 = Math.random() * canvas.width;
+                            var randomY1 = Math.random() * canvas.height;
+                            var randomX2 = Math.random() * canvas.width;
+                            var randomY2 = Math.random() * canvas.height;
+                            this.strike(randomX1, randomY1, randomX2, randomY2, colorOuter1, colorOuter2, true);
+                            this.strike(randomX1, randomY1, randomX2, randomY2, colorInner1, colorInner2, false);
+                            strikeCount++;
+                        } else {
+                            this.clear();
+                            strikeCount = 0;
+                        }
+                    }, intervalTime);
+                }
+            }
+
+            // Find all mythical badge canvases and store their instances
+            var mythicalCanvases = document.querySelectorAll('.mythical-lightning-canvas');
+            window.mythicalInstances = window.mythicalInstances || [];
+            // Clear previous instances before creating new ones
+            window.mythicalInstances.forEach(inst => inst.stop());
+            window.mythicalInstances = [];
+
+            mythicalCanvases.forEach(function(canvasElement) {
+                var lightning = new Lightning(canvasElement);
+                lightning.start(); // Start the animation
+                window.mythicalInstances.push(lightning); // Store instance
+            });
+        }
+
+        // Run initialization on initial load and Turbo load
+        document.addEventListener('DOMContentLoaded', initializeMythicalBadges);
+        document.addEventListener('turbo:load', initializeMythicalBadges);
+    </script>
+
+    <!-- Legendary Shine Effect -->
+    <script>
+        function initializeLegendaryBadges() {
+            var LegendaryShine = function(element) {
+                var canvas = element;
+                 if (!canvas) return; // Exit if canvas is null
+                var context = canvas.getContext("2d");
+                canvas.width = element.offsetWidth || 80; 
+                canvas.height = element.offsetHeight || 30;
+                
+                var particles = [];
+                var particleCount = 20;
+                var intervalId = null; // Store interval ID
+                
+                this.createParticles = function() {
+                    particles = [];
+                    for (var i = 0; i < particleCount; i++) {
+                        particles.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height,
+                            size: 0.5 + Math.random() * 2,
+                            speedX: -0.5 + Math.random(),
+                            speedY: -0.5 + Math.random(),
+                            lifetime: 20 + Math.random() * 40,
+                            life: 0,
+                            opacity: 0.1 + Math.random() * 0.4
+                        });
+                    }
+                };
+                
+                this.clear = function() {
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                };
+                
+                this.draw = function() {
+                    this.clear();
+                    for (var i = 0; i < particles.length; i++) {
+                        var p = particles[i];
+                        p.x += p.speedX;
+                        p.y += p.speedY;
+                        p.life++;
+                        if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height || p.life > p.lifetime) {
+                            p.x = Math.random() * canvas.width;
+                            p.y = Math.random() * canvas.height;
+                            p.life = 0;
+                            p.speedX = -0.5 + Math.random();
+                            p.speedY = -0.5 + Math.random();
+                        }
+                        var currentOpacity = p.opacity;
+                        if (p.life < 5) currentOpacity = (p.life / 5) * p.opacity;
+                        else if (p.life > p.lifetime - 5) currentOpacity = ((p.lifetime - p.life) / 5) * p.opacity;
+                        context.beginPath();
+                        context.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        context.fillStyle = "rgba(255, 215, 0, " + currentOpacity + ")";
+                        context.fill();
+                    }
+                    var time = Date.now() / 1000;
+                    var sweepPos = (Math.sin(time * 0.7) + 1) / 2;
+                    var shineWidth = canvas.width * 0.2;
+                    var shinePos = sweepPos * (canvas.width + shineWidth * 2) - shineWidth;
+                    var gradient = context.createLinearGradient(shinePos - shineWidth, 0, shinePos + shineWidth, 0);
+                    gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+                    gradient.addColorStop(0.5, "rgba(255, 255, 255, 0.7)");
+                    gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+                    context.fillStyle = gradient;
+                    context.globalCompositeOperation = "overlay";
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                    context.globalCompositeOperation = "source-over";
+                };
+                
+                // Stop existing animation
+                this.stop = function() {
+                    if (intervalId) {
+                        clearInterval(intervalId);
+                        intervalId = null;
+                    }
+                     this.clear(); // Clear the canvas when stopping
+                };
+                
+                // Start animation
+                this.start = function() {
+                     this.stop(); // Ensure previous interval is cleared
+                    this.createParticles(); // Recreate particles
+                    intervalId = setInterval(() => {
+                         if (!document.body.contains(canvas)) { // Check if canvas is still in DOM
+                            this.stop();
+                            return;
+                        }
+                        this.draw();
+                    }, 50);
+                }
+            }
+            
+            // Find all legendary badge canvases and store instances
+            var legendaryCanvases = document.querySelectorAll('.legendary-shine-canvas');
+            window.legendaryInstances = window.legendaryInstances || [];
+            // Clear previous instances
+            window.legendaryInstances.forEach(inst => inst.stop());
+            window.legendaryInstances = [];
+            
+            legendaryCanvases.forEach(function(canvasElement) {
+                var shine = new LegendaryShine(canvasElement);
+                shine.start();
+                window.legendaryInstances.push(shine);
+            });
+        }
+
+        // Run initialization on initial load and Turbo load
+        document.addEventListener('DOMContentLoaded', initializeLegendaryBadges);
+        document.addEventListener('turbo:load', initializeLegendaryBadges);
+
+        // Apply parallax effect to header (Needs adjustment for Turbo)
+        function initializeParallax() {
+            window.addEventListener('scroll', function() {
+                const parallax = document.querySelector('.parallax-header');
+                if (parallax) {
+                    const scrollPosition = window.pageYOffset;
+                    parallax.style.transform = `translateY(${scrollPosition * 0.4}px)`;
+                }
+            });
+            // Trigger initial parallax position
+            const parallax = document.querySelector('.parallax-header');
+             if (parallax) {
+                 const scrollPosition = window.pageYOffset;
+                 parallax.style.transform = `translateY(${scrollPosition * 0.4}px)`;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', initializeParallax);
+        document.addEventListener('turbo:load', initializeParallax);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,2111 @@
+{% extends "base.html" %}
+
+{% block title %}Game Updates - Fruit Battlegrounds Wiki{% endblock %}
+
+{% block content %}
+<div class="updates-page" data-aos="fade-in" data-aos-duration="800" data-aos-easing="ease-out-cubic">
+    <div class="header-accent"></div>
+    <div class="section-header" data-aos="fade-down" data-aos-duration="800" data-aos-delay="200">
+        <h1 class="section-title display-4 mb-3">Game Updates</h1>
+        <p class="lead mb-4 text-muted">
+            Stay up-to-date with the latest changes and additions to Fruit Battlegrounds.
+        </p>
+    </div>
+
+{% if updates %}
+<div class="timeline-container mb-5">
+    <div class="timeline">
+        {% for update in updates %}
+        <div class="timeline-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="{{ loop.index0 * 200 }}" data-aos-anchor-placement="top-bottom" data-aos-easing="ease-out-cubic">
+            <div class="timeline-content">
+                <div class="card border-0 shadow-sm card-animated">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-wrapper me-3">
+                                <i class="fas fa-code-branch text-primary"></i>
+                            </div>
+                            <h2 class="h5 mb-0">{{ update.title }}</h2>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-secondary me-3">{{ update.version }}</span>
+                            <div class="icon-wrapper me-2 bg-primary star-icon">
+                                <i class="fas fa-star text-white"></i>
+                    </div>
+                            <button class="btn btn-sm btn-outline-primary update-collapse-btn" type="button" data-bs-toggle="collapse" data-bs-target="#update{{ update.version|replace('.', '') }}Content" aria-expanded="true" aria-controls="update{{ update.version|replace('.', '') }}Content">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse show" id="update{{ update.version|replace('.', '') }}Content">
+                    <div class="card-body">
+                        <p class="small text-muted mb-3">Released: {{ update.date_released.strftime('%B %d, %Y') }}</p>
+                        
+                        {% set description_lines = update.description.split(',') %}
+                        <ul class="update-features">
+                            {% for line in description_lines %}
+                            <li>{{ line.strip() }}</li>
+                            {% endfor %}
+                        </ul>
+                        
+                        {% if 'Leopard V2' in update.title %}
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card mb-3 border-0 shadow-sm">
+                                    <div class="card-header bg-secondary text-white">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-wrapper me-3">
+                                                <i class="fas fa-plus-circle text-white"></i>
+                                            </div>
+                                            <h5 class="h6 mb-0">New Features</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Leopard V2 Fruit (New Mythical)</li>
+                                            <li>Snow Fruit (New Epic)</li>
+                                            <li>Rebirth System</li>
+                                            <li>Rayleigh NPC</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-warning text-dark">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-wrapper me-3">
+                                                <i class="fas fa-balance-scale-right text-dark"></i>
+                                            </div>
+                                            <h5 class="h6 mb-0">Balance Changes</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Leopard moved to 
+                                                <span class="badge-effect badge-effect-legendary" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
+                                                    <canvas class="legendary-shine-canvas"></canvas>
+                                                    <span class="badge-text">Legendary</span>
+                                                </span>
+                                                rarity
+                                            </li>
+                                            <li>Fixed movement and flight for console</li>
+                                            <li>Reverted Christmas map back to original</li>
+                                            <li>Various bug fixes and balancing changes</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <div class="accordion" id="update20Accordion">
+                                    <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="100" data-aos-duration="600" data-aos-anchor-placement="top-bottom">
+                                    <h2 class="accordion-header" id="leopardV2Heading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#leopardV2Collapse" aria-expanded="false" aria-controls="leopardV2Collapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-paw text-primary"></i>
+                                                </div>
+                                                LeopardV2 Details
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="leopardV2Collapse" class="accordion-collapse collapse" aria-labelledby="leopardV2Heading" data-bs-parent="#update20Accordion">
+                                        <div class="accordion-body">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span class="badge-effect badge-effect-mythical me-2">
+                                                    <canvas class="mythical-lightning-canvas"></canvas>
+                                                    <span class="badge-text">Mythical</span>
+                                                </span>
+                                                <h5 class="mb-0">LeopardV2</h5>
+                                            </div>
+                                            <p>
+                                                LeopardV2 is an enhanced version of the original Leopard fruit with improved transformation capabilities and devastating attacks. The fruit grants users enhanced agility, powerful melee attacks, and the ability to utilize afterimage techniques.
+                                            </p>
+                                            <p>
+                                                With the introduction of LeopardV2, the original Leopard fruit has been moved from Mythical to 
+                                                <span class="badge-effect badge-effect-legendary" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
+                                                    <canvas class="legendary-shine-canvas"></canvas>
+                                                    <span class="badge-text">Legendary</span>
+                                                </span>
+                                                rarity.
+                                            </p>
+                                            <p>
+                                                <strong>Key abilities include:</strong>
+                                            </p>
+                                            <ul>
+                                                <li>Enhanced transformation with no time limit</li>
+                                                <li>Speed-boosting afterimage attacks</li>
+                                                <li>Powerful claw strikes and projectiles</li>
+                                                <li>High mobility techniques for both evasion and offense</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="200" data-aos-duration="600" data-aos-anchor-placement="top-bottom">
+                                    <h2 class="accordion-header" id="snowHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#snowCollapse" aria-expanded="false" aria-controls="snowCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-snowflake text-primary"></i>
+                                                </div>
+                                                Snow Fruit Details
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="snowCollapse" class="accordion-collapse collapse" aria-labelledby="snowHeading" data-bs-parent="#update20Accordion">
+                                        <div class="accordion-body">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span class="badge-effect badge-effect-epic me-2">
+                                                    <span class="badge-text">Epic</span>
+                                                </span>
+                                                <h5 class="mb-0">Snow</h5>
+                                            </div>
+                                            <p>
+                                                "Smother the battlefield in white cold snow, freezing or defending anyone in its path."
+                                            </p>
+                                            <p>
+                                                Snow is a Logia-type fruit with a drop rate of 0.92%. By reaching level 100 with this fruit, players earn the title "Winter Knight".
+                                            </p>
+                                            <p>
+                                                <strong>Key features:</strong>
+                                            </p>
+                                            <ul>
+                                                <li>Create and control snow</li>
+                                                <li>Freezing and immobilizing opponents</li>
+                                                <li>Area control abilities</li>
+                                                <li>Defensive capabilities against certain attack types</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="300" data-aos-duration="600" data-aos-anchor-placement="top-bottom">
+                                    <h2 class="accordion-header" id="rebirthHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#rebirthCollapse" aria-expanded="false" aria-controls="rebirthCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-sync-alt text-primary"></i>
+                                                </div>
+                                                Rebirth System
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="rebirthCollapse" class="accordion-collapse collapse" aria-labelledby="rebirthHeading" data-bs-parent="#update20Accordion">
+                                        <div class="accordion-body">
+                                            <h5>Rebirth System Overview</h5>
+                                            <p>
+                                                The Rebirth system allows players to exchange a maxed-level fruit and gems for a fruit of the next rarity tier. To access this feature, talk to Rayleigh NPC located in the Live Floor of Onigashima (opposite side of the dummies).
+                                            </p>
+                                            <div class="alert alert-info">
+                                                <strong>Note:</strong> V2 fruits are not included in the Rebirth pool!
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            <th>Rarity Progression</th>
+                                                            <th>Gem Cost</th>
+                                                            <th>Requirements</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Common → Uncommon</td>
+                                                            <td>250 Gems</td>
+                                                            <td rowspan="5">Fruit must be at max level (300)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Uncommon → Rare</td>
+                                                            <td>500 Gems</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Rare → Epic</td>
+                                                            <td>2,500 Gems</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Epic → Legendary</td>
+                                                            <td>10,000 Gems</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Legendary → Mythical</td>
+                                                            <td>25,000 Gems</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <p>
+                                                When you Rebirth a Legendary fruit, you are guaranteed a new Mythical fruit that you don't already have. After Rebirth, your fruit level will reset to 1, allowing you to level it up to 300 again with no nerf to gems acquired per level.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="accordion-item border-0 shadow-sm" data-aos="zoom-in-up" data-aos-delay="400" data-aos-duration="600" data-aos-anchor-placement="top-bottom">
+                                    <h2 class="accordion-header" id="rayleighHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#rayleighCollapse" aria-expanded="false" aria-controls="rayleighCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-user text-primary"></i>
+                                                </div>
+                                                Rayleigh NPC
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="rayleighCollapse" class="accordion-collapse collapse" aria-labelledby="rayleighHeading" data-bs-parent="#update20Accordion">
+                                        <div class="accordion-body">
+                                            <h5>Rayleigh NPC</h5>
+                                            <p>
+                                                Rayleigh is a new NPC added to the Live Floor area in Onigashima. He manages the Rebirth system, allowing players to trade in their maxed fruits for fruits of the next rarity tier.
+                                            </p>
+                                            <p>
+                                                <strong>Location:</strong> On top of a building with trees inside the Live Floor, opposite side of the dummies in Onigashima.
+                                            </p>
+                                            <p>
+                                                <strong>Interaction:</strong> Approach Rayleigh and interact to open the Rebirth menu, where you can select eligible fruits to rebirth.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="accordion-item border-0 shadow-sm" data-aos="zoom-in-up" data-aos-delay="500" data-aos-duration="600" data-aos-anchor-placement="top-bottom">
+                                    <h2 class="accordion-header" id="balanceChangesHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#balanceChangesCollapse" aria-expanded="false" aria-controls="balanceChangesCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-balance-scale text-primary"></i>
+                                                </div>
+                                                Update 20 Balance Changes
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="balanceChangesCollapse" class="accordion-collapse collapse" aria-labelledby="balanceChangesHeading" data-bs-parent="#update20Accordion">
+                                        <div class="accordion-body">
+                                            <h5>Detailed Fruit Balance Changes</h5>
+                                            
+                                            <div class="balance-search-container mb-4">
+                                                <form class="form relative w-100">
+                                                  <button type="button" class="absolute left-2 -translate-y-1/2 top-1/2 p-1 search-icon-btn">
+                                                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search" class="w-5 h-5 text-gray-700">
+                                                      <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                  </button>
+                                                  <input id="fruitSearchInput" class="input rounded-full px-8 py-3 border-2 border-transparent focus:outline-none focus:border-blue-500 placeholder-gray-400 transition-all duration-300 shadow-md w-100" placeholder="Search for a fruit..." required="" type="text"/>
+                                                  <button type="button" id="clearFruitSearch" class="absolute right-3 -translate-y-1/2 top-1/2 p-1 clear-icon-btn">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                                    </svg>
+                                                  </button>
+                                                </form>
+                                                <div id="noFruitResults" class="alert alert-info mt-2 d-none">
+                                                    No fruits found matching your search.
+                                                </div>
+                                            </div>
+
+                                            <div class="fruit-balance-changes">
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Sand</h6>
+                                                    <ul>
+                                                        <li>Spada cooldown increased by 2.5 sec</li>
+                                                        <li>Swamp knockback nerfed slightly</li>
+                                                        <li>General EXP gain buffed</li>
+                                                        <li>Pesado damage buffed slightly</li>
+                                                        <li>Pesado projectile speed buffed by 20%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Barrier</h6>
+                                                    <ul>
+                                                        <li>Crash cooldown increased slightly</li>
+                                                        <li>Bubble damage nerfed by 5%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Chop</h6>
+                                                    <ul>
+                                                        <li>Car startup reduced</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Smoke</h6>
+                                                    <ul>
+                                                        <li>Typhoon travel speed buffed</li>
+                                                        <li>Firework hitbox buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Falcon</h6>
+                                                    <ul>
+                                                        <li>Falcon punch max hold time reduced to 4 seconds</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ash</h6>
+                                                    <ul>
+                                                        <li>Crow Cascade damage buffed slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Gas</h6>
+                                                    <ul>
+                                                        <li>Combustive Gas projectile buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ice</h6>
+                                                    <ul>
+                                                        <li>Pheasant hitbox buffed by 50%</li>
+                                                        <li>Ice Age collisions removed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Light</h6>
+                                                    <ul>
+                                                        <li>Jewels of Light no longer glitches when cancelled</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Darkness</h6>
+                                                    <ul>
+                                                        <li>Dark Haul cooldown increased by 4 sec</li>
+                                                        <li>Black World buffed by 10%</li>
+                                                        <li>Black Hole buffed by 8%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Paw</h6>
+                                                    <ul>
+                                                        <li>Sonic Stomp knockback buffed by 90%</li>
+                                                        <li>Sumo Thrust Barrage cooldown increased by 3.5 sec</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Magma</h6>
+                                                    <ul>
+                                                        <li>Hell Hound stun more accurate now</li>
+                                                        <li>Hell Hound knockback buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">TSRubber</h6>
+                                                    <ul>
+                                                        <li>You can now transform at 75% mode</li>
+                                                        <li>Light passive mode gain added</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dragon</h6>
+                                                    <ul>
+                                                        <li>Draco Meteor hitbox is more accurate now</li>
+                                                        <li>Light passive mode gain added</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Light V2</h6>
+                                                    <ul>
+                                                        <li>X-Flash stamina drain nerfed slightly</li>
+                                                        <li>Mirror Flight stamina drain nerfed slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Flame V2</h6>
+                                                    <ul>
+                                                        <li>M1 stun nerfed by 0.1 sec</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ice V2</h6>
+                                                    <ul>
+                                                        <li>Unable to use any skills for 0.9 sec after m1 string now</li>
+                                                        <li>Absolute Zero stun glitch patched</li>
+                                                        <li>M1s no longer combo extend</li>
+                                                        <li>Skating fixed on console</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Magma V2</h6>
+                                                    <ul>
+                                                        <li>Crimson Howl duration reduced by 1 sec (damage is the same)</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Phoenix</h6>
+                                                    <ul>
+                                                        <li>Fujiazami stun buffed by 0.3 sec</li>
+                                                        <li>Base Bluebird windup increased</li>
+                                                        <li>Mode movement speed buffed</li>
+                                                        <li>Mode gain buffed by 25%</li>
+                                                        <li>Light passive mode gain added</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Venom</h6>
+                                                    <ul>
+                                                        <li>Hydra Cyclone hitbox more accurate now</li>
+                                                        <li>Light passive mode gain added</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dough</h6>
+                                                    <ul>
+                                                        <li>Muddle windup increased slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Leopard</h6>
+                                                    <ul>
+                                                        <li>Spiral Kick nerfed by 8%</li>
+                                                        <li>Claw Barrage nerfed by 14%</li>
+                                                        <li>Rokuogan nerfed by 5.5%</li>
+                                                        <li>Mode duration nerfed by 20%</li>
+                                                        <li>Rising Claw Combo hitbox nerfed by 10%</li>
+                                                        <li>Light passive mode gain added</li>
+                                                        <li>Mode gain nerfed by 25%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Lightning</h6>
+                                                    <ul>
+                                                        <li>Projectile Burst beam hitbox behaviour changed similar to Absolute Zero</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dough V2</h6>
+                                                    <ul>
+                                                        <li>Blazing storm damage nerfed by 4% (very little difference)</li>
+                                                        <li>Oblivion cannot directly be comboed after Buzzcut anymore</li>
+                                                        <li>M1 damage nerfed slightly</li>
+                                                        <li>M1s can no longer combo extend</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dragon V2</h6>
+                                                    <ul>
+                                                        <li>Light passive mode gain added</li>
+                                                        <li>Endlag added when thunder bagua is missed</li>
+                                                        <li>Mode gain slightly buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Okuchi</h6>
+                                                    <ul>
+                                                        <li>Divine Serpent knockback readjusted slightly</li>
+                                                        <li>Divine Serpent movement speed buffed by 8.4%</li>
+                                                        <li>M1s fixed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">DarkXQuake</h6>
+                                                    <ul>
+                                                        <li>Black Hole Path is now fully blockable</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Soul</h6>
+                                                    <ul>
+                                                        <li>Movement speed reduced very slightly (neglible difference)</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Nika</h6>
+                                                    <ul>
+                                                        <li>Gigant Stamp stun nerfed by 0.4 sec</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if 'FlameV2' in update.title %}
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card mb-3 border-0 shadow-sm">
+                                    <div class="card-header bg-secondary text-white">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-wrapper me-3">
+                                                <i class="fas fa-plus-circle text-white"></i>
+                                            </div>
+                                            <h5 class="h6 mb-0">New Features</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>FlameV2 (New Mythical)</li>
+                                            <li>Ash Fruit (New Epic)</li>
+                                            <li>M1 System Changes</li>
+                                            <li>New PvP Mechanics</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-warning text-dark">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-wrapper me-3">
+                                                <i class="fas fa-balance-scale-right text-dark"></i>
+                                            </div>
+                                            <h5 class="h6 mb-0">Balance Changes</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Multiple fruit balancing changes</li>
+                                            <li>Venom moved to Legendary rarity</li>
+                                            <li>Combat improvements</li>
+                                            <li>Enhanced mobility for some fruits</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="accordion" id="update18Accordion">
+                                <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="100" data-aos-duration="600">
+                                    <h2 class="accordion-header" id="flameV2Heading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flameV2Collapse" aria-expanded="false" aria-controls="flameV2Collapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-fire text-primary"></i>
+                                                </div>
+                                                FlameV2 Details
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flameV2Collapse" class="accordion-collapse collapse" aria-labelledby="flameV2Heading" data-bs-parent="#update18Accordion">
+                                        <div class="accordion-body">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span class="badge-effect badge-effect-legendary me-2">
+                                                    <canvas class="legendary-shine-canvas"></canvas>
+                                                    <span class="badge-text">Legendary</span>
+                                                </span>
+                                                <h5 class="mb-0">FlameV2</h5>
+                                            </div>
+                                            <p>
+                                                FlameV2 is an enhanced version of the original Flame fruit with improved fire manipulation abilities and devastating combo potential. This fruit grants users the power to create and control intense flames with greater precision and power.
+                                            </p>
+                                            <p>
+                                                <strong>Key features:</strong>
+                                            </p>
+                                            <ul>
+                                                <li>Enhanced flame manipulation with greater range and damage</li>
+                                                <li>Improved mobility through flame propulsion</li>
+                                                <li>Advanced burning effects that deal damage over time</li>
+                                                <li>Powerful area-of-effect attacks that can hit multiple opponents</li>
+                                            </ul>
+                                            <p>
+                                                <strong>Signature moves include:</strong>
+                                            </p>
+                                            <ul>
+                                                <li>Twisting Claw - A powerful flaming slash attack with combo potential</li>
+                                                <li>Flaming Vortex - Creates a spiral of flames that damages enemies caught in its path</li>
+                                                <li>Inferno Burst - Releases a concentrated explosion of flames</li>
+                                                <li>Phoenix Form - Transformation that enhances mobility and attack power</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="200" data-aos-duration="600">
+                                    <h2 class="accordion-header" id="ashHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ashCollapse" aria-expanded="false" aria-controls="ashCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-feather text-primary"></i>
+                                                </div>
+                                                Ash Fruit Details
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="ashCollapse" class="accordion-collapse collapse" aria-labelledby="ashHeading" data-bs-parent="#update18Accordion">
+                                        <div class="accordion-body">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span class="badge-effect badge-effect-epic me-2">
+                                                    <span class="badge-text">Epic</span>
+                                                </span>
+                                                <h5 class="mb-0">Ash</h5>
+                                            </div>
+                                            <p>
+                                                "Manipulate and transform into ash to confuse opponents and strike from unexpected angles."
+                                            </p>
+                                            <p>
+                                                Ash is a Logia-type fruit that allows the user to control, create and transform into ash. This fruit excels at area control and mid-range combat.
+                                            </p>
+                                            <p>
+                                                <strong>Key abilities:</strong>
+                                            </p>
+                                            <ul>
+                                                <li>Thousand Crows - Transform into a flock of ash crows to attack enemies</li>
+                                                <li>Obelisk - Create a towering structure of ash that damages nearby opponents</li>
+                                                <li>Crow Cascade - Unleash a flurry of ash attacks in a large area</li>
+                                                <li>Ash Cloud - Create a defensive cloud of ash that obscures vision</li>
+                                            </ul>
+                                            <p>
+                                                With the ability to transform parts of the body into ash, users can evade attacks and reposition quickly in combat, making this fruit excellent for both offensive and defensive play styles.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item border-0 shadow-sm" data-aos="zoom-in-up" data-aos-delay="300" data-aos-duration="600">
+                                    <h2 class="accordion-header" id="balance18Heading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#balance18Collapse" aria-expanded="false" aria-controls="balance18Collapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-balance-scale text-primary"></i>
+                                                </div>
+                                                Update 18 Balance Changes
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="balance18Collapse" class="accordion-collapse collapse" aria-labelledby="balance18Heading" data-bs-parent="#update18Accordion">
+                                        <div class="accordion-body">
+                                            <h5>Detailed Balance Changes</h5>
+                                            
+                                            <div class="balance-search-container mb-4">
+                                                <form class="form relative w-100">
+                                                  <button type="button" class="absolute left-2 -translate-y-1/2 top-1/2 p-1 search-icon-btn">
+                                                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search" class="w-5 h-5 text-gray-700">
+                                                      <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                  </button>
+                                                  <input id="fruitSearchInput18" class="input rounded-full px-8 py-3 border-2 border-transparent focus:outline-none focus:border-blue-500 placeholder-gray-400 transition-all duration-300 shadow-md w-100" placeholder="Search for a fruit..." required="" type="text"/>
+                                                  <button type="button" id="clearFruitSearch18" class="absolute right-3 -translate-y-1/2 top-1/2 p-1 clear-icon-btn">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                                    </svg>
+                                                  </button>
+                                                </form>
+                                                <div id="noFruitResults18" class="alert alert-info mt-2 d-none">
+                                                    No fruits found matching your search.
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="fruit-balance-changes">
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Flame V2</h6>
+                                                    <ul>
+                                                        <li>Twisting Claw damage buffed</li>
+                                                        <li>Twisting Claw cooldown increased by 1.5 sec</li>
+                                                        <li>Twisting Claw stun nerfed slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ash</h6>
+                                                    <ul>
+                                                        <li>Thousand Crows is now cancellable</li>
+                                                        <li>Obelisk cooldown is now 15 sec</li>
+                                                        <li>Obelisk Hitbox nerfed</li>
+                                                        <li>Cascade range nerfed by 50 studs</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">DarkXQuake</h6>
+                                                    <ul>
+                                                        <li>Anti-Quake cooldown increased by 0.5 sec</li>
+                                                        <li>Black Turret duration nerfed by 6 sec</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Leopard</h6>
+                                                    <ul>
+                                                        <li>Claw Barrage stun nerfed slightly</li>
+                                                        <li>Claw Barrage cooldown increased by 2 sec</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Lightning</h6>
+                                                    <ul>
+                                                        <li>Projected Burst hitbox consistency improved</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Nika</h6>
+                                                    <ul>
+                                                        <li>Rising Bolt projectile speed buffed</li>
+                                                        <li>Rising Bolt stun nerfed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Soul</h6>
+                                                    <ul>
+                                                        <li>Crimson Pillar now has an indicator to warn players where they're aiming at</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ice V2</h6>
+                                                    <ul>
+                                                        <li>Piercing Glacier windup decreased</li>
+                                                        <li>Ice Skate speed slightly buffed</li>
+                                                        <li>Ice Skate stun buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ope</h6>
+                                                    <ul>
+                                                        <li>Hurricane Shock now has endlag if blocked</li>
+                                                        <li>Hurricane Shock stun reduced by 0.2 sec</li>
+                                                        <li>Cancelling Gamma Knife no longer removes stun</li>
+                                                        <li>Cancelling Shambles no longer removes stun</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dragon</h6>
+                                                    <ul>
+                                                        <li>Tatsumaki hitbox size nerfed very very slightly</li>
+                                                        <li>Tatsumaki cooldown increased by 2 seconds</li>
+                                                        <li>Mode drain buffed by 10%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dough</h6>
+                                                    <ul>
+                                                        <li>Lotus Dough Combo afterstun nerfed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Light V2</h6>
+                                                    <ul>
+                                                        <li>Spear M1s stun nerfed very slightly</li>
+                                                        <li>X-Flash stun buffed</li>
+                                                        <li>There is now endlag when you miss X-Flash</li>
+                                                        <li>M1 stuns fixed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Venom</h6>
+                                                    <ul>
+                                                        <li>VENOM is now legendary!!</li>
+                                                        <li>Toxic Geyser no longer bypasses iframes</li>
+                                                        <li>Poison Storm hitbox nerfed slightly</li>
+                                                        <li>Transformation rage requirement increased to 30%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Rubber</h6>
+                                                    <ul>
+                                                        <li>Gear 2 gatling now causes stun to the victim (buffed)</li>
+                                                        <li>Bazooka knockback increased</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dragon V2</h6>
+                                                    <ul>
+                                                        <li>Inferno Breath damage nerfed very slightly</li>
+                                                        <li>Inferno Breath no longer guardbreaks with Flaming Torch</li>
+                                                        <li>Inferno Breath endlag reduced when used with Flaming Torch</li>
+                                                        <li>Thunder Bagua cooldown increased by 1.5 sec</li>
+                                                        <li>Dragon Twister damage nerfed very slightly</li>
+                                                        <li>Bolo Frenzy damage nerfed</li>
+                                                        <li>Bolo Frenzy jump stun nerfed when used with Flaming Torch</li>
+                                                        <li>Demolition damage nerfed slightly</li>
+                                                        <li>Hybrid form movement speed nerfed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Magma V2</h6>
+                                                    <ul>
+                                                        <li>Fixed m1 glitch</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">TSRubber</h6>
+                                                    <ul>
+                                                        <li>Culverin damage nerfed slightly</li>
+                                                        <li>Red Hawk damage nerfed slightly</li>
+                                                        <li>King Kong Gun hitbox nerfed slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Darkness</h6>
+                                                    <ul>
+                                                        <li>Liberation stun nerfed slightly</li>
+                                                        <li>Dark End now ignores block when fully charged</li>
+                                                        <li>Dark End charge time reduced by 50%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Sand</h6>
+                                                    <ul>
+                                                        <li>Swamp knockback buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Falcon</h6>
+                                                    <ul>
+                                                        <li>Wing Slicer knockback increased</li>
+                                                        <li>Wing Slicer cooldown increased by 2 sec</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Magnet</h6>
+                                                    <ul>
+                                                        <li>Cyclone hitbox slightly nerfed</li>
+                                                        <li>Punk Prison stun buffed slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Phoenix</h6>
+                                                    <ul>
+                                                        <li>Bluebird damage slightly buffed</li>
+                                                        <li>You can now double jump in full zoan form</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Light</h6>
+                                                    <ul>
+                                                        <li>Light Kick is now cancellable</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Magma</h6>
+                                                    <ul>
+                                                        <li>Meteor Volcano range buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Gas</h6>
+                                                    <ul>
+                                                        <li>Suffocation travel speed buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Chop</h6>
+                                                    <ul>
+                                                        <li>Festival now bypasses block</li>
+                                                        <li>Chop Car damage buffed</li>
+                                                        <li>Chop Car knockback buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Barrier</h6>
+                                                    <ul>
+                                                        <li>Spikes charge time increased slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Unrelated</h6>
+                                                    <ul>
+                                                        <li>Cooldowns for transformations have been buffed universally</li>
+                                                    </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if 'Dough V2' in update.title %}
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card mb-3 border-0 shadow-sm">
+                                    <div class="card-header bg-secondary text-white">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-wrapper me-3">
+                                                <i class="fas fa-plus-circle text-white"></i>
+                                            </div>
+                                            <h5 class="h6 mb-0">New Features</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Dough V2 Fruit (New Mythical)</li>
+                                            <li>Mirror World Area</li>
+                                            <li>Katakuri Boss</li>
+                                            <li>Ranked PvP System</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-warning text-dark">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-wrapper me-3">
+                                                <i class="fas fa-balance-scale-right text-dark"></i>
+                                            </div>
+                                            <h5 class="h6 mb-0">Balance Changes</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Soul fruit damage increased</li>
+                                            <li>Light flight speed reduced</li>
+                                            <li>Tournament rewards increased</li>
+                                            <li>Daily login rewards added</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="accordion" id="update19Accordion">
+                                
+                                <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="100" data-aos-duration="600">
+                                    <h2 class="accordion-header" id="doughV2Heading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#doughV2Collapse" aria-expanded="false" aria-controls="doughV2Collapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-cookie text-primary"></i>
+                                                </div>
+                                                Dough V2 Details
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="doughV2Collapse" class="accordion-collapse collapse" aria-labelledby="doughV2Heading" data-bs-parent="#update19Accordion">
+                                        <div class="accordion-body">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span class="badge-effect badge-effect-mythical me-2">
+                                                    <canvas class="mythical-lightning-canvas"></canvas>
+                                                    <span class="badge-text">Mythical</span>
+                                                </span>
+                                                <h5 class="mb-0">Dough V2</h5>
+                                            </div>
+                                            <p>
+                                                Dough V2 is an enhanced version of the original Dough fruit with improved awakened abilities and devastating attack combinations. This fruit grants users the power to create and manipulate mochi (rice cake) with enhanced properties.
+                                            </p>
+                                            <p>
+                                                With the introduction of Dough V2, the original Dough fruit has been moved from Mythical to 
+                                                <span class="badge-effect badge-effect-legendary" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
+                                                    <canvas class="legendary-shine-canvas"></canvas>
+                                                    <span class="badge-text">Legendary</span>
+                                                </span>
+                                                rarity.
+                                            </p>
+                                            <p>
+                                                <strong>Key abilities include:</strong>
+                                            </p>
+                                            <ul>
+                                                <li>Blazing Storm - Create a powerful storm of mochi infused with heat</li>
+                                                <li>Unstoppable Donut - Launch a massive donut-shaped projectile that explodes on impact</li>
+                                                <li>Buzzcut Mochi - A rapid series of mochi-based strikes</li>
+                                                <li>Oblivion - A devastating finishing move with area damage</li>
+                                            </ul>
+                                            <p>
+                                                <strong>How to obtain:</strong>
+                                            </p>
+                                            <ul>
+                                                <li>Defeat Katakuri boss in the Mirror World</li>
+                                                <li>Awaken through Charlie NPC (requires maxed Dough V1)</li>
+                                                <li>Spin (extremely rare chance)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="200" data-aos-duration="600">
+                                    <h2 class="accordion-header" id="mirrorWorldHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mirrorWorldCollapse" aria-expanded="false" aria-controls="mirrorWorldCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-clone text-primary"></i>
+                                                </div>
+                                                Mirror World Details
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="mirrorWorldCollapse" class="accordion-collapse collapse" aria-labelledby="mirrorWorldHeading" data-bs-parent="#update19Accordion">
+                                        <div class="accordion-body">
+                                            <h5>Mirror World</h5>
+                                            <p>
+                                                The Mirror World is a new area added to Fruit Battlegrounds where players can battle against Katakuri, one of the Sweet Commanders of the Big Mom Pirates. This unique environment resembles a distorted reflection of reality, filled with mirrors and mochi structures.
+                                            </p>
+                                            <div class="alert alert-info">
+                                                <strong>Note:</strong> The Mirror World is only accessible through specific portals located in Whole Cake Island.
+                                            </div>
+                                            <p>
+                                                <strong>Key features of Mirror World:</strong>
+                                            </p>
+                                            <ul>
+                                                <li>Home to the Katakuri boss fight</li>
+                                                <li>Unique environment with mirror-based mechanics</li>
+                                                <li>Special drop rates for Dough and Dough V2 fruits</li>
+                                                <li>Exclusive titles for defeating Katakuri multiple times</li>
+                                            </ul>
+                                            <p>
+                                                The Mirror World is a challenging area designed for mid to high-level players. It's recommended to be at least level 100 before attempting to fight Katakuri in this area.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="300" data-aos-duration="600">
+                                    <h2 class="accordion-header" id="katakuriHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#katakuriCollapse" aria-expanded="false" aria-controls="katakuriCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-user-ninja text-primary"></i>
+                                                </div>
+                                                Katakuri Boss Details
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="katakuriCollapse" class="accordion-collapse collapse" aria-labelledby="katakuriHeading" data-bs-parent="#update19Accordion">
+                                        <div class="accordion-body">
+                                            <h5>Katakuri Boss</h5>
+                                            <p>
+                                                Charlotte Katakuri is a new powerful boss added to the game. As one of the Sweet Commanders of the Big Mom Pirates, he wields the power of the Mochi-Mochi Fruit (Dough) with exceptional skill and possesses advanced observation Haki.
+                                            </p>
+                                            <p>
+                                                <strong>Boss Information:</strong>
+                                            </p>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            <th>Location</th>
+                                                            <th>Difficulty</th>
+                                                            <th>Respawn Time</th>
+                                                            <th>Key Drops</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Mirror World</td>
+                                                            <td>★★★★☆</td>
+                                                            <td>25-30 minutes</td>
+                                                            <td>
+                                                                <ul class="mb-0">
+                                                                    <li>Dough Fruit (5% chance)</li>
+                                                                    <li>Dough V2 Fruit (1% chance)</li>
+                                                                    <li>2,500-5,000 Gems</li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <p>
+                                                <strong>Attack Patterns:</strong>
+                                            </p>
+                                            <ul>
+                                                <li><strong>Mochi Thrust</strong> - Extends his arm to attack players at a distance</li>
+                                                <li><strong>Mochi Tsunami</strong> - Creates a wave of mochi that sweeps across the arena</li>
+                                                <li><strong>Mirror Ambush</strong> - Disappears into mirrors and attacks from unexpected angles</li>
+                                                <li><strong>Buzzcut Mochi</strong> - Rapid punches in a cone-shaped area</li>
+                                                <li><strong>Diced Mochi</strong> - Ultimate attack that deals massive damage in a wide area</li>
+                                            </ul>
+                                            <div class="alert alert-warning">
+                                                <strong>Strategy Tip:</strong> Katakuri can predict standard attacks due to his observation Haki. Use unpredictable movement patterns and coordinate with other players to defeat him efficiently.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="400" data-aos-duration="600">
+                                    <h2 class="accordion-header" id="autoSpinHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#autoSpinCollapse" aria-expanded="false" aria-controls="autoSpinCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-sync-alt text-primary"></i>
+                                                </div>
+                                                Auto Spin System
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="autoSpinCollapse" class="accordion-collapse collapse" aria-labelledby="autoSpinHeading" data-bs-parent="#update19Accordion">
+                                        <div class="accordion-body">
+                                            <h5>Auto Spin System</h5>
+                                            <p>
+                                                Due to popular demand, the Auto Spin system has been implemented to make fruit acquisition more streamlined. This feature allows players with the Fast Spin gamepass to automatically spin for fruits until they reach their desired rarity or specific fruit.
+                                            </p>
+                                            <div class="alert alert-info">
+                                                <strong>Note:</strong> The Auto Spin feature requires the Fast Spin gamepass to use.
+                                            </div>
+                                            <p>
+                                                <strong>How Auto Spin Works:</strong>
+                                            </p>
+                                            <ol>
+                                                <li>Open the Fruit Shop menu</li>
+                                                <li>Select the Auto Spin option</li>
+                                                <li>Choose your target rarity (Uncommon, Rare, Epic, Legendary, or Mythical)</li>
+                                                <li>Set a gem limit (optional)</li>
+                                                <li>Start spinning</li>
+                                            </ol>
+                                            <p>
+                                                The system will automatically stop when:
+                                            </p>
+                                            <ul>
+                                                <li>You obtain a fruit of your target rarity or higher</li>
+                                                <li>You reach your set gem limit</li>
+                                                <li>You manually cancel the spinning process</li>
+                                            </ul>
+                                            <div class="alert alert-warning">
+                                                <strong>Tip:</strong> Always set a gem limit to avoid accidentally spending all your gems. The Auto Spin system does not include a confirmation prompt once started.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item border-0 shadow-sm" data-aos="zoom-in-up" data-aos-delay="500" data-aos-duration="600">
+                                    <h2 class="accordion-header" id="patchChangesHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#patchChangesCollapse" aria-expanded="false" aria-controls="patchChangesCollapse">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-wrapper me-3">
+                                                    <i class="fas fa-balance-scale text-primary"></i>
+                                                </div>
+                                                Update 19 Balance Changes
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="patchChangesCollapse" class="accordion-collapse collapse" aria-labelledby="patchChangesHeading" data-bs-parent="#update19Accordion">
+                                        <div class="accordion-body">
+                                            <h5>Detailed Balance Changes</h5>
+                                            
+                                            <div class="balance-search-container mb-4">
+                                                <form class="form relative w-100">
+                                                  <button type="button" class="absolute left-2 -translate-y-1/2 top-1/2 p-1 search-icon-btn">
+                                                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search" class="w-5 h-5 text-gray-700">
+                                                      <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                  </button>
+                                                  <input id="fruitSearchInput19" class="input rounded-full px-8 py-3 border-2 border-transparent focus:outline-none focus:border-blue-500 placeholder-gray-400 transition-all duration-300 shadow-md w-100" placeholder="Search for a fruit..." required="" type="text"/>
+                                                  <button type="button" id="clearFruitSearch19" class="absolute right-3 -translate-y-1/2 top-1/2 p-1 clear-icon-btn">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                                    </svg>
+                                                  </button>
+                                                </form>
+                                                <div id="noFruitResults19" class="alert alert-info mt-2 d-none">
+                                                    No fruits found matching your search.
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="fruit-balance-changes">
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ice V1</h6>
+                                                    <ul>
+                                                        <li>Partisan now block bypasses with atleast 2 spears (0.75 sec charge)</li>
+                                                        <li>Geyser now block bypasses</li>
+                                                        <li>Geyser hitbox buffed by 2x</li>
+                                                        <li>You are now able to fall while charging pheasant</li>
+                                                        <li>Pheasant projectile speed buffed by 50%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Barrier</h6>
+                                                    <ul>
+                                                        <li>Bubble is now 360 blockable</li>
+                                                        <li>Spikes size buffed slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Gravity</h6>
+                                                    <ul>
+                                                        <li>You only need to charge for 3 seconds to cast the big meteor</li>
+                                                        <li>Great Meteor damage nerfed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Flame V2</h6>
+                                                    <ul>
+                                                        <li>Twisting Claw now flings upwards to improve combo extending</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Soul</h6>
+                                                    <ul>
+                                                        <li>Crimson Pillar is now cancellable in mode</li>
+                                                        <li>Crimson Pillar windup increased slightly</li>
+                                                        <li>Maser Cannon now takes 6 souls</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ope</h6>
+                                                    <ul>
+                                                        <li>Fling glitch patched? (will need to investigate this one)</li>
+                                                        <li>Heart squeeze nerfed to 2</li>
+                                                        <li>Shambles is no longer cancellable</li>
+                                                        <li>Gamma Knife teleportation latency fixed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">DragonV2</h6>
+                                                    <ul>
+                                                        <li>Thunder Bagua hitbox size nerfed</li>
+                                                        <li>Thunder Bagua endlag increased</li>
+                                                        <li>Beast's Bellow hitbox nerfed by 5%</li>
+                                                        <li>Zoan form duration reduced slightly</li>
+                                                        <li>Zoan mode bar gain reduced</li>
+                                                        <li>Zoan form movement speed reduced very slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dough V1</h6>
+                                                    <ul>
+                                                        <li>Lotus Dough Combo windup increased</li>
+                                                        <li>Lotus Dough range slightly decreased</li>
+                                                        <li>Buzzcut cooldown increased</li>
+                                                        <li>Anemone range slightly nerfed</li>
+                                                        <li>Buzzcut hitbox slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Leopard</h6>
+                                                    <ul>
+                                                        <li>Claw Barrage speed increased</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Phoenix</h6>
+                                                    <ul>
+                                                        <li>Fujiazami stun buffed by 0.1 sec</li>
+                                                        <li>Talon Slam cooldown increased</li>
+                                                        <li>Phoenix Inferno cooldown increased</li>
+                                                        <li>Bluebird windup reduced</li>
+                                                        <li>Bluebird charge speed buffed</li>
+                                                        <li>Zoan form Movement speed nerfed by 10%</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Lightning</h6>
+                                                    <ul>
+                                                        <li>Crashing Thunder stun increased by 0.3 sec</li>
+                                                        <li>Projected Burst max charge now bypasses block on the final tick</li>
+                                                        <li>Crushing Judgement vertical hitbox buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Light V2</h6>
+                                                    <ul>
+                                                        <li>Piercing Shine mark time buffed by 10 sec</li>
+                                                        <li>Bow m1 damage buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Dragon V1</h6>
+                                                    <ul>
+                                                        <li>Draco Meteor hitbox nerfed</li>
+                                                        <li>Draco Meteor cooldown increased slightly</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Nika</h6>
+                                                    <ul>
+                                                        <li>Rising Bolt projectile speed buffed</li>
+                                                        <li>Rising Bolt stun nerfed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">DarkXQuake</h6>
+                                                    <ul>
+                                                        <li>Neo Kurouzu Combo hitbox range nerfed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Magnet</h6>
+                                                    <ul>
+                                                        <li>Magnet Arms causing server lag fixed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Ice V2</h6>
+                                                    <ul>
+                                                        <li>Fixed Ice skate hyperarmor on console</li>
+                                                        <li>Fixed Ice skate lasting longer on console</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Okuchi</h6>
+                                                    <ul>
+                                                        <li>M1 stun nerfed</li>
+                                                        <li>M1 knockback increased</li>
+                                                        <li>Arctic Breath cooldown increased slightly</li>
+                                                        <li>Hallowed Cuts cooldown increased</li>
+                                                        <li>Divine Serpent nerfed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Bomb</h6>
+                                                    <ul>
+                                                        <li>Howitzer Impact now has hyperarmor instead of I-Frames (meaning, it can recieve damage but cannot be stunned)</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Quake</h6>
+                                                    <ul>
+                                                        <li>Fist animation speed buffed</li>
+                                                        <li>Fist hitbox buffed</li>
+                                                        <li>Eruption distance buffed</li>
+                                                        <li>Slam knockback nerfed</li>
+                                                        <li>Slam knockback reduced by 1.5 seconds</li>
+                                                        <li>Island Shake damage nerfed slightly</li>
+                                                        <li>Island Shake stun buffed</li>
+                                                        <li>Seaquake knockback increased</li>
+                                                        <li>Seaquake stun buffed</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="fruit-change">
+                                                    <h6 class="fruit-title">Falcon</h6>
+                                                    <ul>
+                                                        <li>Falcon punch max hold time reduced to 4 seconds</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info" data-aos="fade-up" data-aos-delay="100">
+    <i class="fas fa-info-circle me-2"></i>
+    No update history available yet.
+</div>
+{% endif %}
+
+<style>
+/* Shared styles with other pages */
+.updates-page {
+    position: relative;
+    padding-top: 2rem;
+}
+
+.header-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--bs-primary), var(--bs-purple));
+    border-radius: 5px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.section-subtitle {
+    color: var(--bs-secondary);
+    font-size: 1.1rem;
+    margin-top: -0.5rem;
+}
+
+.icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* Update collapse button styles */
+.update-collapse-btn {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease; /* Faster transition */
+}
+
+.update-collapse-btn[aria-expanded="false"] .fa-chevron-down {
+    transform: rotate(-90deg);
+    transition: transform 0.15s ease; /* Faster icon rotation */
+}
+
+.update-collapse-btn[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(0deg);
+    transition: transform 0.15s ease; /* Faster icon rotation */
+}
+
+.update-collapse-btn:hover {
+    background-color: var(--bs-primary);
+    color: white;
+}
+
+/* Speed up Bootstrap collapse animations */
+.collapse, .collapsing {
+    transition-duration: 0.15s !important; /* Speed up collapse animations */
+}
+
+/* Card Styles */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Accordion Styles */
+.accordion-item {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.accordion-button {
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.accordion-button:not(.collapsed) {
+    color: var(--bs-primary);
+    background-color: rgba(var(--bs-primary-rgb), 0.05);
+}
+
+/* Animation enhancements */
+[data-aos] {
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Timeline styles */
+.timeline {
+    position: relative;
+    padding: 40px 0;
+}
+    
+.timeline:before {
+    display: none; /* Hide the vertical blue line */
+}
+    
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+    
+.timeline-content {
+    margin-left: 0; /* Remove the left margin since there's no marker anymore */
+    margin-right: 0;
+}
+    
+.update-features li {
+    margin-bottom: 8px;
+}
+
+.fruit-balance-changes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.fruit-change {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.fruit-change.fruit-hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none; /* Prevent interaction while hidden */
+}
+
+.fruit-title {
+    color: var(--bs-primary);
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.fruit-change ul {
+    padding-left: 1.25rem;
+    margin-bottom: 0;
+}
+
+.balance-search-container {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    position: relative;
+}
+
+.balance-search-container .form {
+    position: relative;
+}
+
+.balance-search-container .input {
+    border-radius: 50px; /* Fully rounded */
+    padding-left: 2rem; /* Adjust for smaller size */
+    padding-right: 2rem; /* Adjust for smaller size */
+    padding-top: 0.35rem; /* Reduced padding */
+    padding-bottom: 0.35rem; /* Reduced padding */
+    border: 1px solid #dee2e6;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    width: 100%; /* Ensure it takes full width */
+    background-color: #fff;
+    font-size: 0.8rem; /* Reduced font size */
+}
+
+.balance-search-container .input:focus {
+    outline: none;
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.balance-search-container .input::placeholder {
+    color: #adb5bd;
+}
+
+.balance-search-container .absolute {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.balance-search-container .left-2 {
+    left: 0.5rem; /* Adjust icon position */
+}
+
+.balance-search-container .right-3 {
+    right: 0.5rem; /* Adjust icon position */
+}
+
+.balance-search-container button {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+.balance-search-container button svg {
+    width: 1rem; /* Smaller icons */
+    height: 1rem;
+    color: #6c757d;
+    transition: color 0.2s ease-in-out;
+}
+
+.balance-search-container button:hover svg {
+    color: var(--bs-primary);
+}
+
+/* Hide default clear button if browser adds one */
+.balance-search-container input[type="search"]::-webkit-search-cancel-button,
+.balance-search-container input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Star icon styling and animations */
+.star-icon {
+    position: relative;
+    background: linear-gradient(45deg, #4a8eff, #2563eb);
+    box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.star-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 15px rgba(37, 99, 235, 0.5);
+}
+
+.star-icon:active {
+    transform: scale(0.95);
+}
+
+.star-icon::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    top: -50%;
+    left: -50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.star-icon:hover::before {
+    opacity: 0.4;
+    animation: shine 1.5s infinite;
+}
+
+.star-icon i {
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.star-icon:hover i {
+    transform: rotate(12deg);
+    animation: pulse 1.5s infinite;
+}
+
+.star-clicked {
+    animation: flash 0.7s ease-out;
+}
+
+@keyframes flash {
+    0% {
+        box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8);
+        background: white;
+    }
+    20% {
+        box-shadow: 0 0 20px 8px rgba(73, 138, 255, 0.9);
+        background: linear-gradient(45deg, #4a8eff, #2563eb);
+    }
+    100% {
+        box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+        background: linear-gradient(45deg, #4a8eff, #2563eb);
+    }
+}
+
+.star-particle {
+    z-index: 9999;
+    pointer-events: none !important;
+}
+
+@keyframes shine {
+    0% {
+        top: -50%;
+        left: -50%;
+    }
+    100% {
+        top: 150%;
+        left: 150%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.1) rotate(12deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Card Animation Styles */
+.card-animated {
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow 0.5s ease;
+}
+
+.card-animated:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Enhanced Animation Styles */
+[data-aos] {
+    pointer-events: none; /* Prevents flicker during animation */
+}
+
+[data-aos].aos-animate {
+    pointer-events: auto; /* Restores pointer events after animation */
+}
+
+/* Custom animation for elements */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS with enhanced settings
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800, // Longer animation duration
+            easing: 'ease-out-cubic', // Smoother easing function
+            once: false, // Allow animations to occur each time element scrolls into view
+            mirror: true, // Whether elements should animate out as they scroll out of view
+            offset: 100, // Offset (in px) from the original trigger point
+            delay: 50, // Small base delay for all animations
+            anchorPlacement: 'top-bottom', // Anchor placement
+            disable: 'mobile', // Disable on mobile devices
+            throttleDelay: 50, // Throttle delay for scroll events
+            startEvent: 'DOMContentLoaded', // Name of the event dispatched on the document
+            disableMutationObserver: false, // Disable auto-refresh on DOM changes
+        });
+        
+        // Refresh AOS when new content might be loaded
+        document.addEventListener('lazyloaded', function() {
+            AOS.refresh();
+        });
+        
+        // Refresh AOS when tabs are clicked or accordions are toggled
+        document.querySelectorAll('[data-bs-toggle]').forEach(function(element) {
+            element.addEventListener('click', function() {
+                setTimeout(function() {
+                    AOS.refresh();
+                }, 500);
+            });
+        });
+    }
+    
+    // Apply floating animation to section headers
+    document.querySelectorAll('.section-header').forEach(function(header) {
+        header.classList.add('float-animation');
+    });
+    
+    // Update collapse button icon rotation
+    const updateCollapseButtons = document.querySelectorAll('.update-collapse-btn');
+    updateCollapseButtons.forEach(button => {
+        // Set initial rotation based on expanded state
+        if (button.getAttribute('aria-expanded') === 'false') {
+            button.querySelector('i').style.transform = 'rotate(-90deg)';
+        }
+        
+        button.addEventListener('click', function() {
+            // Disable button temporarily to prevent rapid clicking
+            this.disabled = true;
+            
+            // Toggle will happen after this event, so we need to check the opposite
+            const willBeCollapsed = this.getAttribute('aria-expanded') === 'true';
+            // Toggle the rotation based on the state it will be in
+            if (willBeCollapsed) {
+                this.querySelector('i').style.transform = 'rotate(-90deg)';
+            } else {
+                this.querySelector('i').style.transform = 'rotate(0deg)';
+            }
+            
+            // Re-enable button after animation completes
+            setTimeout(() => {
+                this.disabled = false;
+            }, 200); // Slightly longer than the animation to ensure it's complete
+        });
+    });
+    
+    // Add star icon interactions
+    const starIcons = document.querySelectorAll('.star-icon');
+    starIcons.forEach(star => {
+        star.addEventListener('click', function(e) {
+            // Create flash effect
+            this.classList.add('star-clicked');
+            
+            // Create explosion particles
+            createStarParticles(this);
+            
+            // Remove the class after animation completes
+            setTimeout(() => {
+                this.classList.remove('star-clicked');
+            }, 700);
+        });
+    });
+    
+    // Function to create star particles on click
+    function createStarParticles(starElement) {
+        const rect = starElement.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+        
+        // Create container for particles if it doesn't exist
+        let particleContainer = document.getElementById('star-particle-container');
+        if (!particleContainer) {
+            particleContainer = document.createElement('div');
+            particleContainer.id = 'star-particle-container';
+            particleContainer.style.position = 'fixed';
+            particleContainer.style.top = '0';
+            particleContainer.style.left = '0';
+            particleContainer.style.width = '100%';
+            particleContainer.style.height = '100%';
+            particleContainer.style.pointerEvents = 'none';
+            particleContainer.style.zIndex = '9999';
+            document.body.appendChild(particleContainer);
+        }
+        
+        // Create particles
+        for (let i = 0; i < 8; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'star-particle';
+            
+            // Random position offsets
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 20 + Math.random() * 30;
+            
+            // Style the particle
+            particle.style.position = 'absolute';
+            particle.style.width = '8px';
+            particle.style.height = '8px';
+            particle.style.backgroundColor = '#ffdd00';
+            particle.style.borderRadius = '50%';
+            particle.style.boxShadow = '0 0 10px 2px rgba(255, 221, 0, 0.7)';
+            particle.style.top = `${y}px`;
+            particle.style.left = `${x}px`;
+            particle.style.transform = 'translate(-50%, -50%)';
+            particle.style.opacity = '1';
+            particle.style.pointerEvents = 'none';
+            
+            // Add to container
+            particleContainer.appendChild(particle);
+            
+            // Animate the particle
+            setTimeout(() => {
+                particle.style.transition = 'all 0.5s ease-out';
+                particle.style.top = `${y + Math.sin(angle) * distance}px`;
+                particle.style.left = `${x + Math.cos(angle) * distance}px`;
+                particle.style.opacity = '0';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                
+                // Clean up
+                setTimeout(() => {
+                    particleContainer.removeChild(particle);
+                }, 500);
+            }, 10);
+        }
+    }
+    
+    // Animate timeline items on scroll
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const fadeInOnScroll = function() {
+        fadeElements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < window.innerHeight - elementVisible) {
+                element.classList.add('visible');
+            }
+        });
+    };
+    
+    // Run once on page load
+    fadeInOnScroll();
+    
+    // Run on scroll
+    window.addEventListener('scroll', fadeInOnScroll);
+});
+
+// Fruit search functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Only add the event listeners if the elements exist
+    const fruitSearchInput = document.getElementById('fruitSearchInput');
+    const clearFruitSearch = document.getElementById('clearFruitSearch');
+    const fruitChangesContainer = document.querySelector('.fruit-balance-changes');
+    const noFruitResults = document.getElementById('noFruitResults');
+    
+    if (fruitSearchInput && fruitChangesContainer) {
+        const fruitChanges = Array.from(fruitChangesContainer.querySelectorAll('.fruit-change'));
+        
+        fruitChanges.forEach(fruit => {
+            // Ensure transition listeners are added only once
+            fruit.addEventListener('transitionend', () => {
+                if (fruit.classList.contains('fruit-hidden') && fruit.style.opacity === '0') {
+                    fruit.style.display = 'none';
+                }
+            });
+        });
+
+        fruitSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+            
+            fruitChanges.forEach(fruit => {
+                const fruitTitle = fruit.querySelector('.fruit-title').textContent.toLowerCase();
+                const fruitContent = fruit.textContent.toLowerCase();
+                const shouldShow = searchTerm === '' || fruitTitle.includes(searchTerm) || fruitContent.includes(searchTerm);
+                
+                if (shouldShow) {
+                    // Make visible before starting transition
+                    if (fruit.style.display === 'none') {
+                       fruit.style.display = ''; // Reset display first
+                       // Force reflow to ensure display change registers before class removal
+                       void fruit.offsetWidth; 
+                    }
+                    fruit.classList.remove('fruit-hidden');
+                    fruit.style.opacity = '1'; // Explicitly set opacity for transition in
+                    visibleCount++;
+                } else {
+                    fruit.classList.add('fruit-hidden');
+                    fruit.style.opacity = '0'; // Explicitly set opacity for transition out
+                    // display: none will be set by the transitionend listener
+                }
+            });
+            
+            // Show/hide no results message
+            if (noFruitResults) {
+                if (visibleCount === 0 && searchTerm !== '') {
+                    noFruitResults.classList.remove('d-none');
+                } else {
+                    noFruitResults.classList.add('d-none');
+                }
+            }
+        });
+        
+        // Clear search button
+        if (clearFruitSearch) {
+            clearFruitSearch.addEventListener('click', function() {
+                fruitSearchInput.value = '';
+                // Trigger the input event to update the display
+                fruitSearchInput.dispatchEvent(new Event('input'));
+                fruitSearchInput.focus();
+            });
+        }
+    }
+    
+    // Add search functionality for Update 19
+    const fruitSearchInput19 = document.getElementById('fruitSearchInput19');
+    const clearFruitSearch19 = document.getElementById('clearFruitSearch19');
+    const fruitChangesContainer19 = document.querySelector('#update19Collapse .fruit-balance-changes');
+    const noFruitResults19 = document.getElementById('noFruitResults19');
+    
+    if (fruitSearchInput19 && fruitChangesContainer19) {
+        const fruitChanges19 = Array.from(fruitChangesContainer19.querySelectorAll('.fruit-change'));
+        
+        fruitChanges19.forEach(fruit => {
+            // Ensure transition listeners are added only once
+            fruit.addEventListener('transitionend', () => {
+                if (fruit.classList.contains('fruit-hidden') && fruit.style.opacity === '0') {
+                    fruit.style.display = 'none';
+                }
+            });
+        });
+
+        fruitSearchInput19.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+            
+            fruitChanges19.forEach(fruit => {
+                const fruitTitle = fruit.querySelector('.fruit-title').textContent.toLowerCase();
+                const fruitContent = fruit.textContent.toLowerCase();
+                const shouldShow = searchTerm === '' || fruitTitle.includes(searchTerm) || fruitContent.includes(searchTerm);
+                
+                if (shouldShow) {
+                    // Make visible before starting transition
+                    if (fruit.style.display === 'none') {
+                       fruit.style.display = ''; // Reset display first
+                       // Force reflow to ensure display change registers before class removal
+                       void fruit.offsetWidth; 
+                    }
+                    fruit.classList.remove('fruit-hidden');
+                    fruit.style.opacity = '1'; // Explicitly set opacity for transition in
+                    visibleCount++;
+                } else {
+                    fruit.classList.add('fruit-hidden');
+                    fruit.style.opacity = '0'; // Explicitly set opacity for transition out
+                    // display: none will be set by the transitionend listener
+                }
+            });
+            
+            // Show/hide no results message
+            if (noFruitResults19) {
+                if (visibleCount === 0 && searchTerm !== '') {
+                    noFruitResults19.classList.remove('d-none');
+                } else {
+                    noFruitResults19.classList.add('d-none');
+                }
+            }
+        });
+        
+        // Clear search button
+        if (clearFruitSearch19) {
+            clearFruitSearch19.addEventListener('click', function() {
+                fruitSearchInput19.value = '';
+                // Trigger the input event to update the display
+                fruitSearchInput19.dispatchEvent(new Event('input'));
+                fruitSearchInput19.focus();
+            });
+        }
+    }
+    
+    // Add search functionality for Update 18
+    const fruitSearchInput18 = document.getElementById('fruitSearchInput18');
+    const clearFruitSearch18 = document.getElementById('clearFruitSearch18');
+    const fruitChangesContainer18 = document.querySelector('#balance18Collapse .fruit-balance-changes');
+    const noFruitResults18 = document.getElementById('noFruitResults18');
+    
+    if (fruitSearchInput18 && fruitChangesContainer18) {
+        const fruitChanges18 = Array.from(fruitChangesContainer18.querySelectorAll('.fruit-change'));
+        
+        fruitChanges18.forEach(fruit => {
+            // Ensure transition listeners are added only once
+            fruit.addEventListener('transitionend', () => {
+                if (fruit.classList.contains('fruit-hidden') && fruit.style.opacity === '0') {
+                    fruit.style.display = 'none';
+                }
+            });
+        });
+
+        fruitSearchInput18.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+            
+            fruitChanges18.forEach(fruit => {
+                const fruitTitle = fruit.querySelector('.fruit-title').textContent.toLowerCase();
+                const fruitContent = fruit.textContent.toLowerCase();
+                const shouldShow = searchTerm === '' || fruitTitle.includes(searchTerm) || fruitContent.includes(searchTerm);
+                
+                if (shouldShow) {
+                    // Make visible before starting transition
+                    if (fruit.style.display === 'none') {
+                       fruit.style.display = ''; // Reset display first
+                       // Force reflow to ensure display change registers before class removal
+                       void fruit.offsetWidth; 
+                    }
+                    fruit.classList.remove('fruit-hidden');
+                    fruit.style.opacity = '1'; // Explicitly set opacity for transition in
+                    visibleCount++;
+                } else {
+                    fruit.classList.add('fruit-hidden');
+                    fruit.style.opacity = '0'; // Explicitly set opacity for transition out
+                    // display: none will be set by the transitionend listener
+                }
+            });
+            
+            // Show/hide no results message
+            if (noFruitResults18) {
+                if (visibleCount === 0 && searchTerm !== '') {
+                    noFruitResults18.classList.remove('d-none');
+                } else {
+                    noFruitResults18.classList.add('d-none');
+                }
+            }
+        });
+        
+        // Clear search button
+        if (clearFruitSearch18) {
+            clearFruitSearch18.addEventListener('click', function() {
+                fruitSearchInput18.value = '';
+                // Trigger the input event to update the display
+                fruitSearchInput18.dispatchEvent(new Event('input'));
+                fruitSearchInput18.focus();
+            });
+        }
+    }
+});
+</script>
+{% endblock %} 

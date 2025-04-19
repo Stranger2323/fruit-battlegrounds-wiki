@@ -1,0 +1,758 @@
+{% extends "base.html" %}
+
+{% block title %}Game Mechanics - Fruit Battlegrounds Wiki{% endblock %}
+
+{% block content %}
+<div class="mechanics-page" data-aos="fade-in" data-aos-duration="600">
+    <div class="header-accent"></div>
+    <div class="section-header" data-aos="fade-down">
+        <h1 class="section-title display-4 mb-3">Game Mechanics</h1>
+        <p class="lead mb-4 text-muted">
+            Learn about the core mechanics that make Fruit Battlegrounds unique and how to master them. Created by P O P O in March 2022, Fruit Battlegrounds is a simplistic One Piece-inspired battleground where you fight, earn bounty, and unlock new fruits.
+        </p>
+    </div>
+
+<div class="row mb-5">
+    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex align-items-center">
+                    <div class="icon-wrapper me-3">
+                        <i class="fas fa-bolt text-white"></i>
+                    </div>
+                    <h2 class="h4 mb-0">Awakening System</h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    Awakening is a powerful upgrade for fruits that unlocks their true potential, granting enhanced abilities and often a V2 version.
+                    Each awakenable fruit has specific requirements.
+                </p>
+                <h5>How to Awaken (Example: Light Fruit):</h5>
+                <ol>
+                    <li>Obtain the fruit and level it to Max Level (300)</li>
+                    <li>Obtain at least 30 Titles</li>
+                    <li>Defeat the required bosses (e.g., for Light, defeat Kaido 5 times with Light equipped)</li>
+                    <li>Go to Wano (Onigashima)</li>
+                    <li>Find and talk to the NPC Momo</li>
+                    <li>Pay the awakening cost (varies by fruit rarity)</li>
+                </ol>
+                <div class="alert alert-info">
+                    <strong>Note:</strong> Awakening requirements (like specific boss kills or titles) vary per fruit. Some fruits may need a specific NPC to talk to for awakening (e.g., DarkXQuake), and not all awakening locations are in Wano. Check individual fruit pages for exact details.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="150">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex align-items-center">
+                    <div class="icon-wrapper me-3">
+                        <i class="fas fa-fist-raised text-white"></i>
+                    </div>
+                    <h2 class="h4 mb-0">Combat System</h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    Combat in Fruit Battlegrounds revolves around using fruit abilities and mastering movement techniques.
+                </p>
+                <h5>Key Combat Elements:</h5>
+                <ul>
+                    <li><strong>M1 Combos:</strong> Basic melee attack chains (3-5 hits depending on the fruit)</li>
+                    <li><strong>M2:</strong> Heavy attack, often with knockback (hold mouse button)</li>
+                    <li><strong>Abilities:</strong> Special moves tied to your fruit (keys 1-5)</li>
+                    <li><strong>Blocking:</strong> Press F to reduce incoming damage by 50%</li>
+                    <li><strong>Dash:</strong> Double-tap directional keys to dodge attacks</li>
+                    <li><strong>Soru:</strong> Advanced movement technique (once unlocked)</li>
+                </ul>
+                <div class="alert alert-warning">
+                    <strong>Tip:</strong> Master the timing of blocks and dashes to become untouchable in PvP. The Tournament and Ranked PvP modes are great places to practice your skills.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="rebirth-system-card mb-5 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+    <div class="rebirth-header">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-sync-alt me-2"></i>
+            <h5 class="mb-0">Rebirth System</h5>
+        </div>
+    </div>
+    <div class="rebirth-content p-4">
+        <p>
+            The new Rebirth system allows you to exchange a maxed-level fruit and gems for another fruit of the next rarity tier. Talk to Rayleigh NPC located in the Live Floor of Onigashima (opposite side of the dummies) to access this feature.
+        </p>
+        
+        <div class="info-box mb-4 mt-3">
+            <i class="fas fa-info-circle me-2"></i>
+            <span><strong>Note:</strong> V2 fruits are not included in the Rebirth pool! Fruit must be at max level (300).</span>
+        </div>
+        
+        <h6 class="mb-3">Rebirth Requirements:</h6>
+        <div class="table-responsive">
+            <table class="rebirth-table">
+                <thead>
+                    <tr>
+                        <th>Rarity Progression</th>
+                        <th>Gem Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="badge-effect badge-effect-common">
+                                    <span class="badge-text">Common</span>
+                                </span>
+                                <span class="progression-arrow">→</span>
+                                <span class="badge-effect badge-effect-uncommon">
+                                    <span class="badge-text">Uncommon</span>
+                                </span>
+                            </div>
+                        </td>
+                        <td>250 Gems</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="badge-effect badge-effect-uncommon">
+                                    <span class="badge-text">Uncommon</span>
+                                </span>
+                                <span class="progression-arrow">→</span>
+                                <span class="badge-effect badge-effect-rare">
+                                    <span class="badge-text">Rare</span>
+                                </span>
+                            </div>
+                        </td>
+                        <td>500 Gems</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="badge-effect badge-effect-rare">
+                                    <span class="badge-text">Rare</span>
+                                </span>
+                                <span class="progression-arrow">→</span>
+                                <span class="badge-effect badge-effect-epic">
+                                    <span class="badge-text">Epic</span>
+                                </span>
+                            </div>
+                        </td>
+                        <td>2,500 Gems</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="badge-effect badge-effect-epic">
+                                    <span class="badge-text">Epic</span>
+                                </span>
+                                <span class="progression-arrow">→</span>
+                                <span class="badge-effect badge-effect-legendary">
+                                    <canvas class="legendary-shine-canvas"></canvas>
+                                    <span class="badge-text">Legendary</span>
+                                </span>
+                            </div>
+                        </td>
+                        <td>10,000 Gems</td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <div class="d-flex align-items-center">
+                                <span class="badge-effect badge-effect-legendary">
+                                    <canvas class="legendary-shine-canvas"></canvas>
+                                    <span class="badge-text">Legendary</span>
+                                </span>
+                                <span class="progression-arrow">→</span>
+                                <span class="badge-effect badge-effect-mythical">
+                                    <canvas class="mythical-lightning-canvas"></canvas>
+                                    <span class="badge-text">Mythical</span>
+                                </span>
+                        </div>
+                        </td>
+                        <td>25,000 Gems</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <p class="mt-4">
+            When you Rebirth a Legendary fruit, you are guaranteed a new Mythical fruit that you don't already have.
+        </p>
+        
+        <div class="alert alert-danger mt-3 mb-3">
+            <strong>Warning:</strong> This process exchanges your max-level Legendary fruit for the new Mythical fruit, which will start at Level 1.
+        </div>
+        
+        <div class="alert alert-success mt-3 mb-3">
+            <strong>Benefit:</strong> You can then level this new fruit up to 300 again with no nerf to gems acquired per level.
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="250">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex align-items-center">
+                    <div class="icon-wrapper me-3">
+                        <i class="fas fa-random text-white"></i>
+                    </div>
+                    <h2 class="h4 mb-0">Fruit Spinner</h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    The Fruit Spinner is the primary way to obtain fruits, costing 50 Gems per spin (or 80 Gems for a Fast Spin without the gamepass).
+                </p>
+                
+                <h5>Fruit Spinner Mechanics:</h5>
+                <ul>
+                    <li><strong>Base Rates:</strong> Determined by fruit rarity (Common to Mythical). <strong><a href="{{ url_for('fruits') }}">(know the rates here)</a></strong></li>
+                    <li><strong>Pity System:</strong> Increases chances for rarer fruits. Guarantees a <span style="color: #0d6efd; font-weight: bold;">Rare</span> fruit at 80 spins (<span style="color: #0d6efd; font-weight: bold;">Rare Pity</span>), an <span style="color: #6f42c1; font-weight: bold;">Epic</span> fruit at 160 spins (<span style="color: #6f42c1; font-weight: bold;">Epic Pity</span>), and a <span style="color: #fd7e14; font-weight: bold;">Legendary</span> fruit at 320 spins (<span style="color: #fd7e14; font-weight: bold;">Legendary Pity</span>). Legendary Pity also has a ~30% chance for a Mythical. Getting a fruit of a specific rarity (or higher) resets that pity counter. A timer also resets all pity periodically.</li>
+                    <li><strong>Roblox Premium Boost:</strong> Having Roblox Premium grants a 20% luck boost when spinning.</li>
+                </ul>
+                
+                <h5>Obtaining Gems:</h5>
+                <ul>
+                    <li>Defeating bosses (amount varies)</li>
+                    <li>Redeeming codes (check Codes page)</li>
+                    <li>Earning Titles</li>
+                    <li>AFK World (passive earning)</li>
+                    <li>Daily Login Rewards</li>
+                    <li>Leveling up (20 gems per level)</li>
+                    <li>Purchasing with Robux</li>
+                    <!-- Removed Tournament Wins as direct gem source -->
+                </ul>
+                
+                <div class="alert alert-success">
+                    <strong>Strategy:</strong> Save your gems for 2x chance events to maximize your odds of rare fruits, and be mindful of the pity reset timer.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex align-items-center">
+                    <div class="icon-wrapper me-3">
+                        <i class="fas fa-running text-white"></i>
+                    </div>
+                    <h2 class="h4 mb-0">Soru Tips</h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    Soru is an advanced movement technique that replaces normal dashes. It travels further, faster, allows higher jumps, and has a 3-second cooldown.
+                </p>
+                
+                <h5>How to Unlock Soru:</h5>
+                <h6>Requirements:</h6>
+                <ul class="small">
+                    <li>Level 100+</li>
+                    <li>At least 10 Titles obtained</li>
+                    <li>Defeat any boss 3 times</li>
+                </ul>
+                <h6>Obtainment Quest:</h6>
+                <ol class="small">
+                    <li>Go to Dressrosa, near where Marco spawns.</li>
+                    <li>Find breakable rocks on the side of the hill. Use an environment-damaging move (like Bomb) to destroy them.</li>
+                    <li>Talk to the NPC inside the hidden area to start the quest.</li>
+                    <li>Find the required book located near the bridge in front of the Colosseum.</li>
+                    <li>Return the book to the NPC to permanently unlock Soru.</li>
+                </ol>
+                
+                <h5>Using Soru:</h5>
+                <ul>
+                    <li><strong>Activation:</strong> Press Q while moving (replaces normal dash)</li>
+                    <li><strong>Cooldown:</strong> 3 seconds (uses normal dash during cooldown)</li>
+                    <li><strong>Note:</strong> Soru remains active even when switching fruits.</li>
+                </ul>
+                
+                <h5>Combat Applications:</h5>
+                <ul>
+                    <li>Quick escapes from dangerous situations</li>
+                    <li>Catching fleeing opponents</li>
+                    <li>Repositioning for ability combos</li>
+                    <li>Dodging high-damage attacks</li>
+                </ul>
+                
+                <div class="alert alert-warning mt-3 mb-0">
+                    <strong>Advanced Tip:</strong> Chain Soru with dash (during cooldown) and jump for maximum mobility in combat.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-5 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="350">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-wrapper me-3">
+                <i class="fas fa-chart-line text-white"></i>
+            </div>
+            <h2 class="h4 mb-0">Stats and Leveling</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Experience (EXP) System:</h5>
+                <p>
+                    Experience is gained by dealing damage to bosses and players. The EXP gain is proportional to the damage dealt,
+                    with the following formula:
+                </p>
+                <div class="alert alert-secondary">
+                    <code>EXP = (Damage Dealt / Total HP) × Max EXP Reward × Area Multiplier</code>
+                </div>
+                
+                <p>Area multipliers increase as you progress:</p>
+                <ul>
+                    <li>Dressrosa: 1.0x</li>
+                    <li>Whole Cake: 1.75x</li>
+                    <li>Onigashima (Wano): 2.5x</li>
+                </ul>
+                
+                <p>Additional EXP boosters:</p>
+                <ul>
+                    <li>2x EXP Gamepass: Doubles all EXP gain</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <h5>Level Scaling:</h5>
+                <p>
+                    Each level requires more EXP than the last, following approximately this pattern:
+                </p>
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-2">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover text-center mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="text-center">Level Range</th>
+                                        <th class="text-center">EXP Required</th>
+                                        <th class="text-center">Total EXP from 1</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1-50</td>
+                                        <td>100 × Level</td>
+                                        <td>~125,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>51-100</td>
+                                        <td>200 × Level</td>
+                                        <td>~625,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>101-200</td>
+                                        <td>300 × Level</td>
+                                        <td>~3,625,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>201-300</td>
+                                        <td>400 × Level</td>
+                                        <td>~10,625,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5>Benefits of Leveling Up:</h5>
+                <ul>
+                    <li>Access to new areas (100+ for Whole Cake, 200+ for Onigashima/Wano)</li>
+                    <li>Increased base health and damage</li>
+                    <li>Ability to participate in high-level boss fights</li>
+                    <li>Access to the Rebirth system at level 300</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section-header mb-4" data-aos="fade-up" data-aos-delay="400">
+    <h2 class="section-title">Combat Tips & Techniques</h2>
+    <div class="section-subtitle">Master these techniques to dominate in PvP</div>
+</div>
+
+<div class="accordion mb-5" id="combatTips">
+    <div class="accordion-item border-0 shadow-sm mb-3" data-aos="fade-up" data-aos-delay="450">
+        <h2 class="accordion-header" id="basicCombosHeader">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#basicCombosCollapse" aria-expanded="true" aria-controls="basicCombosCollapse">
+                <div class="d-flex align-items-center">
+                    <div class="icon-wrapper me-3">
+                        <i class="fas fa-fist-raised text-primary"></i>
+                    </div>
+                    Basic Combos & M1 Mechanics
+                </div>
+            </button>
+        </h2>
+        <div id="basicCombosCollapse" class="accordion-collapse collapse show" aria-labelledby="basicCombosHeader" data-bs-parent="#combatTips">
+            <div class="accordion-body">
+                <p>
+                    M1 combos (basic melee attacks) form the foundation of combat in Fruit Battlegrounds.
+                    Understanding how to chain these with your fruit abilities is essential for success.
+                </p>
+                
+                <h5>M1 Combo Basics:</h5>
+                <ul>
+                    <li>Left-click repeatedly to perform a combo (3-5 hits depending on the fruit)</li>
+                    <li>The final hit of a combo typically deals more damage and has knockback</li>
+                    <li>There's a brief cooldown after completing a full combo</li>
+                    <li>M1 damage scales with your level and fruit type</li>
+                </ul>
+                
+                <h5>M2 (Heavy Attack):</h5>
+                <ul>
+                    <li>Hold left-click to charge and release a heavy attack</li>
+                    <li>Deals more damage than a single M1 hit</li>
+                    <li>Usually has significant knockback</li>
+                    <li>Can break an opponent's block with enough damage</li>
+                </ul>
+                
+                <h5>Basic Combo Patterns:</h5>
+                <ol>
+                    <li><strong>M1 Chain:</strong> Complete a full M1 combo, then reset position and repeat</li>
+                    <li><strong>M1 into Ability:</strong> Use 2-3 M1 hits, then cancel into an ability before they can escape</li>
+                    <li><strong>Ability into M1:</strong> Use a stun/freeze ability, then follow up with M1 combo</li>
+                    <li><strong>M1 + M2 Finisher:</strong> Use M1 hits, then finish with a charged M2 for knockback</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item border-0 shadow-sm mb-3" data-aos="fade-up" data-aos-delay="500">
+        <h2 class="accordion-header" id="advancedTechHeader">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#advancedTechCollapse" aria-expanded="false" aria-controls="advancedTechCollapse">
+                <div class="d-flex align-items-center">
+                    <div class="icon-wrapper me-3">
+                        <i class="fas fa-shield-alt text-primary"></i>
+                    </div>
+                    Advanced Combat Techniques
+                </div>
+            </button>
+        </h2>
+        <div id="advancedTechCollapse" class="accordion-collapse collapse" aria-labelledby="advancedTechHeader" data-bs-parent="#combatTips">
+            <div class="accordion-body">
+                <p>
+                    These techniques separate average players from top-tier PvP combatants.
+                    With practice, these methods will significantly improve your combat effectiveness.
+                </p>
+                
+                <h5>Perfect Blocking:</h5>
+                <ul>
+                    <li>Press F just as an attack is about to hit you (within 0.2 seconds)</li>
+                    <li>Reduces damage by 90% instead of the standard 50%</li>
+                    <li>Creates a distinct "perfect block" visual effect when successful</li>
+                    <li>Briefly stuns your opponent, creating an opportunity to counter-attack</li>
+                </ul>
+                
+                <h5>M1 Canceling:</h5>
+                <ul>
+                    <li>Start an M1 combo but cancel before the final hit by using an ability</li>
+                    <li>Avoids the end-of-combo cooldown period</li>
+                    <li>Allows for continuous pressure with minimal downtime</li>
+                </ul>
+                
+                <h5>Dash Dancing:</h5>
+                <ul>
+                    <li>Rapidly alternating dashes in different directions</li>
+                    <li>Makes your movement unpredictable and harder to hit</li>
+                    <li>Can bait out opponent abilities, which you can then punish</li>
+                </ul>
+                
+                <h5>Soru Techniques:</h5>
+                <ul>
+                    <li><strong>Soru Baiting:</strong> Use Soru to make opponents think you're retreating, then quickly turn and attack</li>
+                    <li><strong>Soru Cancel:</strong> Start an ability animation, Soru to cancel it, then immediately use another ability</li>
+                    <li><strong>Soru Chaining:</strong> Use Soru, then immediately dash and jump for extended mobility</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item border-0 shadow-sm" data-aos="fade-up" data-aos-delay="550">
+        <h2 class="accordion-header" id="fruitSpecificHeader">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fruitSpecificCollapse" aria-expanded="false" aria-controls="fruitSpecificCollapse">
+                <div class="d-flex align-items-center">
+                    <div class="icon-wrapper me-3">
+                        <i class="fas fa-apple-alt text-primary"></i>
+                    </div>
+                    Fruit-Specific Techniques
+                </div>
+            </button>
+        </h2>
+        <div id="fruitSpecificCollapse" class="accordion-collapse collapse" aria-labelledby="fruitSpecificHeader" data-bs-parent="#combatTips">
+            <div class="accordion-body">
+                <p>
+                    Each fruit has unique mechanics and combo potential. Here are techniques for some of the most popular fruits:
+                </p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Leopard:</h5>
+                        <ul>
+                            <li><strong>Transform Cancel:</strong> Transform (5), attack, untransform quickly to reset cooldowns</li>
+                            <li><strong>Hybrid Combo:</strong> X Key (transform), M1 combo, Claw Strike, Predator's Pounce</li>
+                            <li><strong>Air Combo:</strong> Use Aerial Pounce to catch fleeing opponents, follow with downward slam</li>
+                        </ul>
+                        
+                        <h5>Lightning:</h5>
+                        <ul>
+                            <li><strong>Thunder Step:</strong> Use Lightning Step to appear behind opponent, immediately M1</li>
+                            <li><strong>Thunder Cage Trap:</strong> Place Thunder Cage, use knockback to push opponent into it</li>
+                            <li><strong>Lightning Burst Escape:</strong> When low on health, use Lightning Burst upward to escape</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Barrier:</h5>
+                        <ul>
+                            <li><strong>Barrier Bomb Combo:</strong> Set barrier, push with Room Barrier, detonate for high damage</li>
+                            <li><strong>Counter Shield:</strong> Time your barrier to block incoming attacks, then counter</li>
+                            <li><strong>Barrier Juggle:</strong> Use Barrier Strike to launch opponents, Room Barrier to keep them airborne</li>
+                        </ul>
+                        
+                        <h5>DoughV2:</h5>
+                        <ul>
+                            <li><strong>Awakened Combo:</strong> Mochi Shot to stun, Buzzcut into M1 combo, finish with Unstoppable Donuts</li>
+                            <li><strong>Future Sight Counter:</strong> Use Future Sight to dodge incoming attacks, then immediately counter</li>
+                            <li><strong>Mochi Trap:</strong> Use Mochi Ground to trap opponent, followed by full ability combo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-5 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="600">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-wrapper me-3">
+                <i class="fas fa-trophy text-white"></i>
+            </div>
+            <h2 class="h4 mb-0">Bounty System</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <p>
+            The Bounty System rewards players for PvP combat and adds risk-reward elements to gameplay.
+        </p>
+        
+        <h5>How Bounty Works:</h5>
+        <ul>
+            <li>Defeating other players increases your bounty</li>
+            <li>Higher bounty makes you more visible and a target for other players</li>
+            <li>Being defeated causes you to lose a portion of your bounty</li>
+            <li>High bounty can grant access to special titles</li>
+        </ul>
+        
+        <div class="alert alert-info">
+            <strong>Tip:</strong> If you want to preserve your bounty, avoid dying in combat by escaping when low on health or resetting in safe zones.
+        </div>
+    </div>
+</div>
+
+<style>
+/* Shared styles with fruits.html */
+.mechanics-page {
+    position: relative;
+    padding-top: 2rem;
+}
+
+.header-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--bs-primary), var(--bs-purple));
+    border-radius: 5px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.section-subtitle {
+    color: var(--bs-secondary);
+    font-size: 1.1rem;
+    margin-top: -0.5rem;
+}
+
+.icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* Card Styles */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Accordion Styles */
+.accordion-item {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.accordion-button {
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.accordion-button:not(.collapsed) {
+    color: var(--bs-primary);
+    background-color: rgba(var(--bs-primary-rgb), 0.05);
+}
+
+/* Animation enhancements */
+[data-aos] {
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Rebirth System Card Styles (Copied from fruits.html) */
+.rebirth-system-card {
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rebirth-header {
+    background: #0075ff;
+    color: white;
+    padding: 14px 20px;
+    font-weight: 500;
+}
+
+.rebirth-content {
+    padding: 24px;
+}
+
+.info-box {
+    background-color: rgba(204, 229, 255, 0.6);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #0075ff;
+    display: flex;
+    align-items: center;
+}
+
+.rebirth-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.rebirth-table th {
+    background-color: #f1f3f5;
+    color: #333;
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 16px;
+    border: 1px solid #dee2e6;
+}
+
+.rebirth-table td {
+    padding: 12px 16px;
+    border: 1px solid #dee2e6;
+}
+
+/* Styles for badges in rebirth table */
+.rebirth-table .badge-effect {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    height: 30px;
+    position: relative;
+    border-radius: 4px;
+    padding: 2px 10px;
+    margin: 0 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: none;
+}
+
+.rebirth-table .badge-text {
+    position: relative;
+    z-index: 2;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Specific colors for each rarity in rebirth table */
+.rebirth-table .badge-effect-common { background-color: #6c757d; color: white; }
+.rebirth-table .badge-effect-uncommon { background-color: #28a745; color: white; }
+.rebirth-table .badge-effect-rare { background-color: #007bff; color: white; }
+.rebirth-table .badge-effect-epic { background-color: #9933cc; color: white; }
+.rebirth-table .badge-effect-legendary { background-color: #ffc107; color: black; }
+.rebirth-table .badge-effect-mythical { background-color: #dc3545; color: white; box-shadow: 0 0 10px rgba(255, 0, 0, 0.4); }
+
+/* Canvas sizing for special effects in rebirth table */
+.rebirth-table .legendary-shine-canvas,
+.rebirth-table .mythical-lightning-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Arrow styling in rebirth table */
+.rebirth-table .progression-arrow {
+    font-size: 18px;
+    color: #495057;
+}
+
+/* Restore table row styling for rebirth table */
+.rebirth-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.rebirth-table tr:hover {
+    background-color: #e9ecef;
+}
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS if it's loaded
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 600, // Animation duration
+            once: true, // Animate elements only once
+            offset: 50 // Offset (in px) from the original trigger point
+        });
+    }
+});
+</script>
+{% endblock %} 

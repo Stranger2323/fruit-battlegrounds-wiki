@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results for "{{ query }}" - Fruit Battlegrounds Wiki{% endblock %}
+
+{% block content %}
+<h1 class="section-title">Search Results for "{{ query }}"</h1>
+
+{% if not fruits and not bosses and not maps and not codes %}
+<div class="alert alert-info">
+    <i class="fas fa-info-circle me-2"></i>
+    No results found for "<strong>{{ query }}</strong>". Try using different keywords or browse our categories.
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-dark text-white">
+        <h2 class="h4 mb-0">Browse Categories</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('fruits') }}" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-apple-alt me-2"></i>Fruits
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('bosses') }}" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-dragon me-2"></i>Bosses
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('maps') }}" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-map me-2"></i>Maps
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('mechanics') }}" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-cogs me-2"></i>Mechanics
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('codes') }}" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-gift me-2"></i>Codes
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('leveling_guide') }}" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-arrow-up me-2"></i>Leveling
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<p class="lead mb-4">Found {{ fruits|length + bosses|length + maps|length + codes|length }} results for your search.</p>
+
+{% if fruits %}
+<h2 class="h4 mb-3">Fruits ({{ fruits|length }})</h2>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+    {% for fruit in fruits %}
+    <div class="col">
+        <div class="card h-100">
+            {% if fruit.image %}
+            <img src="{{ url_for('static', filename='images/' + fruit.image) }}" class="card-img-top fruit-img" alt="{{ fruit.name }}">
+            {% else %}
+            <div class="bg-secondary text-white text-center py-5">No Image Available</div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ fruit.name }}</h5>
+                <span class="badge-effect badge-effect-{{ fruit.rarity.lower() }}">
+                    <span class="badge-text">{{ fruit.rarity }}</span>
+                </span>
+                {% if fruit.type %}
+                <span class="badge type-badge type-{{ fruit.type.lower() }}">{{ fruit.type }}</span>
+                {% endif %}
+                <p class="card-text">{{ fruit.description[:100] }}{% if fruit.description|length > 100 %}...{% endif %}</p>
+                <a href="{{ url_for('fruit_detail', fruit_id=fruit.id) }}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if bosses %}
+<h2 class="h4 mb-3">Bosses ({{ bosses|length }})</h2>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+    {% for boss in bosses %}
+    <div class="col">
+        <div class="card h-100">
+            {% if boss.image %}
+            <img src="{{ url_for('static', filename='images/' + boss.image) }}" class="card-img-top boss-img" alt="{{ boss.name }}">
+            {% else %}
+            <div class="bg-secondary text-white text-center py-5">No Image Available</div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ boss.name }}</h5>
+                <p class="card-text">{{ boss.description[:100] }}{% if boss.description|length > 100 %}...{% endif %}</p>
+                <div class="d-flex justify-content-between mb-2">
+                    <span><strong>Location:</strong></span>
+                    <span>{{ boss.location }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span><strong>HP:</strong></span>
+                    <span>{{ boss.health }}</span>
+                </div>
+                <a href="{{ url_for('boss_detail', boss_id=boss.id) }}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if maps %}
+<h2 class="h4 mb-3">Maps ({{ maps|length }})</h2>
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+    {% for map in maps %}
+    <div class="col">
+        <div class="card h-100">
+            {% if map.image %}
+            <img src="{{ url_for('static', filename='images/' + map.image) }}" class="card-img-top" alt="{{ map.name }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <div class="bg-secondary text-white text-center py-5">No Image Available</div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ map.name }}</h5>
+                <p class="card-text">{{ map.description[:100] }}{% if map.description|length > 100 %}...{% endif %}</p>
+                <div class="d-flex justify-content-between mb-2">
+                    <span><strong>Level Requirement:</strong></span>
+                    <span>{{ map.level_requirement if map.level_requirement else "None" }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span><strong>EXP Multiplier:</strong></span>
+                    <span>{{ map.exp_multiplier }}x</span>
+                </div>
+                <a href="{{ url_for('maps') }}" class="btn btn-primary">View All Maps</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if codes %}
+<h2 class="h4 mb-3">Codes ({{ codes|length }})</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Code</th>
+                <th>Reward</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for code in codes %}
+            <tr>
+                <td><code>{{ code.code }}</code></td>
+                <td>{{ code.reward }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary copy-code" data-code="{{ code.code }}">
+                        <i class="fas fa-copy me-1"></i> Copy
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ url_for('codes') }}" class="btn btn-outline-primary">View All Codes</a>
+{% endif %}
+
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Copy code functionality
+        const copyButtons = document.querySelectorAll('.copy-code');
+        
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const code = this.getAttribute('data-code');
+                navigator.clipboard.writeText(code).then(() => {
+                    // Change button text temporarily
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check me-1"></i> Copied!';
+                    this.classList.replace('btn-primary', 'btn-success');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalHTML;
+                        this.classList.replace('btn-success', 'btn-primary');
+                    }, 2000);
+                });
+            });
+        });
+    });
+</script>
+{% endblock %} 

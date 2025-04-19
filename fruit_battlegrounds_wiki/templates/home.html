@@ -1,0 +1,593 @@
+{% extends "base.html" %}
+
+{% block title %}Fruit Battlegrounds Wiki - The Ultimate Resource{% endblock %}
+
+{% block content %}
+<div class="hero-section custom-hero">
+    <!-- <div id="particles-js"></div> -->
+    <!-- <div id="cursor-glow-effect"></div> -->
+    <div class="container position-relative">
+        <div class="text-center hero-content">
+            <h1 class="display-5 mb-3 text-center text-gradient" data-aos="fade-down" data-aos-delay="100">Welcome to the Ultimate Fruit Battlegrounds Wiki</h1>
+            <p class="lead mb-3" data-aos="fade-up" data-aos-delay="300">Your comprehensive resource for fruits, bosses, maps, codes, and everything else in Fruit Battlegrounds!</p>
+            <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="500">
+                <div class="col-md-3 mb-2">
+                    <a href="{{ url_for('fruits') }}" style="text-decoration: none;">
+                        <button class="continue-application w-100">
+                            <div>
+                                <div class="folder">
+                                    <div class="top">
+                                        <svg viewBox="0 0 24 27">
+                                            <path d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="paper"></div>
+                                </div>
+                            </div>
+                            Explore Fruits
+                    </button>
+                    </a>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <a href="{{ url_for('bosses') }}" style="text-decoration: none;">
+                        <button class="boss-guide-button w-100">
+                            <span>Boss Guide</span><i></i>
+                    </button>
+                    </a>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <a href="{{ url_for('codes') }}" style="text-decoration: none;">
+                        <button class="redeem-code-button w-100">
+                            Redeem Codes
+                            <div class="star-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <defs></defs>
+                                    <g id="Layer_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                        <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="star-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <defs></defs>
+                                    <g id="Layer_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                        <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="star-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <defs></defs>
+                                    <g id="Layer_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                        <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="star-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <defs></defs>
+                                    <g id="Layer_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                        <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="star-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <defs></defs>
+                                    <g id="Layer_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                        <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="star-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <defs></defs>
+                                    <g id="Layer_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                        <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                    </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="hero-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape-pirate shape-jolly-roger"></div>
+        <div class="shape-pirate shape-straw-hat"></div>
+        <div class="shape-pirate shape-devil-fruit"></div>
+    </div> -->
+    <!-- <div class="ocean-waves">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+    </div> -->
+</div>
+
+<div class="container mt-5 mb-5 pb-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Latest Updates Section -->
+            <section class="mb-5" data-aos="fade-right">
+                <h2 class="section-title">Latest Updates</h2>
+                <div class="card update-card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Leopard V2 Update (v20)</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">March 17, 2025</h6>
+                        <p class="card-text">
+                            <ul class="update-list">
+                                <li>LeopardV2 added</li>
+                                <li>Snow added</li>
+                                <li>Rebirth system added (can be found in Onigashima)</li>
+                                <li>Rayleigh NPC added (can be found in The Live Floor)</li>
+                                <li>Leopard is now a Legendary rarity due to LeopardV2 being added</li>
+                                <li>Reverted the Christmas map back to original</li>
+                                <li>New Titles added</li>
+                                <li>Many bug fixes and balance changes</li>
+                            </ul>
+                        </p>
+                        <a href="{{ url_for('updates') }}" class="btn btn-primary">See All Updates</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Content Section -->
+            <section class="mb-5" data-aos="fade-up">
+                <h2 class="section-title">Featured Content</h2>
+                <div class="row g-4">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="featured-item card h-100 shadow-sm">
+                            <img src="{{ url_for('static', filename='images/home/leopardv2.jpg') }}" alt="Leopard V2" class="card-img-top">
+                            <div class="card-body d-flex flex-column">
+                                <h4 class="card-title text-primary">Leopard V2</h4>
+                                <p class="card-text">The newest mythical fruit added in Update 20</p>
+                                <div class="mt-auto">
+                                    <a href="{{ url_for('fruits') }}" class="btn btn-outline-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="featured-item card h-100 shadow-sm">
+                            <img src="{{ url_for('static', filename='images/home/rebirth.jpg') }}" alt="Rebirth System" class="card-img-top">
+                            <div class="card-body d-flex flex-column">
+                                <h4 class="card-title text-primary">Rebirth System</h4>
+                                <p class="card-text">Reset your progress for powerful permanent bonuses</p>
+                                <div class="mt-auto">
+                                    <a href="{{ url_for('mechanics') }}" class="btn btn-outline-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="featured-item card h-100 shadow-sm">
+                            <img src="{{ url_for('static', filename='images/home/tournament.jpg') }}" alt="The Tournament" class="card-img-top">
+                            <div class="card-body d-flex flex-column">
+                                <h4 class="card-title text-primary">The Tournament</h4>
+                                <p class="card-text">Test your skills in PvP battles</p>
+                                <div class="mt-auto">
+                                    <a href="{{ url_for('maps') }}" class="btn btn-outline-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="featured-item card h-100 shadow-sm">
+                            <img src="{{ url_for('static', filename='images/home/kaido.jpg') }}" alt="Kaido Boss" class="card-img-top">
+                            <div class="card-body d-flex flex-column">
+                                <h4 class="card-title text-primary">Kaido Boss Guide</h4>
+                                <p class="card-text">Strategies to defeat the King of Beasts</p>
+                                <div class="mt-auto">
+                                    <a href="{{ url_for('bosses') }}" class="btn btn-outline-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <div class="col-lg-4">
+            <!-- Quick Guide Section -->
+            <div class="card mb-4 shadow-sm" data-aos="fade-left" data-aos-delay="100">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Quick Guide for New Players</h4>
+                </div>
+                <div class="card-body">
+                    <ol class="mb-0">
+                        <li class="mb-2">Start by spinning for your first fruit</li>
+                        <li class="mb-2">Level up by defeating NPCs or participating in boss fights</li>
+                        <li class="mb-2">Use codes to get free Gems for more fruit spins</li>
+                        <li class="mb-2">Defeat Marco in Dressrosa for EXP and Gems</li>
+                        <li class="mb-2">Reach level 200 to access Onigashima</li>
+                        <li class="mb-2">Upgrade your fruit abilities to become stronger</li>
+                    </ol>
+                    <a href="{{ url_for('leveling_guide') }}" class="btn btn-primary mt-3 w-100">Read Full Guide</a>
+                </div>
+            </div>
+
+            <!-- Latest Codes Section -->
+            <div class="card mb-4 shadow-sm" data-aos="fade-left" data-aos-delay="200">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Latest Codes</h4>
+                </div>
+                <div class="card-body">
+                    <div class="code-container mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="code-text fw-bold">OMG9HUNDRED!</span>
+                            <button class="btn btn-sm btn-outline-primary copy-code-btn" data-code="OMG9HUNDRED!">Copy</button>
+                        </div>
+                        <small class="text-muted">Rewards: 700 Gems</small>
+                    </div>
+                    <div class="code-container mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="code-text fw-bold">MAGNIFICENT890K!!</span>
+                            <button class="btn btn-sm btn-outline-primary copy-code-btn" data-code="MAGNIFICENT890K!!">Copy</button>
+                        </div>
+                        <small class="text-muted">Rewards: 500 Gems</small>
+                    </div>
+                    <div class="code-container mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="code-text fw-bold">BIGDAY</span>
+                            <button class="btn btn-sm btn-outline-primary copy-code-btn" data-code="BIGDAY">Copy</button>
+                        </div>
+                        <small class="text-muted">Rewards: 350 Gems</small>
+                    </div>
+                    <a href="{{ url_for('codes') }}" class="btn btn-primary mt-2 w-100">View All Codes</a>
+                </div>
+            </div>
+
+            <!-- Fruit Rarities Section -->
+            <div class="card shadow-sm" data-aos="fade-left" data-aos-delay="300">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Fruit Rarities</h4>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Common</span>
+                            <span class="badge-effect badge-effect-common">
+                                <span class="badge-text">63.6%</span>
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Uncommon</span>
+                            <span class="badge-effect badge-effect-uncommon">
+                                <span class="badge-text">25.8%</span>
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Rare</span>
+                            <span class="badge-effect badge-effect-rare">
+                                <span class="badge-text">5.2%</span>
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Epic</span>
+                            <span class="badge-effect badge-effect-epic">
+                                <span class="badge-text">3.94%</span>
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Legendary</span>
+                            <span class="badge-effect badge-effect-legendary">
+                                <canvas class="legendary-shine-canvas"></canvas>
+                                <span class="badge-text">1.03%</span>
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Mythical</span>
+                            <span class="badge-effect badge-effect-mythical">
+                                <canvas class="mythical-lightning-canvas"></canvas>
+                                <span class="badge-text">0.16%</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.custom-hero {
+    /* Removed gradient and background image */
+    background-color: #2c3e50; /* Simple solid dark blue/grey background */
+    /* background: linear-gradient(135deg, rgba(0, 12, 41, 0.85) 0%, rgba(46, 76, 116, 0.85) 50%, rgba(76, 25, 100, 0.85) 100%), 
+                url("{{ url_for('static', filename='images/home/hero-bg.jpg') }}"); */
+    /* background-size: cover; */
+    /* background-position: center; */
+    position: relative;
+    overflow: hidden;
+    padding: 40px 0;
+    height: auto; /* Adjust height automatically */
+    min-height: 300px; /* Reduced min-height */
+    display: flex;
+    align-items: center;
+}
+
+/* Particle effect container */
+/* #particles-js { ... } */ /* Styles for removed element can be removed or commented */
+
+.hero-content {
+    position: relative;
+    z-index: 5;
+}
+
+/* Text gradient effect */
+.text-gradient {
+    background: linear-gradient(90deg, #ff9900, #ff5722);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(255, 87, 34, 0.2);
+}
+
+/* Glowing button effect */
+.btn-glow {
+    position: relative;
+    color: white;
+    background: linear-gradient(45deg, #ff5722, #ff9800);
+    border: none;
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.btn-glow:hover {
+    box-shadow: 0 8px 25px rgba(255, 87, 34, 0.6);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-glow:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn-glow:hover:before {
+    left: 100%;
+}
+
+/* Pushable button styles */
+.pushable {
+  position: relative;
+  background: transparent;
+  padding: 0px;
+  border: none;
+  cursor: pointer;
+  outline-offset: 4px;
+  outline-color: var(--primary-color);
+  transition: filter 250ms;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  filter: blur(2px);
+  will-change: transform;
+  transform: translateY(2px);
+  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+.edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  background: linear-gradient(
+    to right,
+    hsl(209, 90%, 40%) 0%,
+    hsl(209, 90%, 50%) 8%,
+    hsl(209, 90%, 40%) 92%,
+    hsl(209, 90%, 30%) 100%
+  );
+}
+
+.front {
+  display: block;
+  position: relative;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #2962ff, #3d5afe);
+  padding: 10px 20px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.9rem;
+  transform: translateY(-4px);
+  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+.btn-link {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-link:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.pushable:hover {
+  filter: brightness(110%);
+}
+
+.pushable:hover .front {
+  transform: translateY(-6px);
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+  box-shadow: 0 0 15px rgba(57, 108, 240, 0.4);
+}
+
+.pushable:active .front {
+  transform: translateY(-2px);
+  transition: transform 34ms;
+  box-shadow: 0 0 5px rgba(57, 108, 240, 0.4);
+}
+
+.pushable:hover .shadow {
+  transform: translateY(4px);
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+.pushable:active .shadow {
+  transform: translateY(1px);
+  transition: transform 34ms;
+}
+
+.pushable:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Animated shapes */
+/* .hero-shapes { ... } */ /* Styles for removed element can be removed or commented */
+
+/* One Piece themed elements */
+/* .shape-pirate { ... } */ /* Styles for removed element can be removed or commented */
+
+/* Ocean waves animation */
+/* .ocean-waves { ... } */ /* Styles for removed element can be removed or commented */
+
+.hover-scale:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.update-list li {
+    margin-bottom: 8px;
+}
+
+.fade-in {
+    /* Remove or comment out old opacity/animation properties if they conflict with AOS */
+    /* opacity: 1 !important; */ /* Or ensure AOS handles opacity */
+    /* animation: none !important; */
+}
+
+/* Featured content image styles */
+.featured-item .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    transition: transform 0.3s ease;
+}
+
+.featured-item:hover .card-img-top {
+    transform: scale(1.05);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<!-- Particles.js -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize particles.js
+    /* Commented out particle initialization
+    if(typeof particlesJS !== 'undefined') {
+        particlesJS("particles-js", {
+           // ... particle config ...
+        });
+    }
+    */
+    
+    // Add functionality to copy code buttons
+    const copyButtons = document.querySelectorAll('.copy-code-btn');
+    
+    copyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const code = this.getAttribute('data-code');
+            navigator.clipboard.writeText(code)
+                .then(() => {
+                    const originalText = this.textContent;
+                    this.textContent = 'Copied!';
+                    this.classList.replace('btn-outline-primary', 'btn-success');
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.classList.replace('btn-success', 'btn-outline-primary');
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+        });
+    });
+    
+    // Remove old scroll animation check if it exists
+    /*
+    const fadeElements = document.querySelectorAll('.fade-in');
+    function checkScroll() { ... }
+    window.removeEventListener('scroll', checkScroll);
+    */
+
+    // Cursor Glow Effect Logic
+    /* Commented out glow effect logic
+    const heroSection = document.querySelector('.custom-hero');
+    const glowEffect = document.getElementById('cursor-glow-effect');
+
+    if (heroSection && glowEffect) {
+        heroSection.addEventListener('mousemove', (e) => {
+            const rect = heroSection.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            glowEffect.style.left = `${x}px`;
+            glowEffect.style.top = `${y}px`;
+            glowEffect.style.opacity = '1'; // Show on move
+        });
+
+        heroSection.addEventListener('mouseenter', () => {
+            glowEffect.style.opacity = '1'; // Fade in
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            glowEffect.style.opacity = '0'; // Fade out
+        });
+    }
+    */
+    
+});
+</script>
+{% endblock %} 

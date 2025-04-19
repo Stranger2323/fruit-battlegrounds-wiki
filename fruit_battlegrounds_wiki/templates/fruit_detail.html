@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block title %}{{ fruit.name }} Fruit - Fruit Battlegrounds Wiki{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4" data-aos="fade-right">
+        <div class="card mb-4" data-aos="fade-up" data-aos-delay="50">
+            {% if fruit.image %}
+            <img src="{{ url_for('static', filename='images/fruits/' + fruit.image) }}" alt="{{ fruit.name }}" class="img-fluid card-img-top fruit-img">
+            {% else %}
+            <div class="bg-secondary text-white text-center py-5 card-img-top d-flex align-items-center justify-content-center">No Image Available</div>
+            {% endif %}
+            <div class="card-body bg-rarity-{{ fruit.rarity.lower() }}">
+                <h1 class="card-title">{{ fruit.name }}</h1>
+                <span class="badge-effect badge-effect-{{ fruit.rarity.lower() }}">
+                    {# Add canvas for Mythical or Legendary #}
+                    {% if fruit.rarity.lower() == 'mythical' %}
+                    <canvas class="mythical-lightning-canvas"></canvas>
+                    {% elif fruit.rarity.lower() == 'legendary' %}
+                    <canvas class="legendary-shine-canvas"></canvas>
+                    {% endif %}
+                    <span class="badge-text">{{ fruit.rarity }}</span>
+                </span>
+                {% if fruit.type %}
+                <span class="badge type-badge type-{{ fruit.type.lower() }}">{{ fruit.type }}</span>
+                {% endif %}
+                <p class="card-text">{{ fruit.description }}</p>
+                <div class="d-flex justify-content-between">
+                    <span><strong>Drop Rate:</strong></span>
+                    <span>{{ fruit.drop_rate }}%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">How to Obtain</h5>
+            </div>
+            <div class="card-body">
+                <p>This fruit can be obtained through:</p>
+                <ul>
+                    <li>Spinning ({{ fruit.drop_rate }}% chance)</li>
+                    {% for drop in fruit.fruit_drops %}
+                    <li>
+                        {{ drop.boss.name }} ({{ drop.drop_rate }}% chance when defeating)
+                    </li>
+                    {% endfor %}
+                    
+                    {% if fruit.rarity.lower() != 'common' and not fruit.name.endswith('V2') %}
+                    <li>
+                        Rebirth system (from a lower rarity fruit)
+                    </li>
+                    {% endif %}
+                </ul>
+                
+                {% if fruit.rarity.lower() != 'mythical' and not fruit.name.endswith('V2') %}
+                <div class="mt-3">
+                    <h6>Rebirth to Higher Rarity:</h6>
+                    <p>
+                        You can rebirth this {{ fruit.rarity.lower() }} fruit to get a 
+                        {% if fruit.rarity.lower() == 'common' %}uncommon
+                        {% elif fruit.rarity.lower() == 'uncommon' %}rare
+                        {% elif fruit.rarity.lower() == 'rare' %}epic
+                        {% elif fruit.rarity.lower() == 'epic' %}legendary
+                        {% elif fruit.rarity.lower() == 'legendary' %}mythical{% endif %} 
+                        fruit. Requirements:
+                    </p>
+                    <ul>
+                        <li>Max level (300) {{ fruit.name }} fruit</li>
+                        <li>
+                            {% if fruit.rarity.lower() == 'common' %}250
+                            {% elif fruit.rarity.lower() == 'uncommon' %}500
+                            {% elif fruit.rarity.lower() == 'rare' %}2,500
+                            {% elif fruit.rarity.lower() == 'epic' %}10,000
+                            {% elif fruit.rarity.lower() == 'legendary' %}25,000{% endif %} 
+                            Gems
+                        </li>
+                        <li>Talk to Rayleigh at Onigashima's Live Floor</li>
+                    </ul>
+                </div>
+                {% endif %}
+                
+                {% if fruit.name == 'Leopard' %}
+                <div class="alert alert-info mt-3">
+                    <strong>Update 20 Change:</strong> Leopard has been moved from Mythical to Legendary rarity with the introduction of LeopardV2.
+                </div>
+                {% endif %}
+                
+                {% if fruit.name == 'LeopardV2' or fruit.name == 'Snow' %}
+                <div class="alert alert-success mt-3">
+                    <strong>New in Update 20:</strong> This fruit was added in Update 20 (March 2025).
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card" data-aos="fade-up" data-aos-delay="200">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Tips & Strategies</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    {% if fruit.name == "Barrier" %}
+                    <li>Use Barrier Wall to protect yourself from projectile attacks</li>
+                    <li>Barrier Prison can be used to trap enemies</li>
+                    <li>Great for defensive playstyle</li>
+                    {% elif fruit.name == "Lightning" %}
+                    <li>One of the fastest fruits for travel with Light Flight</li>
+                    <li>Raigo has large AoE damage, perfect for boss fights</li>
+                    <li>Thunder Spear has quick activation for combos</li>
+                    {% elif fruit.name == "Snow" %}
+                    <li>Use the freezing abilities to immobilize opponents</li>
+                    <li>Snow's area control makes it excellent for both PvP and boss fights</li>
+                    <li>Combine cold-based attacks for devastating combos</li>
+                    {% elif fruit.name == "LeopardV2" %}
+                    <li>Utilize the enhanced transformation abilities for maximum damage</li>
+                    <li>Fast movements and agility make this perfect for aggressive playstyles</li>
+                    <li>Mix transformation attacks with regular abilities for unpredictable combos</li>
+                    {% else %}
+                    <li>Use abilities in combos for maximum damage</li>
+                    <li>Practice timing your moves to avoid being countered</li>
+                    <li>Learn the cooldown timings of your abilities</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8" data-aos="fade-left" data-aos-delay="100">
+        <div data-aos="fade-up" data-aos-delay="150">
+            <h2 class="section-title">Abilities</h2>
+            <div class="abilities-list">
+                {% for ability in fruit.abilities %}
+                <div class="card mb-3" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 + 200 }}">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <span class="ability-key">{{ ability.key }}</span>
+                            <h5 class="mb-0 ms-2">{{ ability.name }}</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ ability.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="300">
+            <h2 class="section-title mt-5">Combos</h2>
+            <div class="card">
+                <div class="card-body">
+                    {% if fruit.name == "Barrier" %}
+                    <div class="mb-3">
+                        <h5>Barrier Trap</h5>
+                        <p>1. Use Barrier Prison (C) to trap your opponent</p>
+                        <p>2. Place Barrier Towers (V) adjacent to the prison</p>
+                        <p>3. When the prison ends, the opponent will be knocked into the towers for additional damage</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Defensive Setup</h5>
+                        <p>1. Place Barrier Wall (Z) to block projectiles</p>
+                        <p>2. Use Surprise Attack (X) when enemies get close</p>
+                        <p>3. Create distance and repeat</p>
+                    </div>
+                    {% elif fruit.name == "Lightning" %}
+                    <div class="mb-3">
+                        <h5>Lightning Burst</h5>
+                        <p>1. Use Light Flight (F) to approach quickly</p>
+                        <p>2. Launch Thunder Spear (C) for stun</p>
+                        <p>3. Follow up with Lightning Ray (Z) spam</p>
+                        <p>4. Finish with El Thor (V)</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Area Control</h5>
+                        <p>1. Use Raigo (X) to clear an area</p>
+                        <p>2. Follow up with Lightning Ray (Z) to hit enemies trying to escape</p>
+                    </div>
+                    {% elif fruit.name == "Snow" %}
+                    <div class="mb-3">
+                        <h5>Freeze and Strike</h5>
+                        <p>1. Use freezing abilities to immobilize opponents</p>
+                        <p>2. Follow up with heavy damage attacks while they can't move</p>
+                        <p>3. Create distance with snow mobility techniques if needed</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Blizzard Control</h5>
+                        <p>1. Create a snowstorm area to control the battlefield</p>
+                        <p>2. Use rapid attacks while enemies are slowed in your territory</p>
+                    </div>
+                    {% elif fruit.name == "LeopardV2" %}
+                    <div class="mb-3">
+                        <h5>Predator Pounce</h5>
+                        <p>1. Transform into leopard form for enhanced abilities</p>
+                        <p>2. Use high-speed movement to close distance</p>
+                        <p>3. Chain fast claw attacks for massive damage</p>
+                        <p>4. Utilize afterimage techniques to confuse opponents</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Hunter's Prowl</h5>
+                        <p>1. Use stealth techniques to approach undetected</p>
+                        <p>2. Surprise with a devastating transformation attack</p>
+                        <p>3. Follow up with rapid strikes before they can recover</p>
+                    </div>
+                    {% else %}
+                    <p>Combo suggestions for this fruit will be added soon. Check back later!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="400">
+            <h2 class="section-title mt-5">PvP Tier Ranking</h2>
+            <div class="card">
+                <div class="card-body">
+                    {% if fruit.rarity == "Mythical" %}
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-success fw-bold" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">S Tier</div>
+                    </div>
+                    <p>This fruit is considered one of the strongest in PvP due to its high damage output, mobility, and versatility.</p>
+                    {% elif fruit.rarity == "Legendary" %}
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-success fw-bold" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">A Tier</div>
+                    </div>
+                    <p>A strong fruit with good damage and utility, but may lack in some areas compared to Mythical fruits.</p>
+                    {% elif fruit.rarity == "Epic" %}
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-info fw-bold" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">B Tier</div>
+                    </div>
+                    <p>A decent fruit for PvP with some good abilities, but outclassed by higher rarity fruits.</p>
+                    {% else %}
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-warning text-dark fw-bold" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">C Tier</div>
+                    </div>
+                    <p>This fruit is not recommended for serious PvP. Consider using a higher rarity fruit if available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="500">
+            <h2 class="section-title mt-5">Community Builds</h2>
+            <div class="card">
+                <div class="card-body">
+                    <p>These are some recommended stat distributions for {{ fruit.name }} users:</p>
+                    {% if fruit.name == "Barrier" %}
+                    <div class="mb-3">
+                        <h5>Defensive Build</h5>
+                        <div class="row">
+                            <div class="col-6">Health: 75%</div>
+                            <div class="col-6">Energy: 25%</div>
+                        </div>
+                        <p class="mt-2">Focuses on survival and outlasting opponents.</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Balanced Build</h5>
+                        <div class="row">
+                            <div class="col-6">Health: 50%</div>
+                            <div class="col-6">Energy: 50%</div>
+                        </div>
+                        <p class="mt-2">A good all-around build for both offense and defense.</p>
+                    </div>
+                    {% elif fruit.name == "Lightning" %}
+                    <div class="mb-3">
+                        <h5>Glass Cannon</h5>
+                        <div class="row">
+                            <div class="col-6">Health: 30%</div>
+                            <div class="col-6">Energy: 70%</div>
+                        </div>
+                        <p class="mt-2">Maximizes damage output but is fragile.</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Balanced</h5>
+                        <div class="row">
+                            <div class="col-6">Health: 50%</div>
+                            <div class="col-6">Energy: 50%</div>
+                        </div>
+                        <p class="mt-2">Good balance between survivability and damage.</p>
+                    </div>
+                    {% elif fruit.name == "Snow" %}
+                    <div class="mb-3">
+                        <h5>Area Control Build</h5>
+                        <div class="row">
+                            <div class="col-6">Health: 40%</div>
+                            <div class="col-6">Energy: 60%</div>
+                        </div>
+                        <p class="mt-2">Focuses on maintaining snow abilities for longer periods.</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Freeze Specialist</h5>
+                        <div class="row">
+                            <div class="col-6">Health: 45%</div>
+                            <div class="col-6">Energy: 55%</div>
+                        </div>
+                        <p class="mt-2">Balances survivability with ability to keep enemies frozen.</p>
+                    </div>
+                    {% elif fruit.name == "LeopardV2" %}
+                    <div class="mb-3">
+                        <h5>Predator Build</h5>
+                        <div class="row">
+                            <div class="col-6">Health: 35%</div>
+                            <div class="col-6">Energy: 65%</div>
+                        </div>
+                        <p class="mt-2">Maximizes transformation abilities and attack power.</p>
+                    </div>
+                    <div class="mb-3">
+                        <h5>Agility Build</h5>
+                        <div class="row">
+                            <div class="col-6">Health: 40%</div>
+                            <div class="col-6">Energy: 60%</div>
+                        </div>
+                        <p class="mt-2">Focuses on speed and mobility while maintaining decent attack power.</p>
+                    </div>
+                    {% else %}
+                    <p>Community builds for this fruit will be added soon. Check back later!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
