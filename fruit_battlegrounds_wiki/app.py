@@ -2,11 +2,27 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
+from sqlalchemy import inspect
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fruit_battlegrounds.db'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key_for_dev') # Read from env var
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///fruit_battlegrounds.db') # Read from env var, fallback to sqlite
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+# Function to create tables if they don't exist
+def create_tables():
+    with app.app_context():
+        inspector = inspect(db.engine)
+        if not inspector.has_table('fruit'):  # Check one representative table
+            print("Creating database tables...")
+            db.create_all()
+            print("Database tables created.")
+        else:
+            print("Database tables already exist.")
+
+# Call table creation check on startup
+create_tables()
 
 # Database Models
 class Fruit(db.Model):
@@ -1242,4 +1258,5 @@ def add_tournament():
     return response
 
 if __name__ == '__main__':
+    # Remove db.create_all() from here as it's handled by create_tables()
     app.run(debug=True) 
