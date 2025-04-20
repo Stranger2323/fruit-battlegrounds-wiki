@@ -14,12 +14,21 @@ db = SQLAlchemy(app)
 def create_tables():
     with app.app_context():
         inspector = inspect(db.engine)
-        if not inspector.has_table('fruit'):  # Check one representative table
-            print("Creating database tables...")
-            db.create_all()
-            print("Database tables created.")
+        existing_tables = inspector.get_table_names()
+        print(f"Existing tables in database: {existing_tables}") # Add logging
+        # Check if 'fruit' table is missing
+        if 'fruit' not in existing_tables:
+            print("Detected missing 'fruit' table. Attempting to create all tables...")
+            try:
+                db.create_all()
+                print("Database tables created successfully via db.create_all().")
+                # Verify again after creation
+                new_tables = inspector.get_table_names()
+                print(f"Tables after creation attempt: {new_tables}")
+            except Exception as e:
+                print(f"!!! Error during db.create_all(): {e}") # Log specific errors
         else:
-            print("Database tables already exist.")
+            print("Table 'fruit' already exists. Skipping db.create_all().")
 
 # Call table creation check on startup
 create_tables()
