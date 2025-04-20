@@ -16,15 +16,15 @@
         <!-- Added Text Loader Below -->
         <div class="text-loader-card">
           <div class="text-loader">
-            <p>Loading</p>
-            <div class="words">
-              <span class="word">Fruits</span>
-              <span class="word">Rarities</span>
+        <p>Loading</p>
+        <div class="words">
+            <span class="word">Fruits</span>
+            <span class="word">Rarities</span>
               <span class="word">Abilities</span>
               <span class="word">Skills</span>
               <span class="word">Fruits</span> <!-- Repeat for loop -->
-            </div>
-          </div>
+        </div>
+    </div>
         </div>
     </div>
 </div>
@@ -290,90 +290,90 @@
                         <tbody>
                             <tr>
                                 <td>
-                <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
                                         <span class="badge-effect badge-effect-common">
-                        <span class="badge-text">Common</span>
-                    </span>
+                                            <span class="badge-text">Common</span>
+                                        </span>
                                         <span class="progression-arrow">→</span>
                                         <span class="badge-effect badge-effect-uncommon">
-                        <span class="badge-text">Uncommon</span>
-                    </span>
-                </div>
+                                            <span class="badge-text">Uncommon</span>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td>250 Gems</td>
                                 <td rowspan="5">Fruit must be at max level (300)</td>
                             </tr>
                             <tr>
                                 <td>
-                <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
                                         <span class="badge-effect badge-effect-uncommon">
                                             <span class="badge-text">Uncommon</span>
                                         </span>
                                         <span class="progression-arrow">→</span>
                                         <span class="badge-effect badge-effect-rare">
-                        <span class="badge-text">Rare</span>
-                    </span>
-                </div>
+                                            <span class="badge-text">Rare</span>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td>500 Gems</td>
                             </tr>
                             <tr>
                                 <td>
-                <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
                                         <span class="badge-effect badge-effect-rare">
                                             <span class="badge-text">Rare</span>
                                         </span>
                                         <span class="progression-arrow">→</span>
                                         <span class="badge-effect badge-effect-epic">
-                        <span class="badge-text">Epic</span>
-                    </span>
-                </div>
+                                            <span class="badge-text">Epic</span>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td>2,500 Gems</td>
                             </tr>
                             <tr>
                                 <td>
-                <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
                                         <span class="badge-effect badge-effect-epic">
                                             <span class="badge-text">Epic</span>
-                    </span>
+                                        </span>
                                         <span class="progression-arrow">→</span>
                                         <span class="badge-effect badge-effect-legendary">
-                                        <canvas class="legendary-shine-canvas"></canvas>
-                                        <span class="badge-text">Legendary</span>
-                                    </span>
-                                </div>
+                                            <canvas class="legendary-shine-canvas"></canvas>
+                                            <span class="badge-text">Legendary</span>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td>10,000 Gems</td>
                             </tr>
                             <tr>
                                 <td>
-                                <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
                                         <span class="badge-effect badge-effect-legendary">
-                                        <canvas class="legendary-shine-canvas"></canvas>
-                                        <span class="badge-text">Legendary</span>
-                                    </span>
+                                            <canvas class="legendary-shine-canvas"></canvas>
+                                            <span class="badge-text">Legendary</span>
+                                        </span>
                                         <span class="progression-arrow">→</span>
                                         <span class="badge-effect badge-effect-mythical">
-                        <canvas class="mythical-lightning-canvas"></canvas>
-                        <span class="badge-text">Mythical</span>
-                    </span>
-                </div>
+                                            <canvas class="mythical-lightning-canvas"></canvas>
+                                            <span class="badge-text">Mythical</span>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td>25,000 Gems</td>
                             </tr>
                         </tbody>
                     </table>
-            </div>
+                </div>
                 
                 <p class="mt-4">
                     When you Rebirth a Legendary fruit, you are guaranteed a new Mythical fruit that you don't already have. After Rebirth, your fruit level will reset to 1, allowing you to level it up to 300 again with no nerf to gems acquired per level.
-                                </p>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
 /* New Loading Animation Styles */
 .loading-animation-container {
@@ -450,7 +450,7 @@
   border-radius: 30%;
   background: rgba(204, 85, 0, 0.6); /* Changed to Dark Orange with transparency */
   animation: wave 5s linear infinite;
-}
+  }
 
 @keyframes wave {
   0% {
@@ -1064,13 +1064,66 @@
     pointer-events: none;
 }
 </style>
+
+<!-- Mobile Optimization Styles -->
+<style>
+@media (max-width: 767px) {
+    /* Improve fruit grid on mobile */
+    .fruit-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.8rem;
+    }
+    
+    /* Smaller fruit cards for mobile */
+    .fruit-image-container {
+        height: 120px;
+    }
+    
+    /* More compact card body */
+    .fruit-card-inner .card-body {
+        padding: 0.75rem;
+    }
+    
+    /* Smaller card title and text */
+    .fruit-card-inner .card-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .fruit-card-inner .card-text {
+        font-size: 0.8rem;
+    }
+    
+    /* Make rebirth table scroll horizontally */
+    .rebirth-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    /* Adjust section spacing */
+    .section-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Improve search input on mobile */
+    .label > .label-title {
+        translate: 5px -10px;
+        font-size: 0.6rem;
+    }
+    
+    .label:focus-within .input {
+        scale: 1.05;
+    }
+}
+</style>
 {% endblock %}
 
 {% block extra_js %}
 <script>
 // Loading Animation Logic
 document.addEventListener('DOMContentLoaded', function() {
-    const loadingOverlay = document.getElementById('loading-overlay');
+const loadingOverlay = document.getElementById('loading-overlay');
     const contentWrapper = loadingOverlay ? loadingOverlay.querySelector('.loading-content-wrapper') : null;
     
     if (loadingOverlay && contentWrapper) {
@@ -1082,8 +1135,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide loading animation after 1.5 seconds
         setTimeout(function() {
             loadingOverlay.classList.remove('visible'); 
-            loadingOverlay.classList.add('hidden');
-            
+        loadingOverlay.classList.add('hidden');
+        
             // Remove from DOM after transition completes - Adjusted timeout duration
             setTimeout(function() {
                 if (loadingOverlay.parentNode) { 
@@ -1093,8 +1146,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1500); /* Updated duration to 1.5 seconds */
     }
 });
-
-// --- Search Functionality --- 
+    
+    // --- Search Functionality --- 
 document.addEventListener('turbo:load', function() {
     const searchInput = document.getElementById('fruit-search-input');
     const fruitListContainer = document.getElementById('fruit-list');

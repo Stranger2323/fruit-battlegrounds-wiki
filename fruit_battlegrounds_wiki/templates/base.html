@@ -187,6 +187,85 @@
                 display: none;
             }
         }
+        
+        /* Mobile Optimization Styles */
+        @media (max-width: 767px) {
+            /* Navbar Improvements */
+            .navbar {
+                padding: 0.5rem 0;
+            }
+            
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+            
+            .fruit-icon, .pirate-icon {
+                font-size: 1rem;
+            }
+            
+            /* Improve search form on mobile */
+            .search-form {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+            
+            .modern-search {
+                width: 100%;
+            }
+            
+            .modern-search-input {
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            
+            .modern-search-button {
+                height: 40px;
+                width: 40px;
+            }
+            
+            /* Main content padding */
+            main.container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* Footer improvements */
+            footer {
+                padding: 1.5rem 0;
+                text-align: center;
+            }
+            
+            footer h5 {
+                margin-top: 1.5rem;
+                font-size: 1.1rem;
+            }
+            
+            footer .col-md-4:first-child h5 {
+                margin-top: 0;
+            }
+            
+            footer .text-md-end {
+                text-align: center !important;
+                margin-top: 1rem;
+            }
+            
+            /* Back to top button */
+            #back-to-top {
+                width: 40px;
+                height: 40px;
+                margin: 0.75rem !important;
+                font-size: 0.9rem;
+            }
+            
+            /* Improve water animation for better performance */
+            .nav-water-animation {
+                height: 10px;
+            }
+            
+            .water-wave {
+                height: 10px;
+            }
+        }
     </style>
     {% block extra_css %}{% endblock %}
     {% block extra_head %}{% endblock %}

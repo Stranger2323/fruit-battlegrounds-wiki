@@ -172,6 +172,91 @@
 
 {% endif %}
 
+<style>
+/* Mobile Optimization Styles */
+@media (max-width: 767px) {
+    .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+
+    /* Improve card display for results */
+    .row-cols-lg-3 > * {
+        flex: 0 0 auto;
+        width: 100%; /* Stack cards on mobile */
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-img-top {
+        height: 150px; /* Smaller images */
+        object-fit: contain; /* Adjust fit for potentially smaller images */
+    }
+    
+    .fruit-img,
+    .boss-img {
+        object-fit: contain; /* Prevent distortion */
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+    
+    /* Make badges smaller */
+    .badge-effect {
+        min-width: 80px;
+        height: 25px;
+        padding: 2px 8px;
+    }
+    
+    .badge-text {
+        font-size: 0.8rem;
+    }
+    
+    .type-badge {
+        font-size: 0.75rem;
+        padding: 0.3em 0.6em;
+    }
+    
+    /* Improve table display */
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .table th, .table td {
+        padding: 0.6rem;
+    }
+    
+    .copy-code {
+        font-size: 0.85rem;
+    }
+    
+    /* No results section */
+    .alert {
+        font-size: 0.9rem;
+    }
+    
+    .browse-categories .btn {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+    }
+}
+</style>
+
 {% endblock %}
 
 {% block extra_js %}

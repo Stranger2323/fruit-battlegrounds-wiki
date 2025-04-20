@@ -663,6 +663,75 @@
 .boss-grid {
     align-items: start;
 }
+
+/* Mobile Optimization Styles */
+@media (max-width: 767px) {
+    /* Better layout for boss cards */
+    .boss-card {
+        margin-bottom: 1rem;
+    }
+    
+    /* Adjust header to stack properly */
+    .boss-card .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .badge.bg-location {
+        margin-top: 0.5rem;
+        align-self: flex-start;
+    }
+    
+    /* Improve image layout */
+    .boss-image-container {
+        width: 120px;
+        height: 120px;
+        margin: 0.75rem 0;
+    }
+    
+    .no-image-container {
+        width: 120px;
+        height: 120px;
+    }
+    
+    /* Stack stats vertically for more space */
+    .boss-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    /* Adjust spacing in card body */
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    /* Make fruit drop badges wrap better */
+    .fruit-drop-badge {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        margin: 0.2rem;
+    }
+    
+    /* Improve strategy and tips sections */
+    .strategy-container, .tips-body {
+        padding: 10px;
+    }
+    
+    .tips-list li {
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .tip-content p {
+        font-size: 0.9rem;
+    }
+    
+    /* Adjust section spacing */
+    .section-header {
+        margin-bottom: 1.5rem;
+    }
+}
 </style>
 {% endblock %}
 

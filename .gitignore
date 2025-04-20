@@ -16,3 +16,11 @@ __pycache__/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Instance folder (Flask specific)
+instance/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3

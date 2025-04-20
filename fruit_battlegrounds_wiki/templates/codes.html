@@ -628,6 +628,92 @@
 .step-content {
     flex-grow: 1;
 }
+
+/* Mobile Optimization Styles */
+@media (max-width: 767px) {
+    /* Better code grid for mobile */
+    .codes-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    /* More compact code cards */
+    .code-card {
+        padding: 1rem;
+    }
+    
+    .code-text {
+        font-size: 0.9rem;
+    }
+    
+    /* Smaller reward buttons */
+    .reward-btn {
+        width: 100px;
+        height: 36px;
+    }
+    
+    .text {
+        width: 60px;
+        font-size: 12px;
+    }
+    
+    /* Improve redemption steps */
+    .redemption-step {
+        margin-bottom: 1rem;
+    }
+    
+    .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .step-content {
+        font-size: 0.9rem;
+    }
+    
+    /* Accordion improvements */
+    .accordion-button {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .accordion-body {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Copy all button */
+    .btn-copy-all {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Improve card spacing */
+    .card-body {
+        padding: 1rem;
+    }
+    
+    /* Reduce size of icon wrappers */
+    .icon-wrapper {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    
+    /* Section headers */
+    .section-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+}
 </style>
 
 {% endblock %}

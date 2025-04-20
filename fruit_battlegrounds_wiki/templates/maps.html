@@ -898,6 +898,115 @@
     display: flex;
     gap: 0.5rem;
 }
+
+/* Mobile Optimization Styles */
+@media (max-width: 767px) {
+    /* Map cards adjustments */
+    .map-card {
+        margin-bottom: 1rem;
+    }
+    
+    .map-image-container {
+        height: 150px;
+    }
+    
+    /* Improve card body spacing */
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .card-body p {
+        font-size: 0.9rem;
+    }
+    
+    /* Better detail item display */
+    .detail-item {
+        margin-bottom: 0.4rem;
+        padding-bottom: 0.4rem;
+    }
+    
+    /* Accordion improvements */
+    .accordion-button {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .accordion-body {
+        padding: 1rem;
+    }
+    
+    /* Feature lists and tips */
+    .feature-list li, .tips-list li, .rewards-list li {
+        padding: 0.3rem 0;
+        font-size: 0.9rem;
+    }
+    
+    /* Stats card sizing */
+    .stat-card .list-group-item {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Timeline adjustments */
+    .progression-body {
+        padding: 1rem;
+    }
+    
+    .horizontal-timeline {
+        padding: 20px 0;
+    }
+    
+    .timeline-item-horizontal {
+        padding-top: 50px;
+        margin: 0 10px 30px 10px;
+    }
+    
+    .timeline-marker {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .timeline-content-horizontal {
+        padding: 12px;
+    }
+    
+    .timeline-title h4 {
+        font-size: 1rem;
+        margin-top: 0.3rem;
+    }
+    
+    .highlight-item {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Mirror World connected area */
+    .connected-map {
+        padding-top: 0.75rem;
+    }
+    
+    .sub-map-body {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .sub-map-details {
+        flex-wrap: wrap;
+    }
+    
+    /* Section headers */
+    .section-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+}
 </style>
 {% endblock %}
 

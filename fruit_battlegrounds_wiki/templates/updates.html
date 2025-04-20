@@ -1738,6 +1738,97 @@
 .float-animation {
     animation: float 6s ease-in-out infinite;
 }
+
+/* Mobile Optimization Styles */
+@media (max-width: 767px) {
+    /* Improve timeline spacing and layout */
+    .timeline-item {
+        margin-bottom: 1.5rem;
+    }
+    
+    .timeline-content .card-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .timeline-content .card-body {
+        padding: 1rem;
+    }
+    
+    /* Adjust icon wrapper size */
+    .icon-wrapper {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    
+    /* Better card spacing and headers */
+    .card-header h2.h5 {
+        font-size: 1.1rem;
+    }
+    
+    /* Make update features list more compact */
+    .update-features li {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    /* Improve nested cards in update details */
+    .row .card-header {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .row .card-header h5.h6 {
+        font-size: 1rem;
+    }
+    
+    .row .card-body {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Accordion adjustments */
+    .accordion-button {
+        padding: 0.75rem 1rem;
+    }
+    
+    .accordion-body {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Make tables scrollable */
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+    
+    .table th, .table td {
+        padding: 0.5rem;
+    }
+    
+    /* Balance search input */
+    .balance-search-container .input {
+        font-size: 0.9rem;
+        padding: 0.6rem 2rem 0.6rem 2.5rem; /* Adjust padding for icons */
+    }
+    
+    /* Balance change lists */
+    .fruit-change ul li {
+        font-size: 0.85rem;
+    }
+    
+    /* Section headers */
+    .section-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+}
 </style>
 
 {% endblock %}

@@ -446,6 +446,93 @@
     border-radius: 10px;
     overflow: hidden;
 }
+
+/* Mobile Optimization Styles */
+@media (max-width: 767px) {
+    /* Improve card spacing */
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    /* Adjust typography for readability */
+    .card-body h5 {
+        font-size: 1.1rem;
+    }
+    
+    .card-body p, .card-body li {
+        font-size: 0.9rem;
+    }
+    
+    /* Smaller card headers */
+    .card-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .card-header h3.h5 {
+        font-size: 1rem;
+    }
+    
+    /* Make tables more compact and scrollable */
+    .table {
+        font-size: 0.85rem;
+    }
+    
+    .table th, .table td {
+        padding: 0.5rem;
+    }
+    
+    /* Optimize alerts */
+    .alert {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Better badge sizing */
+    .badge {
+        font-size: 0.75rem;
+        min-width: 90px !important;
+    }
+    
+    /* Reduce icon wrapper size */
+    .icon-wrapper {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    
+    /* Adjust section headers */
+    .section-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+    
+    /* Improve list spacing */
+    ol, ul {
+        padding-left: 1.25rem;
+    }
+    
+    /* Adjust list spacing in quick tips */
+    .alert ul li {
+        margin-bottom: 0.25rem;
+    }
+    
+    /* Make roadmap badges more compact */
+    .rounded-pill {
+        padding: 0.4rem 0.6rem !important;
+    }
+}
 </style>
 
 {% endblock %}
