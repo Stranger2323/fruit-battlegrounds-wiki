@@ -6,7 +6,14 @@ from sqlalchemy import inspect
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key_for_dev') # Read from env var
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///fruit_battlegrounds.db') # Read from env var, fallback to sqlite
+
+# Fix PostgreSQL URL if needed (postgres:// -> postgresql://)
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///fruit_battlegrounds.db')
+if database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    print(f"Corrected DATABASE_URL format (postgres:// -> postgresql://)")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url  # Use the potentially corrected URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -29,6 +36,58 @@ def create_tables():
                 print(f"!!! Error during db.create_all(): {e}") # Log specific errors
         else:
             print("Table 'fruit' already exists. Skipping db.create_all().")
+
+# Explicit route to initialize the database
+@app.route('/init-database')
+def init_database():
+    try:
+        # Print database connection info (without sensitive data)
+        engine = db.get_engine()
+        db_info = str(engine.url)
+        # Remove password from logs if present
+        if '@' in db_info:
+            parts = db_info.split('@')
+            user_pass = parts[0].split('://')
+            # Hide password in logs
+            if ':' in user_pass[1]:
+                user, _ = user_pass[1].split(':', 1)
+                db_info = f"{user_pass[0]}://{user}:***@{parts[1]}"
+                
+        result = f"<h1>Database Initialization</h1>"
+        result += f"<p>Database URL (masked): {db_info}</p>"
+        
+        # Try to create all tables explicitly
+        with app.app_context():
+            try:
+                # This runs SQL commands to create the tables
+                db.create_all()
+                result += "<p>✅ Tables created successfully</p>"
+                
+                # Verify tables were actually created
+                inspector = inspect(db.engine)
+                tables = inspector.get_table_names()
+                result += f"<p>Tables in database after creation: {tables}</p>"
+                
+                if not tables:
+                    # Try creating a test table directly with SQL
+                    with db.engine.connect() as conn:
+                        conn.execute(db.text("CREATE TABLE IF NOT EXISTS test_table (id serial PRIMARY KEY)"))
+                        conn.commit()
+                    
+                    # Check again
+                    tables = inspector.get_table_names()
+                    result += f"<p>Tables after direct SQL test: {tables}</p>"
+                    
+                    if 'test_table' in tables:
+                        result += "<p>⚠️ Direct SQL worked but SQLAlchemy create_all() failed. Check schema settings.</p>"
+                    else:
+                        result += "<p>❌ Even direct SQL failed. Possible permissions issue.</p>"
+            except Exception as e:
+                result += f"<p>❌ Error during table creation: {str(e)}</p>"
+                
+        return result
+    except Exception as e:
+        return f"<h1>Error</h1><p>{str(e)}</p>"
 
 # Call table creation check on startup
 create_tables()
