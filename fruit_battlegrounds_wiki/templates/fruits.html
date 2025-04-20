@@ -119,6 +119,13 @@
         </div>
         {% endfor %}
         </div>
+        <!-- Add the 'no results' message container here -->
+        <div id="no-search-results" class="no-results" style="display: none;">
+            <div class="no-results-content">
+                <i class="fas fa-search-minus"></i>
+                <p>No fruits found matching your search</p>
+            </div>
+        </div>
     </div>
 
     <div class="mt-5 pt-3" id="fruit-types" data-aos="fade-up">
@@ -1148,52 +1155,34 @@ const loadingOverlay = document.getElementById('loading-overlay');
 });
     
     // --- Search Functionality --- 
-document.addEventListener('turbo:load', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('fruit-search-input');
     const fruitListContainer = document.getElementById('fruit-list');
-    const noResultsMessage = document.getElementById('no-search-results') || createNoResultsMessage(); // Ensure message exists
-    const allFruitCards = fruitListContainer ? fruitListContainer.querySelectorAll('.fruit-card') : []; // Handle cases where container might not exist initially
-
-    function createNoResultsMessage() {
-        let msg = document.createElement('div');
-        msg.id = 'no-search-results';
-        msg.className = 'no-results';
-        msg.style.display = 'none'; // Hidden by default
-        msg.innerHTML = '<div class="no-results-content"><i class="fas fa-search-minus"></i><p>No fruits found matching your search</p></div>';
-        // Insert after the fruit list container if possible
-        if (fruitListContainer && fruitListContainer.parentNode) {
-           fruitListContainer.parentNode.insertBefore(msg, fruitListContainer.nextSibling);
-        }
-        return msg;
-    }
+    const noResultsMessage = document.getElementById('no-search-results');
+    const allFruitCards = fruitListContainer ? fruitListContainer.querySelectorAll('.fruit-card') : [];
 
     function handleSearch() {
-        if (!searchInput || !allFruitCards.length) return; // Exit if elements aren't ready
+        if (!searchInput || !allFruitCards.length || !noResultsMessage) return;
 
         const searchTerm = searchInput.value.toLowerCase().trim();
         let visibleCount = 0;
         
         allFruitCards.forEach(card => {
-            const fruitName = card.getAttribute('data-fruit')?.toLowerCase() || ''; // Safer access
+            const fruitName = card.getAttribute('data-fruit')?.toLowerCase() || '';
             const shouldShow = searchTerm === '' || fruitName.includes(searchTerm);
             
-            // Use classes for visibility for smoother transitions potentially
             if (shouldShow) {
-                card.style.display = 'block'; // Or remove a 'hidden' class
+                card.style.display = 'block';
                 visibleCount++;
             } else {
-                card.style.display = 'none'; // Or add a 'hidden' class
+                card.style.display = 'none';
             }
         });
 
-        // Show/hide no results message
-        if (noResultsMessage) {
-            noResultsMessage.style.display = (visibleCount === 0 && searchTerm !== '') ? 'block' : 'none';
-        }
+        noResultsMessage.style.display = (visibleCount === 0 && searchTerm !== '') ? 'block' : 'none';
             
-        // Refresh AOS only if it's defined and needed
         if (typeof AOS !== 'undefined') {
-             AOS.refresh(); // Refresh AOS in case visibility changes affect triggers
+             AOS.refresh();
         }
     }
     
