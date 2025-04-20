@@ -561,11 +561,14 @@ body {
 
 /* Footer */
 footer {
+    background-color: var(--dark-color);
+    color: var(--text-light);
+    padding: 3rem 0;
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+    border-top: 3px solid var(--primary-color);
 }
 
 .footer a {
@@ -656,25 +659,25 @@ footer {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    body {
+        padding-bottom: 150px; /* Reduced padding for smaller screens */
+    }
     .hero-section {
-        padding: 40px 0;
+        padding: 2rem 0;
     }
-
     .hero-section h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
-
     .card-img-top {
         height: 150px;
     }
-
     .section-title {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
     }
-
     .card {
-        margin-bottom: 15px;
+        margin-bottom: 1rem;
     }
+    /* Disable cursor effects handled in base.html style block */
 }
 
 @media (max-width: 576px) {

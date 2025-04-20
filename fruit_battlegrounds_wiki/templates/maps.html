@@ -25,7 +25,7 @@
                     </div>
                     {% if map.image %}
                     <div class="map-image-container">
-                        <img src="{{ url_for('static', filename='images/' + map.image) }}" alt="{{ map.name }}" class="card-img-top map-img">
+                        <img src="{{ url_for('static', filename='images/' + map.image) }}" alt="{{ map.name }}" class="card-img-top map-img img-fluid">
                     </div>
                     {% else %}
                     <div class="bg-secondary text-white text-center py-5">No Image Available</div>

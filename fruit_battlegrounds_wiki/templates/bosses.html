@@ -48,7 +48,7 @@
                     <div class="col-md-4 d-flex justify-content-center align-items-center">
                         {% if boss.image %}
                         <div class="boss-image-container">
-                            <img src="{{ url_for('static', filename='images/bosses/' + boss.image) }}" alt="{{ boss.name }}" class="boss-image">
+                            <img src="{{ url_for('static', filename='images/bosses/' + boss.image) }}" alt="{{ boss.name }}" class="boss-image img-fluid">
                             <div class="boss-image-overlay">
                                 <i class="fas fa-search-plus"></i>
                             </div>
