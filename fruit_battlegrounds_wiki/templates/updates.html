@@ -1496,6 +1496,27 @@
     
 .update-features li {
     margin-bottom: 8px;
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.8em;
+}
+
+.update-features li:before, .card-body ul li:before, .accordion-body ul li:before {
+    content: "\f005"; /* Star icon from Font Awesome */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: #f1c40f; /* Golden yellow color */
+    font-size: 0.9em;
+    transform: translateY(1px);
+}
+
+.card-body ul li, .accordion-body ul li {
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.8em;
+    margin-bottom: 0.5em;
 }
 
 .fruit-balance-changes {
