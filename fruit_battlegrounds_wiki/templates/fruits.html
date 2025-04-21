@@ -538,17 +538,132 @@
 .fruit-image-container {
     height: 180px;
     overflow: hidden;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(240,240,240,0.7) 100%);
+    transform-style: preserve-3d;
+    perspective: 800px;
+}
+
+.fruit-image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%);
+    z-index: 1;
+    opacity: 0.7;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    transform-style: preserve-3d;
+}
+
+.fruit-image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0) 50%, rgba(0,0,0,0.4) 150%);
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+.fruit-card-inner:hover .fruit-image-container::before {
+    opacity: 0.6;
+    transform: translateZ(10px);
+}
+
+.fruit-card-inner:hover .fruit-image-container::after {
+    opacity: 0.4;
 }
 
 .fruit-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
+    object-fit: contain;
+    transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+    transform-origin: center;
+    filter: brightness(0.95);
+    position: relative;
+    z-index: 0;
+    background: rgba(10, 10, 10, 0.03);
+    transform-style: preserve-3d;
 }
 
 .fruit-card-inner:hover .fruit-img {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: brightness(1.05) contrast(1.05);
+    animation: float-rotate 4s ease-in-out infinite;
+}
+
+/* 3D card effect with more dimension */
+.fruit-card-inner {
+    transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 
+                0 3px 6px rgba(0, 0, 0, 0.05);
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+    will-change: transform, box-shadow;
+}
+
+.fruit-card-inner:hover {
+    transform: perspective(1000px) translateY(-5px) translateZ(10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), 
+                0 8px 10px rgba(0, 0, 0, 0.05), 
+                0 0 20px rgba(var(--bs-primary-rgb), 0.1);
+}
+
+/* Additional ambient light effect */
+.fruit-image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%);
+    z-index: 1;
+    opacity: 0.7;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    transform-style: preserve-3d;
+}
+
+.fruit-card-inner:hover .fruit-image-container::before {
+    opacity: 0.6;
+    transform: translateZ(10px);
+}
+
+/* Enhanced dynamic shadow effect */
+.fruit-card-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 5%;
+    width: 90%;
+    height: 15px;
+    background: rgba(0,0,0,0);
+    filter: blur(15px);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.3;
+    transition: all 0.3s ease-out;
+}
+
+.fruit-card-inner:hover::after {
+    opacity: 0.4;
+    height: 10px;
+    filter: blur(10px);
+    bottom: 0px;
 }
 
 /* Custom Accordion */
@@ -1070,6 +1185,113 @@
     filter: blur(5px);
     pointer-events: none;
 }
+
+/* 3D Idle Animation for Fruits */
+@keyframes float-rotate {
+    0% {
+        transform: translateY(0) translateZ(0) rotateY(0deg) rotateX(0deg);
+    }
+    25% {
+        transform: translateY(-5px) translateZ(10px) rotateY(3deg) rotateX(-2deg);
+    }
+    50% {
+        transform: translateY(-2px) translateZ(15px) rotateY(5deg) rotateX(0deg);
+    }
+    75% {
+        transform: translateY(-8px) translateZ(8px) rotateY(2deg) rotateX(3deg);
+    }
+    100% {
+        transform: translateY(0) translateZ(0) rotateY(0deg) rotateX(0deg);
+    }
+}
+
+.fruit-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+    transform-origin: center;
+    filter: brightness(0.95);
+    position: relative;
+    z-index: 0;
+    background: rgba(10, 10, 10, 0.03);
+    transform-style: preserve-3d;
+}
+
+.fruit-card-inner:hover .fruit-img {
+    transform: scale(1.08);
+    filter: brightness(1.05) contrast(1.05);
+    animation: float-rotate 4s ease-in-out infinite;
+}
+
+.fruit-image-container {
+    height: 180px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(240,240,240,0.7) 100%);
+    transform-style: preserve-3d;
+    perspective: 800px;
+}
+
+/* 3D card effect with more dimension */
+.fruit-card-inner {
+    transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 
+                0 3px 6px rgba(0, 0, 0, 0.05);
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+    will-change: transform, box-shadow;
+}
+
+/* Additional ambient light effect */
+.fruit-image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%);
+    z-index: 1;
+    opacity: 0.7;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    transform-style: preserve-3d;
+}
+
+.fruit-card-inner:hover .fruit-image-container::before {
+    opacity: 0.6;
+    transform: translateZ(10px);
+}
+
+/* Enhanced dynamic shadow effect */
+.fruit-card-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 5%;
+    width: 90%;
+    height: 15px;
+    background: rgba(0,0,0,0);
+    filter: blur(15px);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.3;
+    transition: all 0.3s ease-out;
+}
+
+.fruit-card-inner:hover::after {
+    opacity: 0.4;
+    height: 10px;
+    filter: blur(10px);
+    bottom: 0px;
+}
 </style>
 
 <!-- Mobile Optimization Styles -->
@@ -1154,7 +1376,126 @@ const loadingOverlay = document.getElementById('loading-overlay');
     }
 });
     
-    // --- Search Functionality --- 
+// --- 3D Tilt Effect for Fruit Cards ---
+document.addEventListener('DOMContentLoaded', function() {
+    const fruitCards = document.querySelectorAll('.fruit-card-inner');
+    
+    fruitCards.forEach(card => {
+        // Initialize variables to track if animation is active
+        let isHovered = false;
+        let tiltAnimation = null;
+        
+        // Add event listeners
+        card.addEventListener('mouseenter', startTiltEffect);
+        card.addEventListener('mousemove', tiltEffect);
+        card.addEventListener('mouseleave', resetTilt);
+        
+        function startTiltEffect() {
+            isHovered = true;
+            // If there's an active animation, cancel it
+            if (tiltAnimation) {
+                card.style.animation = 'none';
+                cancelAnimationFrame(tiltAnimation);
+                tiltAnimation = null;
+            }
+            
+            // Add specific class for when tilt effect is active
+            card.classList.add('tilt-active');
+            const fruitImg = card.querySelector('.fruit-img');
+            if (fruitImg) {
+                fruitImg.style.animation = 'none';
+                fruitImg.classList.add('tilt-active');
+            }
+        }
+        
+        function tiltEffect(e) {
+            if (!isHovered) return;
+            
+            // Get the dimensions and position of the card
+            const rect = card.getBoundingClientRect();
+            
+            // Calculate the mouse position relative to the center of the card
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            // Calculate how far from center the mouse is (in percentage)
+            const percentX = (mouseX - centerX) / (rect.width / 2);
+            const percentY = (mouseY - centerY) / (rect.height / 2);
+            
+            // Calculate the tilt angles (limit to 15 degrees max)
+            const tiltX = -percentY * 15;
+            const tiltY = percentX * 15;
+            
+            // Apply the tilt effect - more dramatic for the image
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+            
+            // Apply a more dramatic effect to the fruit image
+            const fruitImg = card.querySelector('.fruit-img');
+            if (fruitImg) {
+                const imgTiltX = tiltX * 1.2; // More dramatic tilt
+                const imgTiltY = tiltY * 1.2;
+                const translateZ = 30 + Math.abs(percentX * percentY) * 30; // Dynamic depth
+                fruitImg.style.transform = `rotateX(${imgTiltX}deg) rotateY(${imgTiltY}deg) translateZ(${translateZ}px) scale(1.1)`;
+            }
+            
+            // Dynamic lighting effect based on tilt
+            const imgContainer = card.querySelector('.fruit-image-container');
+            if (imgContainer) {
+                const lightingX = 50 + percentX * 40; // Light position X (10% - 90%)
+                const lightingY = 50 + percentY * 40; // Light position Y (10% - 90%)
+                imgContainer.style.background = `radial-gradient(circle at ${lightingX}% ${lightingY}%, rgba(255,255,255,0.8) 0%, rgba(240,240,240,0.5) 100%)`;
+            }
+        }
+        
+        function resetTilt() {
+            isHovered = false;
+            
+            // Remove tilt-active class
+            card.classList.remove('tilt-active');
+            const fruitImg = card.querySelector('.fruit-img');
+            if (fruitImg) {
+                fruitImg.classList.remove('tilt-active');
+            }
+            
+            // Smooth transition back
+            card.style.transition = 'all 0.5s ease-out';
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            
+            // Reset the fruit image with animation
+            if (fruitImg) {
+                fruitImg.style.transition = 'all 0.5s ease-out';
+                fruitImg.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)';
+                
+                // Restore the original animation after a brief delay
+                setTimeout(() => {
+                    fruitImg.style.transition = '';
+                    fruitImg.style.animation = 'float-rotate 4s ease-in-out infinite';
+                }, 500);
+            }
+            
+            // Reset the background
+            const imgContainer = card.querySelector('.fruit-image-container');
+            if (imgContainer) {
+                imgContainer.style.transition = 'background 0.5s ease-out';
+                imgContainer.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(240,240,240,0.7) 100%)';
+                
+                // Reset the transition property after the transition completes
+                setTimeout(() => {
+                    imgContainer.style.transition = '';
+                }, 500);
+            }
+            
+            // Reset the transition property after the transition completes
+            setTimeout(() => {
+                card.style.transition = '';
+            }, 500);
+        }
+    });
+});
+    
+// --- Search Functionality --- 
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('fruit-search-input');
     const fruitListContainer = document.getElementById('fruit-list');
@@ -1205,12 +1546,6 @@ document.addEventListener('DOMContentLoaded', function() {
        // Initial call in case the input has a value on page load (e.g., back button)
        handleSearch();
     }
-    
-    // Re-initialize badge animations if necessary (since they might be added dynamically or need restart)
-    // Example: if you have functions like initializeMythicalBadges(), call them here.
-    // initializeMythicalBadges(); 
-    // initializeLegendaryBadges();
-
 });
 </script>
 {% endblock %} 

@@ -13,18 +13,20 @@
             {% endif %}
             <div class="card-body bg-rarity-{{ fruit.rarity.lower() }}">
                 <h1 class="card-title">{{ fruit.name }}</h1>
-                <span class="badge-effect badge-effect-{{ fruit.rarity.lower() }}">
-                    {# Add canvas for Mythical or Legendary #}
-                    {% if fruit.rarity.lower() == 'mythical' %}
-                    <canvas class="mythical-lightning-canvas"></canvas>
-                    {% elif fruit.rarity.lower() == 'legendary' %}
-                    <canvas class="legendary-shine-canvas"></canvas>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge-effect badge-effect-{{ fruit.rarity.lower() }} me-2">
+                        {# Add canvas for Mythical or Legendary #}
+                        {% if fruit.rarity.lower() == 'mythical' %}
+                        <canvas class="mythical-lightning-canvas"></canvas>
+                        {% elif fruit.rarity.lower() == 'legendary' %}
+                        <canvas class="legendary-shine-canvas"></canvas>
+                        {% endif %}
+                        <span class="badge-text">{{ fruit.rarity }}</span>
+                    </span>
+                    {% if fruit.type %}
+                    <span class="badge type-badge type-{{ fruit.type.lower() }}">{{ fruit.type }}</span>
                     {% endif %}
-                    <span class="badge-text">{{ fruit.rarity }}</span>
-                </span>
-                {% if fruit.type %}
-                <span class="badge type-badge type-{{ fruit.type.lower() }}">{{ fruit.type }}</span>
-                {% endif %}
+                </div>
                 <p class="card-text">{{ fruit.description }}</p>
                 <div class="d-flex justify-content-between">
                     <span><strong>Drop Rate:</strong></span>

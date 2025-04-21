@@ -36,12 +36,22 @@
                             <div class="detail-item">
                                 <span class="detail-label"><i class="fas fa-signal me-2"></i>Level Requirement:</span>
                                 <span class="detail-value">
-                                    {% if map.level_requirement %}
-                                    <span class="badge bg-{{ 'success' if map.level_requirement == 0 else ('warning' if map.level_requirement < 200 else 'danger') }}">
-                                        {{ 'None' if map.level_requirement == 0 else map.level_requirement }}
-                                    </span>
-                                    {% else %}
-                                    <span class="badge bg-success">None</span>
+                                    {% if map.level_requirement is none %}
+                                        <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #28a745, #20c997); box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);">
+                                            <i class="fas fa-seedling me-1"></i> None
+                                        </span>
+                                    {% elif map.level_requirement == 0 %}
+                                        <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #28a745, #20c997); box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);">
+                                            <i class="fas fa-seedling me-1"></i> None
+                                        </span>
+                                    {% elif map.level_requirement < 200 %}
+                                        <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #ffc107, #fd7e14); box-shadow: 0 2px 5px rgba(255, 193, 7, 0.3);">
+                                            <i class="fas fa-fire me-1"></i> {{ map.level_requirement }}
+                                        </span>
+                                    {% else %} {# Handles >= 200 #}
+                                        <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #dc3545, #b02a37); box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);">
+                                            <i class="fas fa-skull me-1"></i> {{ map.level_requirement }}+
+                                        </span>
                                     {% endif %}
                                 </span>
                             </div>
@@ -51,6 +61,41 @@
                             </div>
                         </div>
                         
+                        <button class="btn btn-primary btn-sm mt-3 w-100 view-map-details" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="{{ map.name }}">
+                            <i class="fas fa-info-circle me-1"></i> View Details
+                        </button>
+
+                        {# Add Tournament connection for Dressrosa #}
+                        {% if map.name == "Dressrosa" %}
+                        <div class="connected-map mt-3">
+                            <div class="connector">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>Special Feature</span>
+                            </div>
+                            <div class="sub-map-card">
+                                <div class="sub-map-header">
+                                    <h6><i class="fas fa-trophy me-2"></i>The Tournament</h6>
+                                </div>
+                                <div class="sub-map-body">
+                                    <p class="small mb-2">PvP mode accessed via Gatz. Requires all abilities unlocked.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="sub-map-details d-flex gap-1">
+                                            <span class="badge rounded-pill px-2 py-1" style="background: linear-gradient(to right, #17a2b8, #0dcaf0); box-shadow: 0 2px 5px rgba(23, 162, 184, 0.3); font-size: 0.75rem;">
+                                                <i class="fas fa-user me-1"></i> Access via Gatz
+                                            </span>
+                                            <span class="badge rounded-pill px-2 py-1" style="background: linear-gradient(to right, #6c757d, #5a6268); box-shadow: 0 2px 5px rgba(108, 117, 125, 0.3); font-size: 0.75rem;">
+                                                <i class="fas fa-check-circle me-1"></i> Req: All Abilities
+                                            </span>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-primary rounded-circle view-map-details p-1" style="width: 28px; height: 28px; font-size: 0.8rem;" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="Tournament" title="View Details">
+                                            <i class="fas fa-info"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
                         {% if map.name == "Whole Cake" %}
                         {% set mirror_world = namespace(found=false) %}
                         {% for submap in maps %}
@@ -67,9 +112,28 @@
                                     </div>
                                     <div class="sub-map-body">
                                         <p class="small mb-2">{{ submap.description | truncate(100) }}</p>
-                                        <div class="sub-map-details">
-                                            <span class="badge bg-warning">Level {{ submap.level_requirement }}</span>
-                                            <span class="badge bg-info">{{ submap.exp_multiplier }}x EXP</span>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="sub-map-details d-flex gap-1">
+                                                {% if submap.level_requirement == 0 %}
+                                                    <span class="badge rounded-pill px-2 py-1" style="background: linear-gradient(to right, #28a745, #20c997); box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3); font-size: 0.75rem;">
+                                                        <i class="fas fa-seedling me-1"></i> None
+                                                    </span>
+                                                {% elif submap.level_requirement < 200 %}
+                                                    <span class="badge rounded-pill px-2 py-1" style="background: linear-gradient(to right, #ffc107, #fd7e14); box-shadow: 0 2px 5px rgba(255, 193, 7, 0.3); font-size: 0.75rem;">
+                                                        <i class="fas fa-fire me-1"></i> Level {{ submap.level_requirement }}
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge rounded-pill px-2 py-1" style="background: linear-gradient(to right, #dc3545, #b02a37); box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3); font-size: 0.75rem;">
+                                                        <i class="fas fa-skull me-1"></i> Level {{ submap.level_requirement }}+
+                                                    </span>
+                                                {% endif %}
+                                                <span class="badge rounded-pill px-2 py-1" style="background: linear-gradient(to right, #0d6efd, #0a58ca); box-shadow: 0 2px 5px rgba(13, 110, 253, 0.3); font-size: 0.75rem;">
+                                                    <i class="fas fa-star me-1"></i> {{ submap.exp_multiplier }}x EXP
+                                                </span>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-primary rounded-circle view-map-details p-1" style="width: 28px; height: 28px; font-size: 0.8rem;" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="Mirror World" title="View Details">
+                                                <i class="fas fa-info"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -84,76 +148,87 @@
         {% endfor %}
     </div>
 
-    <div class="section-header mb-4" data-aos="fade-up" data-aos-delay="300">
-        <h2 class="section-title">Map Details</h2>
-        <div class="section-subtitle">Explore the unique features of each location</div>
-    </div>
-
-    <div class="accordion custom-accordion mb-5" id="mapDetails">
-        <div class="accordion-item border-0 mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="350">
-            <h2 class="accordion-header" id="dressrosaHeader">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#dressrosaCollapse" aria-expanded="true" aria-controls="dressrosaCollapse">
-                    <div class="category-icon me-2"><i class="fas fa-map-marker-alt"></i></div>
-                    Dressrosa
-                </button>
-            </h2>
-            <div id="dressrosaCollapse" class="accordion-collapse collapse show" aria-labelledby="dressrosaHeader" data-bs-parent="#mapDetails">
-                <div class="accordion-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5 class="mb-3">About Dressrosa</h5>
-                            <p>
-                                Dressrosa is the starting area in Fruit Battlegrounds. It features the Corrida Colosseum, 
-                                a forest area, and several buildings for players to explore. This map is accessible to all players
-                                regardless of level.
-                            </p>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-map-pin me-2 text-primary"></i>Key Locations</h5>
-                            <ul class="feature-list">
-                                <li>
-                                    <strong>Corrida Colosseum:</strong> Talk to Gatz here to participate in The Tournament.
-                                    You need all abilities unlocked on your fruit to participate.
-                                </li>
-                                <li>
-                                    <strong>Flower Hill (Forest):</strong> Home to Marco, the Phoenix boss that spawns every hour.
-                                    This is a popular area for farming EXP.
-                                </li>
-                                <li>
-                                    <strong>Soru Cave:</strong> Hidden location where you can unlock the Soru movement technique.
-                                    You need to defeat Marco at least once to access this.
-                                </li>
-                            </ul>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for Dressrosa</h5>
-                            <ul class="tips-list">
-                                <li>Watch the server time to know when Marco will spawn</li>
-                                <li>The Tournament is a good way to test your PvP skills and earn EXP</li>
-                                <li>Explore the forest to find hidden locations and items</li>
-                            </ul>
+    <!-- Hidden templates for map details (Will be used by JavaScript to populate the modal) -->
+    <div id="mapDetailTemplates" style="display: none;">
+        <!-- Dressrosa Details Template -->
+        <div id="dressrosaDetails">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5 class="mb-3">About Dressrosa</h5>
+                    <p>
+                        Dressrosa is the starting area in Fruit Battlegrounds. It features the Corrida Colosseum, 
+                        a forest area, and several buildings for players to explore. This map is accessible to all players
+                        regardless of level.
+                    </p>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-map-pin me-2 text-primary"></i>Key Locations</h5>
+                    <ul class="feature-list">
+                        <li>
+                            <strong>Corrida Colosseum:</strong> Talk to Gatz here to participate in The Tournament.
+                            You need all abilities unlocked on your fruit to participate.
+                        </li>
+                        <li>
+                            <strong>Flower Hill (Forest):</strong> Home to Marco, the Phoenix boss that spawns every hour.
+                            This is a popular area for farming EXP.
+                        </li>
+                        <li>
+                            <strong>Soru Cave:</strong> Hidden location where you can unlock the Soru movement technique.
+                            You need to defeat Marco at least once to access this.
+                        </li>
+                    </ul>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for Dressrosa</h5>
+                    <ul class="tips-list">
+                        <li>Watch the server time to know when Marco will spawn</li>
+                        <li>The Tournament is a good way to test your PvP skills and earn EXP</li>
+                        <li>Explore the forest to find hidden locations and items</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stat-card border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Dressrosa Info</h5>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card stat-card border-0 shadow-sm">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0">Dressrosa Info</h5>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-signal me-2 text-muted"></i>Level Requirement</span>
-                                        <span class="badge bg-success">None</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-chart-line me-2 text-muted"></i>EXP Multiplier</span>
-                                        <span>1.0x</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-dragon me-2 text-muted"></i>Boss</span>
-                                        <span>Marco</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-star me-2 text-muted"></i>Special Features</span>
-                                        <span>Tournament</span>
-                                    </li>
-                                </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-signal me-2 text-muted"></i>Level Requirement</span>
+                                <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #28a745, #20c997); box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);">
+                                    <i class="fas fa-seedling me-1"></i> None
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-chart-line me-2 text-muted"></i>EXP Multiplier</span>
+                                <span>1.0x</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-dragon me-2 text-muted"></i>Boss</span>
+                                <span>Marco</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-star me-2 text-muted"></i>Special Features</span>
+                                <span>Tournament</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-clock me-2 text-muted"></i>Boss Spawn</span>
+                                <span>Every 2 hours</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-gem me-2 text-muted"></i>Boss Rewards</span>
+                                <span>15k EXP, 100 Gems</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-apple-alt me-2 text-muted"></i>Fruit Drops</span>
+                                <span>Phoenix (1%)</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-running me-2 text-muted"></i>Unlock</span>
+                                <span>Soru Technique</span>
+                            </li>
+                        </ul>
+                        <div class="card-footer bg-light">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle text-primary me-2"></i>
+                                <small class="text-muted">Starting area for all players</small>
                             </div>
                         </div>
                     </div>
@@ -161,67 +236,82 @@
             </div>
         </div>
 
-        <div class="accordion-item border-0 mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="400">
-            <h2 class="accordion-header" id="wholeCakeHeader">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wholeCakeCollapse" aria-expanded="false" aria-controls="wholeCakeCollapse">
-                    <div class="category-icon me-2"><i class="fas fa-birthday-cake"></i></div>
-                    Whole Cake
-                </button>
-            </h2>
-            <div id="wholeCakeCollapse" class="accordion-collapse collapse" aria-labelledby="wholeCakeHeader" data-bs-parent="#mapDetails">
-                <div class="accordion-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5 class="mb-3">About Whole Cake</h5>
-                            <p>
-                                Whole Cake Island is a mid-game area designed to resemble Big Mom's territory from One Piece.
-                                It features candy-themed architecture, food-based landmarks, and access to the Mirror World.
-                                This area requires approximately level 100 to access.
-                            </p>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-map-pin me-2 text-primary"></i>Key Locations</h5>
-                            <ul class="feature-list">
-                                <li>
-                                    <strong>Cake Lair:</strong> Home to the Cake Queen (Big Mom) boss who drops the Soul fruit.
-                                </li>
-                                <li>
-                                    <strong>Mirror World Portal:</strong> Entrance to the Mirror World where Katakuri can be found.
-                                </li>
-                                <li>
-                                    <strong>Candy Village:</strong> A residential area with various NPCs and buildings to explore.
-                                </li>
-                            </ul>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for Whole Cake</h5>
-                            <ul class="tips-list">
-                                <li>The 1.75x EXP multiplier makes this a good area for mid-level players to grind</li>
-                                <li>Cake Queen has two phases - be prepared for a difficult fight in phase 2</li>
-                                <li>Access Mirror World to fight Katakuri for a chance at the Dough or DoughV2 fruit</li>
-                            </ul>
+        <!-- Whole Cake Details Template -->
+        <div id="wholeCakeDetails">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5 class="mb-3">About Whole Cake</h5>
+                    <p>
+                        Whole Cake Island is a mid-game area designed to resemble Big Mom's territory from One Piece.
+                        It features candy-themed architecture, food-based landmarks, and access to the Mirror World.
+                        This area requires approximately level 100 to access.
+                    </p>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-map-pin me-2 text-primary"></i>Key Locations</h5>
+                    <ul class="feature-list">
+                        <li>
+                            <strong>Cake Lair:</strong> Home to the Cake Queen (Big Mom) boss who drops the Soul fruit.
+                        </li>
+                        <li>
+                            <strong>Mirror World Portal:</strong> Entrance to the Mirror World where Katakuri can be found.
+                        </li>
+                        <li>
+                            <strong>Candy Village:</strong> A residential area with various NPCs and buildings to explore.
+                        </li>
+                    </ul>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for Whole Cake</h5>
+                    <ul class="tips-list">
+                        <li>The 1.75x EXP multiplier makes this a good area for mid-level players to grind</li>
+                        <li>Cake Queen has two phases - be prepared for a difficult fight in phase 2</li>
+                        <li>Access Mirror World to fight Katakuri for a chance at the Dough or DoughV2 fruit</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stat-card border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Whole Cake Info</h5>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card stat-card border-0 shadow-sm">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0">Whole Cake Info</h5>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-signal me-2 text-muted"></i>Level Requirement</span>
-                                        <span class="badge bg-warning">100</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-chart-line me-2 text-muted"></i>EXP Multiplier</span>
-                                        <span>1.75x</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-dragon me-2 text-muted"></i>Boss</span>
-                                        <span>Cake Queen</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-star me-2 text-muted"></i>Special Features</span>
-                                        <span>Mirror World</span>
-                                    </li>
-                                </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-signal me-2 text-muted"></i>Level Requirement</span>
+                                <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #ffc107, #fd7e14); box-shadow: 0 2px 5px rgba(255, 193, 7, 0.3);">
+                                    <i class="fas fa-fire me-1"></i> 100
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-chart-line me-2 text-muted"></i>EXP Multiplier</span>
+                                <span>1.75x</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-dragon me-2 text-muted"></i>Boss</span>
+                                <span>Cake Queen</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-star me-2 text-muted"></i>Special Features</span>
+                                <span>Mirror World</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-clock me-2 text-muted"></i>Boss Spawn</span>
+                                <span>Every 2 hours</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-gem me-2 text-muted"></i>Boss Rewards</span>
+                                <span>20k EXP, 150 Gems</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-apple-alt me-2 text-muted"></i>Fruit Drops</span>
+                                <span>Soul (1%)</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-bolt me-2 text-muted"></i>Boss Phases</span>
+                                <span>P1: 1.6k, P2: 10k</span>
+                            </li>
+                        </ul>
+                        <div class="card-footer bg-light">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle text-primary me-2"></i>
+                                <small class="text-muted">Mid-level area with candy-themed design</small>
                             </div>
                         </div>
                     </div>
@@ -229,69 +319,84 @@
             </div>
         </div>
 
-        <div class="accordion-item border-0 mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="450">
-            <h2 class="accordion-header" id="onigashimaHeader">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#onigashimaCollapse" aria-expanded="false" aria-controls="onigashimaCollapse">
-                    <div class="category-icon me-2"><i class="fas fa-mountain"></i></div>
-                    Onigashima (Wano)
-                </button>
-            </h2>
-            <div id="onigashimaCollapse" class="accordion-collapse collapse" aria-labelledby="onigashimaHeader" data-bs-parent="#mapDetails">
-                <div class="accordion-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5 class="mb-3">About Onigashima</h5>
-                            <p>
-                                Onigashima (also called Wano) is the highest-level area in Fruit Battlegrounds,
-                                requiring level 200+ to access. It's based on the Wano Country arc from One Piece
-                                and features Japanese-inspired architecture and landscapes.
-                            </p>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-map-pin me-2 text-primary"></i>Key Locations</h5>
-                            <ul class="feature-list">
-                                <li>
-                                    <strong>The Live Floor:</strong> Where Kaido spawns. This is the main boss area.
-                                </li>
-                                <li>
-                                    <strong>Rayleigh NPC:</strong> A new NPC added in the Leopard V2 update.
-                                    Talk to him to access the Rebirth system.
-                                </li>
-                                <li>
-                                    <strong>Snow Area:</strong> A new zone added in the Leopard V2 update.
-                                </li>
-                            </ul>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for Onigashima</h5>
-                            <ul class="tips-list">
-                                <li>Take advantage of the 2.5x EXP multiplier to level up faster</li>
-                                <li>Kaido is the toughest boss in the game - bring your best fruit</li>
-                                <li>Consider using the Rebirth system once you reach level 300</li>
-                                <li>The high EXP multiplier makes this the best place for high-level grinding</li>
-                            </ul>
+        <!-- Onigashima Details Template -->
+        <div id="onigashimaDetails">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5 class="mb-3">About Onigashima</h5>
+                    <p>
+                        Onigashima (also called Wano) is the highest-level area in Fruit Battlegrounds,
+                        requiring level 200+ to access. It's based on the Wano Country arc from One Piece
+                        and features Japanese-inspired architecture and landscapes.
+                    </p>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-map-pin me-2 text-primary"></i>Key Locations</h5>
+                    <ul class="feature-list">
+                        <li>
+                            <strong>The Live Floor:</strong> Where Kaido spawns. This is the main boss area.
+                        </li>
+                        <li>
+                            <strong>Rayleigh NPC:</strong> A new NPC added in the Leopard V2 update.
+                            Talk to him to access the Rebirth system.
+                        </li>
+                        <li>
+                            <strong>Snow Area:</strong> A new zone added in the Leopard V2 update.
+                        </li>
+                    </ul>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for Onigashima</h5>
+                    <ul class="tips-list">
+                        <li>Take advantage of the 2.5x EXP multiplier to level up faster</li>
+                        <li>Kaido is the toughest boss in the game - bring your best fruit</li>
+                        <li>Consider using the Rebirth system once you reach level 300</li>
+                        <li>The high EXP multiplier makes this the best place for high-level grinding</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stat-card border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Onigashima Info</h5>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card stat-card border-0 shadow-sm">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0">Onigashima Info</h5>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-signal me-2 text-muted"></i>Level Requirement</span>
-                                        <span class="badge bg-danger">200+</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-chart-line me-2 text-muted"></i>EXP Multiplier</span>
-                                        <span>2.5x</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-dragon me-2 text-muted"></i>Boss</span>
-                                        <span>Kaido</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-star me-2 text-muted"></i>Special Features</span>
-                                        <span>Rebirth System</span>
-                                    </li>
-                                </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-signal me-2 text-muted"></i>Level Requirement</span>
+                                <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #dc3545, #b02a37); box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);">
+                                    <i class="fas fa-skull me-1"></i> 200+
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-chart-line me-2 text-muted"></i>EXP Multiplier</span>
+                                <span>2.5x</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-dragon me-2 text-muted"></i>Boss</span>
+                                <span>Kaido</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-star me-2 text-muted"></i>Special Features</span>
+                                <span>Rebirth System</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-clock me-2 text-muted"></i>Boss Spawn</span>
+                                <span>Every 2 hours</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-gem me-2 text-muted"></i>Boss Rewards</span>
+                                <span>24k EXP, 200 Gems</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-apple-alt me-2 text-muted"></i>Fruit Drops</span>
+                                <span>Dragon (1%)</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-bolt me-2 text-muted"></i>Boss Phases</span>
+                                <span>P1: 5k, P2: 10k</span>
+                            </li>
+                        </ul>
+                        <div class="card-footer bg-light">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle text-primary me-2"></i>
+                                <small class="text-muted">Highest level area with Japanese theme</small>
                             </div>
                         </div>
                     </div>
@@ -299,69 +404,80 @@
             </div>
         </div>
         
-        <div class="accordion-item border-0 mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="500">
-            <h2 class="accordion-header" id="mirrorWorldHeader">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mirrorWorldCollapse" aria-expanded="false" aria-controls="mirrorWorldCollapse">
-                    <div class="category-icon me-2"><i class="fas fa-clone"></i></div>
-                    Mirror World
-                </button>
-            </h2>
-            <div id="mirrorWorldCollapse" class="accordion-collapse collapse" aria-labelledby="mirrorWorldHeader" data-bs-parent="#mapDetails">
-                <div class="accordion-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5 class="mb-3">About Mirror World</h5>
-                            <p>
-                                Mirror World was added in the DoughV2 update (December 2024). It's accessed through
-                                a portal in Whole Cake Island and features a distorted, mirror-like environment.
-                                This area requires level 100 to access.
-                            </p>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-map-pin me-2 text-primary"></i>Key Locations</h5>
-                            <ul class="feature-list">
-                                <li>
-                                    <strong>Katakuri's Domain:</strong> Where Katakuri spawns. He drops either the
-                                    Dough or DoughV2 fruit with a 1% chance.
-                                </li>
-                                <li>
-                                    <strong>Mirror Portal:</strong> The entrance/exit back to Whole Cake Island.
-                                </li>
-                            </ul>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for Mirror World</h5>
-                            <ul class="tips-list">
-                                <li>Katakuri has two phases - using Dough in phase 1 and DoughV2 in phase 2</li>
-                                <li>His spawn timer is different from other bosses - first spawn at 30 minutes, then every 1h30m</li>
-                                <li>Be unpredictable with your attacks to counter his Future Sight ability</li>
-                            </ul>
+        <!-- Mirror World Details Template -->
+        <div id="mirrorWorldDetails">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5 class="mb-3">About Mirror World</h5>
+                    <p>
+                        Mirror World was added in the DoughV2 update (December 2024). It's accessed through
+                        a portal in Whole Cake Island and features a distorted, mirror-like environment.
+                        This area requires level 100 to access.
+                    </p>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-map-pin me-2 text-primary"></i>Key Locations</h5>
+                    <ul class="feature-list">
+                        <li>
+                            <strong>Katakuri's Domain:</strong> Where Katakuri spawns. He drops either the
+                            Dough or DoughV2 fruit with a 1% chance.
+                        </li>
+                        <li>
+                            <strong>Mirror Portal:</strong> The entrance/exit back to Whole Cake Island.
+                        </li>
+                    </ul>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for Mirror World</h5>
+                    <ul class="tips-list">
+                        <li>Katakuri has two phases - using Dough in phase 1 and DoughV2 in phase 2</li>
+                        <li>His spawn timer is different from other bosses - first spawn at 30 minutes, then every 1h30m</li>
+                        <li>Be unpredictable with your attacks to counter his Future Sight ability</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stat-card border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Mirror World Info</h5>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card stat-card border-0 shadow-sm">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0">Mirror World Info</h5>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-signal me-2 text-muted"></i>Level Requirement</span>
-                                        <span class="badge bg-warning">100</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-door-open me-2 text-muted"></i>Access Via</span>
-                                        <span>Whole Cake</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-dragon me-2 text-muted"></i>Boss</span>
-                                        <span>Katakuri</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-apple-alt me-2 text-muted"></i>Boss Drops</span>
-                                        <span>Dough/DoughV2</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-chart-line me-2 text-muted"></i>EXP Multiplier</span>
-                                        <span>1.75x</span>
-                                    </li>
-                                </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-signal me-2 text-muted"></i>Level Requirement</span>
+                                <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #ffc107, #fd7e14); box-shadow: 0 2px 5px rgba(255, 193, 7, 0.3);">
+                                    <i class="fas fa-fire me-1"></i> 100
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-door-open me-2 text-muted"></i>Access Via</span>
+                                <span>Whole Cake</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-dragon me-2 text-muted"></i>Boss</span>
+                                <span>Katakuri</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-apple-alt me-2 text-muted"></i>Boss Drops</span>
+                                <span>Dough/DoughV2</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-chart-line me-2 text-muted"></i>EXP Multiplier</span>
+                                <span>1.75x</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-clock me-2 text-muted"></i>Boss Spawn</span>
+                                <span>Every 1h30m</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-gem me-2 text-muted"></i>Boss Rewards</span>
+                                <span>18k EXP, 150 Gems</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-bolt me-2 text-muted"></i>Boss Phases</span>
+                                <span>P1: 2k, P2: 8k</span>
+                            </li>
+                        </ul>
+                        <div class="card-footer bg-light">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle text-primary me-2"></i>
+                                <small class="text-muted">Added in DoughV2 update (December 2024)</small>
                             </div>
                         </div>
                     </div>
@@ -369,70 +485,83 @@
             </div>
         </div>
         
-        <div class="accordion-item border-0 mb-3 shadow-sm" data-aos="fade-up" data-aos-delay="550">
-            <h2 class="accordion-header" id="tournamentHeader">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tournamentCollapse" aria-expanded="false" aria-controls="tournamentCollapse">
-                    <div class="category-icon me-2"><i class="fas fa-trophy"></i></div>
-                    The Tournament
-                </button>
-            </h2>
-            <div id="tournamentCollapse" class="accordion-collapse collapse" aria-labelledby="tournamentHeader" data-bs-parent="#mapDetails">
-                <div class="accordion-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5 class="mb-3">About The Tournament</h5>
-                            <p>
-                                The Tournament is a special PvP game mode accessed through Gatz in front of the Corrida
-                                Colosseum in Dressrosa. It's a 1v1 tournament where players fight in brackets until
-                                one player remains.
-                            </p>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-list-ol me-2 text-primary"></i>Tournament Format</h5>
-                            <ul class="feature-list">
-                                <li>Up to 16 players can participate</li>
-                                <li>Players are matched in 1v1 brackets</li>
-                                <li>Each match has a 2 minute timer</li>
-                                <li>Winners advance to the next round</li>
-                                <li>The last player standing wins the tournament</li>
-                            </ul>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-award me-2 text-warning"></i>Rewards</h5>
-                            <ul class="rewards-list">
-                                <li>Win a match: 100 Gems and 2,000 EXP</li>
-                                <li>Win the tournament: 400 Gems and 5,000 EXP</li>
-                            </ul>
-                            
-                            <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for The Tournament</h5>
-                            <ul class="tips-list">
-                                <li>You must have all abilities unlocked on your fruit to participate</li>
-                                <li>Use fruits with good 1v1 potential like Leopard, Lightning, or DoughV2</li>
-                                <li>Practice your combos and timing before entering</li>
-                                <li>If your opponent leaves, you automatically win but get no EXP</li>
-                            </ul>
+        <!-- Tournament Details Template -->
+        <div id="tournamentDetails">
+            <div class="row">
+                <div class="col-md-7">
+                    <h5 class="mb-3">About The Tournament</h5>
+                    <p>
+                        The Tournament is a special PvP game mode accessed through Gatz in front of the Corrida
+                        Colosseum in Dressrosa. It's a 1v1 tournament where players fight in brackets until
+                        one player remains.
+                    </p>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-list-ol me-2 text-primary"></i>Tournament Format</h5>
+                    <ul class="feature-list">
+                        <li>Up to 16 players can participate</li>
+                        <li>Players are matched in 1v1 brackets</li>
+                        <li>Each match has a 2 minute timer</li>
+                        <li>Winners advance to the next round</li>
+                        <li>The last player standing wins the tournament</li>
+                    </ul>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-award me-2 text-warning"></i>Rewards</h5>
+                    <ul class="rewards-list">
+                        <li>Win a match: 100 Gems and 2,000 EXP</li>
+                        <li>Win the tournament: 400 Gems and 5,000 EXP</li>
+                    </ul>
+                    
+                    <h5 class="mb-3 mt-4"><i class="fas fa-lightbulb me-2 text-warning"></i>Tips for The Tournament</h5>
+                    <ul class="tips-list">
+                        <li>You must have all abilities unlocked on your fruit to participate</li>
+                        <li>Use fruits with good 1v1 potential like Leopard, Lightning, or DoughV2</li>
+                        <li>Practice your combos and timing before entering</li>
+                        <li>If your opponent leaves, you automatically win but get no EXP</li>
+                    </ul>
+                </div>
+                <div class="col-md-5">
+                    <div class="card stat-card border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Tournament Info</h5>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card stat-card border-0 shadow-sm">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0">Tournament Info</h5>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-map-marker-alt me-2 text-muted"></i>Location</span>
-                                        <span>Dressrosa</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-user me-2 text-muted"></i>NPC</span>
-                                        <span>Gatz</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-check-circle me-2 text-muted"></i>Requirements</span>
-                                        <span>All Abilities</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span><i class="fas fa-users me-2 text-muted"></i>Players</span>
-                                        <span>Up to 16</span>
-                                    </li>
-                                </ul>
+                        <ul class="list-group list-group-flush mb-0">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-map-marker-alt me-2 text-muted"></i>Location</span>
+                                <span>Dressrosa</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-user me-2 text-muted"></i>NPC</span>
+                                <span>Gatz</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-check-circle me-2 text-muted"></i>Requirements</span>
+                                <span>All Abilities</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-users me-2 text-muted"></i>Players</span>
+                                <span>Up to 16</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-clock me-2 text-muted"></i>Match Duration</span>
+                                <span>2 minutes</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-gem me-2 text-muted"></i>Match Reward</span>
+                                <span>2,000 EXP, 100 Gems</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-trophy me-2 text-muted"></i>Win Tournament</span>
+                                <span>5,000 EXP, 400 Gems</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="fas fa-gamepad me-2 text-muted"></i>Mode</span>
+                                <span>1v1 PvP Brackets</span>
+                            </li>
+                        </ul>
+                        <div class="card-footer bg-light">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle text-primary me-2"></i>
+                                <small class="text-muted">Accessed through Gatz at Corrida Colosseum</small>
                             </div>
                         </div>
                     </div>
@@ -454,10 +583,15 @@
         <div class="progression-body">
             <div class="horizontal-timeline">
                 <div class="timeline-item-horizontal" data-aos="fade-up" data-aos-delay="700">
-                    <div class="timeline-marker bg-success">1</div>
+                    <div class="timeline-direction-indicator">Starting Area</div>
+                    <div class="timeline-marker bg-success">
+                        <span class="marker-number">1</span>
+                    </div>
                     <div class="timeline-content-horizontal">
                         <div class="timeline-title">
-                            <span class="badge bg-success me-2">Beginner</span>
+                            <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #28a745, #20c997); box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);">
+                                <i class="fas fa-seedling me-1"></i> Beginner
+                            </span>
                             <h4>Dressrosa (Level 1+)</h4>
                         </div>
                         <p>
@@ -478,10 +612,15 @@
                 </div>
                 <div class="timeline-connector"></div>
                 <div class="timeline-item-horizontal" data-aos="fade-up" data-aos-delay="750">
-                    <div class="timeline-marker bg-warning">2</div>
+                    <div class="timeline-direction-indicator">Mid-Game Area</div>
+                    <div class="timeline-marker bg-warning">
+                        <span class="marker-number">2</span>
+                    </div>
                     <div class="timeline-content-horizontal">
                         <div class="timeline-title">
-                            <span class="badge bg-warning me-2">Intermediate</span>
+                            <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #ffc107, #fd7e14); box-shadow: 0 2px 5px rgba(255, 193, 7, 0.3);">
+                                <i class="fas fa-fire me-1"></i> Intermediate
+                            </span>
                             <h4>Whole Cake (Level 100+)</h4>
                         </div>
                         <p>
@@ -502,10 +641,15 @@
                 </div>
                 <div class="timeline-connector"></div>
                 <div class="timeline-item-horizontal" data-aos="fade-up" data-aos-delay="800">
-                    <div class="timeline-marker bg-danger">3</div>
+                    <div class="timeline-direction-indicator">End-Game Area</div>
+                    <div class="timeline-marker bg-danger">
+                        <span class="marker-number">3</span>
+                    </div>
                     <div class="timeline-content-horizontal">
                         <div class="timeline-title">
-                            <span class="badge bg-danger me-2">Advanced</span>
+                            <span class="badge rounded-pill px-3 py-2" style="min-width: 100px; text-align: center; background: linear-gradient(to right, #dc3545, #b02a37); box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);">
+                                <i class="fas fa-skull me-1"></i> Advanced
+                            </span>
                             <h4>Onigashima (Level 200+)</h4>
                         </div>
                         <p>
@@ -529,12 +673,164 @@
     </div>
 </div>
 
+<!-- Map Details Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white py-3">
+                <h5 class="modal-title fs-4" id="mapModalLabel">Map Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4" id="mapModalContent">
+                <!-- Content will be loaded dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-lg px-4" data-bs-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
 .maps-page {
     position: relative;
     padding-top: 2rem;
 }
 
+/* Enhanced Modal Styling */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Make the modal larger */
+.modal-dialog.modal-xl {
+    max-width: 90%;
+    width: 1400px;
+}
+
+.modal-header {
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 1rem 1.5rem 1.5rem;
+}
+
+.modal-body {
+    padding: 1.5rem 2rem;
+}
+
+.modal-body h5 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.modal-body p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.feature-list li, 
+.tips-list li {
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.list-group-item {
+    padding: 0.9rem 1.25rem;
+    font-size: 1.05rem;
+}
+
+/* Make info cards more spacious */
+.stat-card .list-group-item {
+    padding: 1.1rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.stat-card {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Enhanced stat card header */
+.stat-card .card-header {
+    padding: 1.2rem 1.5rem;
+}
+
+.stat-card .card-header h5 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* Icon animations and effects */
+.stat-card .list-group-item i,
+.stat-card .card-header i,
+.map-card .card-header i,
+.map-card .detail-label i {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s, filter 0.25s;
+    transform-origin: center;
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+}
+
+.stat-card .list-group-item:hover i,
+.stat-card .card-header:hover i,
+.map-card .card-header:hover i,
+.map-card .detail-label:hover i {
+    transform: scale(1.22);
+    color: var(--bs-primary);
+    filter: drop-shadow(0 0 6px rgba(13, 110, 253, 0.25));
+}
+
+.stat-card .card-footer i {
+    animation: glow 2s infinite alternate;
+    color: #0d6efd;
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+    transition: box-shadow 0.3s;
+}
+
+.stat-card .card-footer:hover i {
+    box-shadow: 0 0 12px 2px rgba(13, 110, 253, 0.18);
+}
+
+/* Style for the value text on the right side */
+.stat-card .list-group-item span:last-child:not(.badge) {
+    font-weight: 600;
+    color: #333;
+    background-color: rgba(0, 0, 0, 0.03);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.stat-card .list-group-item:hover span:last-child:not(.badge) {
+    background-color: rgba(13, 110, 253, 0.1);
+    color: var(--bs-primary);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transform: translateX(-3px);
+}
+
+/* Animation keyframes */
+@keyframes glow {
+    from { text-shadow: 0 0 3px rgba(13, 110, 253, 0.4); }
+    to { text-shadow: 0 0 8px rgba(13, 110, 253, 0.8); }
+}
+
+/* Keep existing styles below this line */
 .header-accent {
     position: absolute;
     top: 0;
@@ -611,249 +907,103 @@
     font-weight: 600;
 }
 
-/* Custom Accordion */
-.custom-accordion .accordion-item {
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.custom-accordion .accordion-button {
-    padding: 1rem 1.25rem;
-    font-weight: 600;
-    border-radius: 10px;
-}
-
-.custom-accordion .accordion-button:not(.collapsed) {
-    color: var(--bs-primary);
-    background-color: rgba(var(--bs-primary-rgb), 0.05);
-}
-
-.category-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgba(var(--bs-primary-rgb), 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-}
-
-/* Feature Lists */
-.feature-list, .tips-list, .rewards-list {
-    padding-left: 1.2rem;
-    list-style-type: none;
-}
-
-.feature-list li, .tips-list li, .rewards-list li {
-    position: relative;
-    padding: 0.4rem 0;
-}
-
-.feature-list li::before, .tips-list li::before, .rewards-list li::before {
-    content: "•";
-    position: absolute;
-    left: -1.2rem;
-    color: var(--bs-primary);
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.tips-list li::before {
-    content: "✓";
-    color: var(--bs-success);
-}
-
-.rewards-list li::before {
-    content: "★";
-    color: var(--bs-warning);
-}
-
-/* Stat Card */
-.stat-card {
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.stat-card .card-header {
-    padding: 1rem;
-}
-
-.stat-card .list-group-item {
-    padding: 0.8rem 1rem;
-}
-
 /* Timeline Styling */
 .progression-card {
-    border-radius: 10px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     background: white;
-    margin-bottom: 3rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.progression-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .progression-header {
-    background: var(--bs-primary);
+    background: linear-gradient(90deg, #0d6efd, #0091ff);
     color: white;
-    padding: 1rem 1.5rem;
-    font-weight: 500;
+    padding: 1.2rem 1.8rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.progression-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%);
+    background-size: 10px 10px;
+    animation: moveBackground 20s linear infinite;
+    z-index: 1;
+}
+
+.progression-header i, .progression-header h5 {
+    position: relative;
+    z-index: 2;
+}
+
+.progression-header i {
+    margin-right: 0.8rem;
+    font-size: 1.3rem;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
 }
 
 .progression-body {
     padding: 2rem;
+    background: linear-gradient(to bottom, #f8f9fa, white);
 }
 
-.horizontal-timeline {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 40px 0;
-    position: relative;
+@keyframes moveBackground {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
 }
 
-/* Hide old vertical timeline line */
-.horizontal-timeline::before {
-    display: none;
-}
-
-.timeline-item-horizontal {
-    flex: 1;
-    position: relative;
-    padding-top: 60px; /* Space for the marker above */
-    text-align: center;
-    margin: 0 15px; /* Spacing between items */
-}
-
-.timeline-marker {
+/* Add direction indicator to the header */
+.progression-header::after {
+    content: 'START → MIDDLE → END';
     position: absolute;
-    width: 40px; /* Slightly larger marker */
-    height: 40px;
-    border-radius: 50%;
-    left: 50%;
-    top: 0; /* Position marker above content */
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 1.2rem; /* Larger number */
+    right: 20px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+    letter-spacing: 1px;
+    font-weight: 400;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 4px;
     z-index: 2;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-    border: 3px solid white; /* White border around marker */
 }
 
-.timeline-content-horizontal {
-    margin-left: 0; /* Reset vertical margin */
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.timeline-title {
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Center title */
-    flex-wrap: wrap; /* Allow wrap on smaller screens */
-}
-
-.timeline-title h4 {
-    margin-bottom: 0;
-    font-size: 1.1rem;
-}
-
-.timeline-highlights {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    justify-content: center; /* Center highlights */
-}
-
-.highlight-item {
-    display: flex;
-    align-items: center;
-    background-color: rgba(0,0,0,0.03);
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-}
-
-.highlight-item i {
-    margin-right: 0.5rem;
-}
-
-/* Horizontal Connector */
+/* Make the timeline connector more interesting */
 .timeline-connector {
-    flex: 0 0 50px; /* Fixed width for connector */
     position: relative;
-    align-self: flex-start; /* Align with top of items */
-    margin-top: 20px; /* Align with the center of markers */
-    height: 4px;
-    background-color: #e9ecef;
+    overflow: hidden;
 }
 
-/* Remove last connector */
-.timeline-item-horizontal + .timeline-connector + .timeline-item-horizontal + .timeline-connector:last-of-type {
-    display: none;
+.timeline-connector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    animation: shimmer 3s infinite;
 }
 
-/* Animation enhancements */
-[data-aos] {
-    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+@keyframes shimmer {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(200%); }
 }
 
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .horizontal-timeline {
-        flex-direction: column; /* Stack vertically on smaller screens */
-        align-items: center; /* Center items when stacked */
-    }
-    
-    .timeline-item-horizontal {
-        width: 80%; /* Limit width when stacked */
-        padding-top: 60px; /* Keep space for marker */
-        margin-bottom: 40px; /* Add space between stacked items */
-        text-align: left; /* Align text left when stacked */
-    }
-    
-    .timeline-item-horizontal:last-child {
-        margin-bottom: 0;
-    }
-    
-    .timeline-connector {
-        width: 4px; /* Vertical connector */
-        height: 40px; /* Height between items */
-        margin: 0 auto 0 auto; /* Center connector */
-    }
-
-    .timeline-title,
-    .timeline-highlights {
-        justify-content: flex-start; /* Align left when stacked */
-    }
-}
-
-@media (max-width: 768px) {
-    .timeline:before {
-        left: 30px;
-    }
-    
-    .timeline-marker {
-        width: 30px;
-        height: 30px;
-        left: 30px;
-        font-size: 0.9rem;
-    }
-    
-    .timeline-content {
-        margin-left: 50px;
-    }
-}
-
+/* Connected map styling */
 .connected-map {
     border-top: 1px dashed rgba(0,0,0,0.1);
     padding-top: 1rem;
@@ -899,113 +1049,320 @@
     gap: 0.5rem;
 }
 
+/* Timeline Styling */
+.horizontal-timeline {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 30px 0;
+    position: relative;
+}
+
+.timeline-item-horizontal {
+    flex: 1;
+    position: relative;
+    padding-top: 60px;
+    text-align: center;
+    margin: 0 15px;
+    transition: transform 0.3s;
+    z-index: 2;
+}
+
+.timeline-item-horizontal:hover {
+    transform: translateY(-10px);
+}
+
+.timeline-marker {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+    z-index: 2;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border: 4px solid white;
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+.marker-number {
+    position: relative;
+    z-index: 2;
+    animation: pulse-light 2s infinite;
+}
+
+@keyframes pulse-light {
+    0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); transform: scale(1.1); }
+    100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+}
+
+.timeline-marker::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.timeline-item-horizontal:hover .timeline-marker::after {
+    opacity: 1;
+    animation: pulse-circle 2s infinite;
+}
+
+@keyframes pulse-circle {
+    0% { transform: scale(0.8); opacity: 0.3; }
+    50% { transform: scale(1.2); opacity: 0.5; }
+    100% { transform: scale(0.8); opacity: 0.3; }
+}
+
+.timeline-item-horizontal:hover .timeline-marker {
+    transform: translateX(-50%) scale(1.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.timeline-connector {
+    flex: 0 0 80px;
+    position: relative;
+    align-self: flex-start;
+    margin-top: 25px;
+    height: 6px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.1), rgba(0,0,0,0.15));
+    border-radius: 3px;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Directional arrow indicators */
+.timeline-connector::after {
+    content: '\f061'; /* Font Awesome arrow right */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(13, 110, 253, 0.8);
+    font-size: 18px;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    animation: pulse-arrow 2s infinite;
+    z-index: 5;
+}
+
+@keyframes pulse-arrow {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+}
+
+.timeline-content-horizontal {
+    margin-left: 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+    border: 1px solid rgba(0,0,0,0.05);
+    height: 100%;
+}
+
+.timeline-item-horizontal:hover .timeline-content-horizontal {
+    background-color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-color: rgba(0,0,0,0.08);
+}
+
+.timeline-title {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.timeline-title h4 {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 0.8rem;
+    transition: color 0.3s;
+}
+
+.timeline-item-horizontal:hover .timeline-title h4 {
+    color: var(--bs-primary);
+}
+
+.timeline-content-horizontal p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.timeline-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.highlight-item {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0,0,0,0.03);
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.timeline-item-horizontal:hover .highlight-item {
+    background-color: rgba(13, 110, 253, 0.08);
+    transform: scale(1.05);
+}
+
+.highlight-item i {
+    margin-right: 0.5rem;
+    transition: transform 0.3s;
+}
+
+.timeline-item-horizontal:hover .highlight-item i {
+    transform: scale(1.2);
+}
+
+.highlight-item span {
+    font-weight: 500;
+}
+
+/* Badge styling for timeline */
+.timeline-title .badge {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transform: translateY(0);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.timeline-title .badge::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(30deg);
+    transition: all 0.5s;
+    opacity: 0;
+}
+
+.timeline-item-horizontal:hover .timeline-title .badge::after {
+    transform: rotate(30deg) translate(-30%, -100%);
+    opacity: 1;
+}
+
+.timeline-item-horizontal:hover .timeline-title .badge {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Floating animation for timeline items */
+.timeline-item-horizontal:nth-child(1) {
+    animation: float 4s ease-in-out infinite;
+}
+
+.timeline-item-horizontal:nth-child(3) {
+    animation: float 4s ease-in-out 1s infinite;
+}
+
+.timeline-item-horizontal:nth-child(5) {
+    animation: float 4s ease-in-out 2s infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Individual step indicators above timeline items */
+.timeline-direction-indicator {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 3px 12px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
 /* Mobile Optimization Styles */
-@media (max-width: 767px) {
-    /* Map cards adjustments */
-    .map-card {
-        margin-bottom: 1rem;
-    }
-    
-    .map-image-container {
-        height: 150px;
-    }
-    
-    /* Improve card body spacing */
-    .card-body {
-        padding: 1rem;
-    }
-    
-    .card-body p {
-        font-size: 0.9rem;
-    }
-    
-    /* Better detail item display */
-    .detail-item {
-        margin-bottom: 0.4rem;
-        padding-bottom: 0.4rem;
-    }
-    
-    /* Accordion improvements */
-    .accordion-button {
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
-    }
-    
-    .accordion-body {
-        padding: 1rem;
-    }
-    
-    /* Feature lists and tips */
-    .feature-list li, .tips-list li, .rewards-list li {
-        padding: 0.3rem 0;
-        font-size: 0.9rem;
-    }
-    
-    /* Stats card sizing */
-    .stat-card .list-group-item {
-        padding: 0.6rem 0.75rem;
-        font-size: 0.9rem;
-    }
-    
-    /* Timeline adjustments */
-    .progression-body {
-        padding: 1rem;
-    }
-    
+@media (max-width: 992px) {
     .horizontal-timeline {
-        padding: 20px 0;
+        flex-direction: column;
+        align-items: center;
     }
     
     .timeline-item-horizontal {
-        padding-top: 50px;
-        margin: 0 10px 30px 10px;
+        width: 80%;
+        padding-top: 60px;
+        margin-bottom: 40px;
+        text-align: left;
     }
     
-    .timeline-marker {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
+    .timeline-item-horizontal:last-child {
+        margin-bottom: 0;
     }
     
-    .timeline-content-horizontal {
-        padding: 12px;
+    .timeline-connector {
+        width: 4px;
+        height: 40px;
+        margin: 0 auto 0 auto;
     }
-    
-    .timeline-title h4 {
-        font-size: 1rem;
-        margin-top: 0.3rem;
+
+    .timeline-title,
+    .timeline-highlights {
+        justify-content: flex-start;
     }
-    
-    .highlight-item {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.8rem;
-    }
-    
-    /* Mirror World connected area */
-    .connected-map {
-        padding-top: 0.75rem;
-    }
-    
-    .sub-map-body {
-        padding: 0.5rem 0.75rem;
-    }
-    
-    .sub-map-details {
-        flex-wrap: wrap;
-    }
-    
-    /* Section headers */
-    .section-header {
-        margin-bottom: 1.5rem;
-    }
-    
-    .section-title {
-        font-size: 1.75rem;
-    }
-    
-    .section-subtitle {
-        font-size: 1rem;
-    }
+}
+
+.timeline-item-horizontal:hover .timeline-marker {
+    transform: translateX(-50%) scale(1.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.timeline-marker.bg-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.timeline-marker.bg-warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+}
+
+.timeline-marker.bg-danger {
+    background: linear-gradient(135deg, #dc3545, #b02a37);
 }
 </style>
 {% endblock %}
@@ -1025,17 +1382,77 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Enhance accordion animations
-    const accordionButtons = document.querySelectorAll('.accordion-button');
-    accordionButtons.forEach(button => {
+    // Map Details Modal Functionality
+    const viewDetailsButtons = document.querySelectorAll('.view-map-details');
+    const mapModal = document.getElementById('mapModal');
+    const mapModalLabel = document.getElementById('mapModalLabel');
+    const mapModalContent = document.getElementById('mapModalContent');
+    
+    viewDetailsButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Reset any AOS animations that might be affected
-            if (typeof AOS !== 'undefined') {
-                setTimeout(() => {
-                    AOS.refresh();
-                }, 300);
+            const mapName = this.getAttribute('data-map');
+            console.log("Button clicked, mapName:", mapName); // DEBUG LINE
+            let templateId = null;
+            let mapTitle = 'Map Details'; // Default title
+
+            // Determine which template to use based on the map name using a switch statement
+            switch (mapName) {
+                case 'Dressrosa':
+                    templateId = 'dressrosaDetails';
+                    mapTitle = 'Dressrosa Details';
+                    break;
+                case 'Whole Cake':
+                    templateId = 'wholeCakeDetails';
+                    mapTitle = 'Whole Cake Island Details';
+                    break;
+                case 'Onigashima (Wano)':
+                    templateId = 'onigashimaDetails';
+                    mapTitle = 'Onigashima (Wano) Details';
+                    break;
+                case 'Mirror World':
+                    templateId = 'mirrorWorldDetails';
+                    mapTitle = 'Mirror World Details';
+                    break;
+                case 'Tournament':
+                case 'The Tournament':
+                    templateId = 'tournamentDetails';
+                    mapTitle = 'Tournament Details';
+                    break;
+                default:
+                    // Handle unknown mapName if necessary
+                    console.error("Unknown map name:", mapName);
+                    mapTitle = 'Error';
+            }
+            
+            // Update modal title
+            mapModalLabel.textContent = mapTitle;
+
+            // Update modal content
+            if (templateId) {
+                const template = document.getElementById(templateId);
+                if (template) {
+                    mapModalContent.innerHTML = template.innerHTML;
+                } else {
+                    // Handle case where template exists in logic but not in HTML
+                    mapModalContent.innerHTML = '<p>Details template not found.</p>';
+                    console.error("Template not found for ID:", templateId);
+                }
+            } else {
+                 // Handle case where mapName didn't match any case or was null/empty
+                 if (mapTitle !== 'Error') { // Only show 'not available' if it wasn't an unknown map
+                    mapModalContent.innerHTML = '<p>Details for this item are not available.</p>';
+                 } else {
+                    mapModalContent.innerHTML = '<p>Could not determine details to display.</p>'; 
+                 }
             }
         });
+    });
+    
+    // Refresh AOS animations when modal is shown
+    mapModal.addEventListener('shown.bs.modal', function() {
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
     });
 });
 </script>

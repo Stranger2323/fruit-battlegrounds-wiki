@@ -3,15 +3,22 @@
 {% block title %}Search Results for "{{ query }}" - Fruit Battlegrounds Wiki{% endblock %}
 
 {% block content %}
-<h1 class="section-title">Search Results for "{{ query }}"</h1>
+<div class="search-results-page" data-aos="fade-in" data-aos-duration="600">
+    <div class="header-accent"></div>
+    <div class="section-header" data-aos="fade-down">
+        <h1 class="section-title display-4 mb-3">Search Results for "{{ query }}"</h1>
+        {% if total_results > 0 %}
+        <p class="lead mb-4 text-muted">Found {{ total_results }} result{% if total_results != 1 %}s{% endif %} for your search.</p>
+        {% endif %}
+    </div>
 
-{% if not fruits and not bosses and not maps and not codes %}
+{% if total_results == 0 %}
 <div class="alert alert-info">
     <i class="fas fa-info-circle me-2"></i>
     No results found for "<strong>{{ query }}</strong>". Try using different keywords or browse our categories.
 </div>
 
-<div class="card mb-4">
+<div class="card mb-4 border-0 shadow-sm">
     <div class="card-header bg-dark text-white">
         <h2 class="h4 mb-0">Browse Categories</h2>
     </div>
@@ -51,128 +58,391 @@
     </div>
 </div>
 {% else %}
-<p class="lead mb-4">Found {{ fruits|length + bosses|length + maps|length + codes|length }} results for your search.</p>
 
-{% if fruits %}
-<h2 class="h4 mb-3">Fruits ({{ fruits|length }})</h2>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
-    {% for fruit in fruits %}
-    <div class="col">
-        <div class="card h-100">
-            {% if fruit.image %}
-            <img src="{{ url_for('static', filename='images/' + fruit.image) }}" class="card-img-top fruit-img" alt="{{ fruit.name }}">
-            {% else %}
-            <div class="bg-secondary text-white text-center py-5">No Image Available</div>
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ fruit.name }}</h5>
-                <span class="badge-effect badge-effect-{{ fruit.rarity.lower() }}">
-                    <span class="badge-text">{{ fruit.rarity }}</span>
-                </span>
-                {% if fruit.type %}
-                <span class="badge type-badge type-{{ fruit.type.lower() }}">{{ fruit.type }}</span>
-                {% endif %}
-                <p class="card-text">{{ fruit.description[:100] }}{% if fruit.description|length > 100 %}...{% endif %}</p>
-                <a href="{{ url_for('fruit_detail', fruit_id=fruit.id) }}" class="btn btn-primary">View Details</a>
+{% if results.pages %}
+<div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-wrapper me-3">
+                <i class="fas fa-file-alt text-white"></i>
             </div>
+            <h2 class="h4 mb-0">Pages ({{ results.pages|length }})</h2>
         </div>
     </div>
-    {% endfor %}
-</div>
-{% endif %}
-
-{% if bosses %}
-<h2 class="h4 mb-3">Bosses ({{ bosses|length }})</h2>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
-    {% for boss in bosses %}
-    <div class="col">
-        <div class="card h-100">
-            {% if boss.image %}
-            <img src="{{ url_for('static', filename='images/' + boss.image) }}" class="card-img-top boss-img" alt="{{ boss.name }}">
-            {% else %}
-            <div class="bg-secondary text-white text-center py-5">No Image Available</div>
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ boss.name }}</h5>
-                <p class="card-text">{{ boss.description[:100] }}{% if boss.description|length > 100 %}...{% endif %}</p>
-                <div class="d-flex justify-content-between mb-2">
-                    <span><strong>Location:</strong></span>
-                    <span>{{ boss.location }}</span>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                    <span><strong>HP:</strong></span>
-                    <span>{{ boss.health }}</span>
-                </div>
-                <a href="{{ url_for('boss_detail', boss_id=boss.id) }}" class="btn btn-primary">View Details</a>
+    <div class="card-body">
+        <div class="row g-3 justify-content-center">
+            {% for page in results.pages %}
+            <div class="col-lg-4">
+                <a href="{{ page.url }}" class="text-decoration-none">
+                    <div class="website-page-card">
+                        <div class="d-flex align-items-center">
+                            <div class="website-page-icon">
+                                <i class="fas {{ page.icon }}"></i>
+                            </div>
+                            <div class="website-page-title">{{ page.name }}</div>
+                        </div>
+                        <div class="website-page-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
-
-{% if maps %}
-<h2 class="h4 mb-3">Maps ({{ maps|length }})</h2>
-<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
-    {% for map in maps %}
-    <div class="col">
-        <div class="card h-100">
-            {% if map.image %}
-            <img src="{{ url_for('static', filename='images/' + map.image) }}" class="card-img-top" alt="{{ map.name }}" style="height: 200px; object-fit: cover;">
-            {% else %}
-            <div class="bg-secondary text-white text-center py-5">No Image Available</div>
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ map.name }}</h5>
-                <p class="card-text">{{ map.description[:100] }}{% if map.description|length > 100 %}...{% endif %}</p>
-                <div class="d-flex justify-content-between mb-2">
-                    <span><strong>Level Requirement:</strong></span>
-                    <span>{{ map.level_requirement if map.level_requirement else "None" }}</span>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                    <span><strong>EXP Multiplier:</strong></span>
-                    <span>{{ map.exp_multiplier }}x</span>
-                </div>
-                <a href="{{ url_for('maps') }}" class="btn btn-primary">View All Maps</a>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
-
-{% if codes %}
-<h2 class="h4 mb-3">Codes ({{ codes|length }})</h2>
-<div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Code</th>
-                <th>Reward</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for code in codes %}
-            <tr>
-                <td><code>{{ code.code }}</code></td>
-                <td>{{ code.reward }}</td>
-                <td>
-                    <button class="btn btn-sm btn-primary copy-code" data-code="{{ code.code }}">
-                        <i class="fas fa-copy me-1"></i> Copy
-                    </button>
-                </td>
-            </tr>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
 </div>
-<a href="{{ url_for('codes') }}" class="btn btn-outline-primary">View All Codes</a>
+{% endif %}
+
+{% if results.fruits %}
+<div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="150">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-wrapper me-3">
+                <i class="fas fa-apple-alt text-white"></i>
+            </div>
+            <h2 class="h4 mb-0">Fruits ({{ results.fruits|length }})</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for fruit in results.fruits %}
+            <div class="col">
+                <div class="card h-100 shadow-sm hover-card">
+                    {% if fruit.image %}
+                    <img src="{{ url_for('static', filename='images/' + fruit.image) }}" class="card-img-top fruit-img" alt="{{ fruit.name }}">
+                    {% else %}
+                    <div class="bg-secondary text-white text-center py-5">No Image Available</div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ fruit.name }}</h5>
+                        <span class="badge-effect badge-effect-{{ fruit.rarity.lower() }}">
+                            <span class="badge-text">{{ fruit.rarity }}</span>
+                            {% if fruit.rarity == 'Mythical' %}<canvas class="mythical-lightning-canvas"></canvas>{% endif %}
+                            {% if fruit.rarity == 'Legendary' %}<canvas class="legendary-shine-canvas"></canvas>{% endif %}
+                        </span>
+                        {% if fruit.type %}
+                        <span class="badge type-badge type-{{ fruit.type.lower() }}">{{ fruit.type }}</span>
+                        {% endif %}
+                        <p class="card-text">{{ fruit.description[:100] }}{% if fruit.description|length > 100 %}...{% endif %}</p>
+                        <a href="{{ url_for('fruit_detail', fruit_id=fruit.id) }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if results.bosses %}
+<div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-wrapper me-3">
+                <i class="fas fa-dragon text-white"></i>
+            </div>
+            <h2 class="h4 mb-0">Bosses ({{ results.bosses|length }})</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row g-4">
+            {% for boss in results.bosses %}
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm boss-card">
+                    {% if boss.image %}
+                    <img src="{{ url_for('static', filename='images/' + boss.image) }}" class="card-img-top" alt="{{ boss.name }}" style="height: 180px; object-fit: contain; padding: 15px;">
+                    {% else %}
+                    <div class="bg-secondary text-white text-center py-5">No Image Available</div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">{{ boss.name }}</h5>
+                        <p class="card-text text-muted small mb-3">{{ boss.description[:100] }}{% if boss.description|length > 100 %}...{% endif %}</p>
+                        
+                        <div class="boss-details mb-3">
+                            <div class="boss-detail-item">
+                                <span class="detail-label"><i class="fas fa-map-marker-alt me-2"></i>Location:</span>
+                                <span class="detail-value location-value">{{ boss.location }}</span>
+                            </div>
+                            <div class="boss-detail-item">
+                                <span class="detail-label"><i class="fas fa-heart me-2"></i>HP:</span>
+                                <span class="detail-value">
+                                    {% if boss.health >= 15000 %}
+                                    <span class="badge bg-danger hp-badge">{{ boss.health }}</span>
+                                    {% elif boss.health >= 10000 %}
+                                    <span class="badge bg-warning hp-badge">{{ boss.health }}</span>
+                                    {% else %}
+                                    <span class="badge bg-success hp-badge">{{ boss.health }}</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ url_for('boss_detail', boss_id=boss.id) }}" class="btn btn-primary btn-sm w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{{ url_for('bosses') }}" class="btn btn-outline-primary px-4">View All Bosses</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if results.maps %}
+<div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="250">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-wrapper me-3">
+                <i class="fas fa-map text-white"></i>
+            </div>
+            <h2 class="h4 mb-0">Maps ({{ results.maps|length }})</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row g-4">
+            {% for map in results.maps %}
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm map-card">
+                    {% if map.image %}
+                    <img src="{{ url_for('static', filename='images/' + map.image) }}" class="card-img-top" alt="{{ map.name }}" style="height: 180px; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-secondary text-white text-center py-5">No Image Available</div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">{{ map.name }}</h5>
+                        <p class="card-text text-muted small mb-3">{{ map.description[:100] }}{% if map.description|length > 100 %}...{% endif %}</p>
+                        
+                        <div class="map-details mb-3">
+                            <div class="map-detail-item">
+                                <span class="detail-label">Level Requirement:</span>
+                                <span class="detail-value">
+                                    {% if map.level_requirement %}
+                                        {% if map.level_requirement >= 200 %}
+                                        <span class="badge bg-danger level-badge">{{ map.level_requirement }}</span>
+                                        {% else %}
+                                        <span class="badge bg-warning level-badge">{{ map.level_requirement }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                    <span class="badge bg-success level-badge">None</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="map-detail-item">
+                                <span class="detail-label">EXP Multiplier:</span>
+                                <span class="detail-value exp-multiplier">{{ map.exp_multiplier }}x</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ url_for('maps') }}" class="btn btn-primary btn-sm w-100">View All Maps</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{{ url_for('maps') }}" class="btn btn-outline-primary px-4">Explore All Maps</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# Display Matching Codes #}
+{% if results.codes %}
+<div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-wrapper me-3">
+                <i class="fas fa-gift text-white"></i>
+            </div>
+            <h2 class="h4 mb-0">Codes ({{ results.codes|length }})</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Code</th>
+                        <th>Reward</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for code in results.codes %}
+                    <tr>
+                        <td><code>{{ code.code }}</code></td>
+                        <td>{{ code.reward }}</td>
+                        <td>
+                            {% if code.is_active %}
+                            <span class="badge bg-success">Active</span>
+                            {% else %}
+                            <span class="badge bg-danger">Expired</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary copy-code" data-code="{{ code.code }}">
+                                <i class="fas fa-copy me-1"></i> Copy
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {# Only show View All Codes if no page link was already found #}
+        {% if not codes_page_found %}
+            <a href="{{ url_for('codes') }}" class="btn btn-outline-primary mt-2">View All Codes</a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+{# Display Matching Updates #}
+{% if results.updates %}
+<div class="card mb-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="350">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-wrapper me-3">
+                <i class="fas fa-newspaper text-white"></i>
+            </div>
+            <h2 class="h4 mb-0">Updates ({{ results.updates|length }})</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        {% for update in results.updates %}
+        <div class="card mb-3 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="card-title mb-0">{{ update.title }}</h5>
+                    <span class="badge bg-primary date-badge">{{ update.date_released.strftime('%b %d, %Y') }}</span>
+                </div>
+                <p class="card-text mb-2">{{ update.description[:150] }}{% if update.description|length > 150 %}...{% endif %}</p>
+                <div class="d-flex align-items-center">
+                    <span class="version-tag">Version {{ update.version }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <div class="text-center mt-3">
+            <a href="{{ url_for('updates') }}" class="btn btn-outline-primary px-4">View All Updates</a>
+        </div>
+    </div>
+</div>
 {% endif %}
 
 {% endif %}
 
 <style>
+/* Modern design styles from mechanics.html */
+.search-results-page {
+    position: relative;
+    padding-top: 2rem;
+}
+
+.header-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--bs-primary), var(--bs-purple));
+    border-radius: 5px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* Card Styles */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Badge styling */
+.badge-effect {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    height: 30px;
+    position: relative;
+    border-radius: 4px;
+    padding: 2px 10px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.badge-text {
+    position: relative;
+    z-index: 2;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Specific colors for each rarity */
+.badge-effect-common { background-color: #6c757d; color: white; }
+.badge-effect-uncommon { background-color: #28a745; color: white; }
+.badge-effect-rare { background-color: #007bff; color: white; }
+.badge-effect-epic { background-color: #9933cc; color: white; }
+.badge-effect-legendary { background-color: #ffc107; color: black; }
+.badge-effect-mythical { background-color: #dc3545; color: white; box-shadow: 0 0 10px rgba(255, 0, 0, 0.4); }
+
+/* Canvas sizing for special effects */
+.legendary-shine-canvas,
+.mythical-lightning-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Type badge styling */
+.type-badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    margin-right: 5px;
+}
+
+.type-logia { background-color: #fd7e14; }
+.type-paramecia { background-color: #6610f2; }
+.type-zoan { background-color: #198754; }
+
 /* Mobile Optimization Styles */
 @media (max-width: 767px) {
     .section-title {
@@ -250,37 +520,47 @@
         font-size: 0.9rem;
     }
     
-    .browse-categories .btn {
+    .card-body .btn {
         font-size: 0.9rem;
-        padding: 0.6rem 1rem;
     }
 }
 </style>
 
-{% endblock %}
-
+{% if results.codes %}
 {% block extra_js %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Copy code functionality
-        const copyButtons = document.querySelectorAll('.copy-code');
-        
-        copyButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const code = this.getAttribute('data-code');
-                navigator.clipboard.writeText(code).then(() => {
-                    // Change button text temporarily
-                    const originalHTML = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check me-1"></i> Copied!';
-                    this.classList.replace('btn-primary', 'btn-success');
-                    
-                    setTimeout(() => {
-                        this.innerHTML = originalHTML;
-                        this.classList.replace('btn-success', 'btn-primary');
-                    }, 2000);
-                });
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS animations if available
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 600,
+            once: true,
+            offset: 50
+        });
+    }
+
+    const copyButtons = document.querySelectorAll('.copy-code');
+    copyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const codeToCopy = this.getAttribute('data-code');
+            navigator.clipboard.writeText(codeToCopy).then(() => {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check me-1"></i> Copied!';
+                this.classList.remove('btn-primary');
+                this.classList.add('btn-success');
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-primary');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy code: ', err);
             });
         });
     });
+});
 </script>
+{% endblock %}
+{% endif %}
+
 {% endblock %} 

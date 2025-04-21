@@ -26,8 +26,8 @@
             position: fixed;
             width: 35px;
             height: 35px;
-            background: rgba(0, 160, 255, 0.15);
-            border: 1.5px solid rgba(0, 160, 255, 0.5);
+            background: rgba(0, 160, 255, 0.1);
+            border: 2px solid rgba(0, 160, 255, 0.5);
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
@@ -35,23 +35,46 @@
             z-index: 9999;
             backdrop-filter: blur(3px);
             -webkit-backdrop-filter: blur(3px);
-            box-shadow: 0 4px 12px rgba(0, 160, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 160, 255, 0.3), 
+                        inset 0 1px 6px rgba(255, 255, 255, 0.6),
+                        inset 0 -2px 12px rgba(0, 0, 0, 0.2);
             left: 0;
             top: 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .cursor-follower::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 60%);
+            opacity: 0.5;
+            pointer-events: none;
         }
         
         .cursor-follower.hover {
             width: 55px;
             height: 55px;
             background: rgba(255, 105, 0, 0.1);
-            border: 1.5px solid rgba(255, 105, 0, 0.5);
-            box-shadow: 0 6px 18px rgba(255, 105, 0, 0.4);
+            border: 2px solid rgba(255, 105, 0, 0.5);
+            box-shadow: 0 6px 18px rgba(255, 105, 0, 0.3),
+                        inset 0 1px 6px rgba(255, 255, 255, 0.6),
+                        inset 0 -2px 12px rgba(0, 0, 0, 0.2),
+                        0 0 15px rgba(255, 105, 0, 0.2);
+            transform: translate(-50%, -50%) translateZ(5px);
         }
 
         /* Click effect */
         .cursor-follower.clicking {
-            transform: translate(-50%, -50%) scale(0.85);
-            box-shadow: 0 2px 8px rgba(0, 160, 255, 0.5);
+            transform: translate(-50%, -50%) scale(0.85) translateZ(-5px);
+            box-shadow: 0 2px 8px rgba(0, 160, 255, 0.5),
+                        inset 0 1px 3px rgba(255, 255, 255, 0.4),
+                        inset 0 -3px 6px rgba(0, 0, 0, 0.3);
         }
         
         .cursor-dot {
@@ -66,19 +89,35 @@
             transition: width 0.2s ease-out, height 0.2s ease-out, transform 0.1s ease-out, box-shadow 0.2s ease-out;
             left: 0;
             top: 0;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 3px rgba(255, 255, 255, 0.8);
+        }
+        
+        .cursor-dot::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 30%;
+            height: 30%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            filter: blur(1px);
         }
         
         .cursor-dot.hover {
             width: 8px;
             height: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.8);
         }
 
         /* Click effect */
         .cursor-dot.clicking {
             transform: translate(-50%, -50%) scale(1.4);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7),
+                        inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+                        0 0 10px rgba(255, 255, 255, 0.5);
         }
         
         /* One Piece Inspired Particle Effect */
@@ -259,16 +298,341 @@
             
             /* Improve water animation for better performance */
             .nav-water-animation {
-                height: 10px;
+                height: 6px; /* Reduced from 10px */
+                position: absolute;
+                bottom: -1px; /* Move slightly up */
+                left: 0;
+                width: 100%;
+                z-index: 0;
+                overflow: hidden;
             }
             
             .water-wave {
-                height: 10px;
+                height: 4px; /* Reduced from 10px */
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 200%;
+                background-repeat: repeat-x;
+                border-radius: 30% 40% 50% 30% / 30% 40% 30% 40%; /* Less extreme curves */
+                opacity: 0.2; /* Reduced from 0.3 */
+            }
+            
+            .wave1 {
+                animation: wave-move 16s linear infinite; /* Slowed down from 12s */
+                height: 4px; /* Reduced from 8px */
+                background: linear-gradient(90deg, #2962ff, #42a5f5, #2962ff);
+                bottom: -1px;
+            }
+            
+            .wave2 {
+                animation: wave-move 12s linear infinite reverse; /* Slowed down from 8s */
+                height: 3px; /* Reduced from 6px */
+                background: linear-gradient(90deg, #42a5f5, #90caf9, #42a5f5);
+                bottom: 0;
+            }
+            
+            @keyframes wave-move {
+                0% {
+                    transform: translateX(0) scaleY(1);
+                }
+                50% {
+                    transform: translateX(-25%) scaleY(0.8); /* Added subtle vertical scaling */
+                }
+                100% {
+                    transform: translateX(-50%) scaleY(1);
+                }
             }
         }
     </style>
+    <style>
+        /* Fruit Battlegrounds Header Styles */
+        .navbar-brand {
+            overflow: visible; /* Allow elements to overflow for effects */
+        }
+        
+        /* Fruit icon styles */
+        .fruit-icon-container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .fruit-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 5px rgba(255, 100, 0, 0.5));
+            animation: fruit-pulse 3s infinite ease-in-out;
+            z-index: 2;
+        }
+        
+        .fruit-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle, rgba(255, 100, 0, 0.6) 0%, rgba(255, 100, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: glow-pulse 3s infinite ease-in-out;
+            z-index: 1;
+        }
+        
+        /* Brand text styles */
+        .brand-text-container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .brand-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(to bottom, #ffd700 0%, #ff9500 50%, #ff4d00 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .brand-text-shadow {
+            position: absolute;
+            top: 2px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #ffd700 0%, #ff9500 50%, #ff4d00 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: blur(4px);
+            opacity: 0.6;
+            z-index: 1;
+        }
+        
+        .wiki-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(0, 100, 255, 0.8);
+            position: relative;
+            top: -2px;
+            animation: wiki-glow 3s infinite alternate;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Pirate icon styles */
+        .pirate-icon-container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pirate-icon {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.9);
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.7));
+            animation: skull-shake 2s infinite ease-in-out;
+        }
+        
+        .pirate-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.5) 0%, rgba(255, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(5px);
+            animation: pirate-glow 2s infinite alternate;
+            z-index: 1;
+        }
+        
+        /* Power aura effect */
+        .power-aura {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 130%;
+            background: radial-gradient(ellipse at center, 
+                rgba(255, 200, 0, 0.15) 0%, 
+                rgba(255, 100, 0, 0.1) 40%, 
+                rgba(255, 0, 0, 0.05) 60%, 
+                rgba(0, 0, 255, 0) 100%);
+            filter: blur(8px);
+            border-radius: 30% / 70%;
+            z-index: 0;
+            animation: aura-pulse 4s infinite alternate;
+        }
+        
+        /* Animations */
+        @keyframes fruit-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+        
+        @keyframes skull-shake {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        @keyframes pirate-glow {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.3); }
+        }
+        
+        @keyframes wiki-glow {
+            0% { text-shadow: 0 0 5px rgba(0, 100, 255, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(0, 200, 255, 0.9), 0 0 20px rgba(0, 100, 255, 0.6); }
+        }
+        
+        @keyframes aura-pulse {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        /* Mobile optimization for header */
+        @media (max-width: 768px) {
+            .brand-text {
+                font-size: 1.2rem;
+            }
+            
+            .wiki-text {
+                font-size: 0.8rem;
+            }
+            
+            .fruit-icon {
+                font-size: 1.4rem;
+            }
+            
+            .pirate-icon {
+                font-size: 1.2rem;
+            }
+            
+            .power-aura {
+                width: 110%;
+            }
+        }
+        
+        /* Cursor Follower Styles */
+    </style>
     {% block extra_css %}{% endblock %}
-    {% block extra_head %}{% endblock %}
+    {% block extra_head %}
+    <style>
+        /* Search Suggestions Styles */
+        .search-suggestions {
+            position: absolute;
+            top: 100%; /* Position right below the search form */
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, #2b0064, #1a0047); /* Match navbar gradient */
+            border: 1px solid rgba(255, 165, 0, 0.3); /* Amber border to match theme */
+            border-top: none;
+            border-radius: 0 0 10px 10px; /* Rounded corners */
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1060; /* Increased z-index */
+            width: 100%; /* Match input width */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Deeper shadow for depth */
+            display: none; /* Hidden by default */
+            /* Custom scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 165, 0, 0.6) rgba(26, 0, 71, 0.5);
+        }
+        /* Custom scrollbar for Chrome/Safari */
+        .search-suggestions::-webkit-scrollbar {
+            width: 8px;
+        }
+        .search-suggestions::-webkit-scrollbar-track {
+            background: rgba(26, 0, 71, 0.5);
+            border-radius: 0 0 10px 0;
+        }
+        .search-suggestions::-webkit-scrollbar-thumb {
+            background: rgba(255, 165, 0, 0.6);
+            border-radius: 10px;
+        }
+        .search-suggestions ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .search-suggestions li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+        .search-suggestions li:last-child {
+            border-bottom: none;
+        }
+        .search-suggestions li.view-all-results {
+            background-color: rgba(41, 98, 255, 0.1);
+        }
+        .search-suggestions li.view-all-results a {
+            font-weight: 500;
+            color: #ffab00;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .search-suggestions li a {
+            display: block;
+            padding: 12px 15px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .search-suggestions li a:hover {
+            background: linear-gradient(90deg, rgba(255, 171, 0, 0.15), transparent);
+            color: #ffffff;
+            padding-left: 18px; /* Slight indentation on hover */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+        .search-suggestions li a:hover::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(to bottom, #ffcc29, #ff9a00);
+        }
+        .search-suggestions .suggestion-type {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 0.75rem;
+            color: rgba(255, 165, 0, 0.7);
+            font-weight: normal;
+        }
+        
+        /* Mobile improvements for search suggestions */
+        @media (max-width: 767px) {
+            /* Ensure the form container itself allows relative positioning */
+            .navbar-collapse .search-form {
+                position: relative; /* Added for mobile context */
+            }
+            .search-suggestions {
+                position: absolute; /* Keep it attached to the form */
+                top: 100%; /* Position below the input */
+                left: 0;
+                right: 0;
+                width: 100%; /* Take full width of the form */
+                box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+                /* Reset fixed positioning if previously set */
+                position: absolute;
+            }
+        }
+    </style>
+    {% endblock %}
 </head>
 <body>
     <!-- Cursor Follower Elements -->
@@ -278,10 +642,30 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top modern-navbar" data-aos="fade-down">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
-                <span class="fruit-icon me-2">🍎</span>
-                <span class="brand-text">Fruit Battlegrounds Wiki</span>
-                <span class="pirate-icon ms-2"><i class="fas fa-skull-crossbones"></i></span>
+            <a class="navbar-brand d-flex align-items-center position-relative" href="{{ url_for('home') }}">
+                <!-- Animated fruit icon with glow effect -->
+                <div class="fruit-icon-container me-2 position-relative">
+                    <span class="fruit-icon position-relative">🍎</span>
+                    <div class="fruit-glow"></div>
+                </div>
+                
+                <!-- Stylized brand text with gradient and 3D effect -->
+                <div class="brand-text-container">
+                    <span class="brand-text fw-bold text-gradient position-relative">
+                        FRUIT BATTLEGROUNDS
+                        <span class="brand-text-shadow"></span>
+                    </span>
+                    <span class="wiki-text ms-2">WIKI</span>
+                </div>
+                
+                <!-- Animated pirate icon with effects -->
+                <div class="pirate-icon-container ms-2 position-relative">
+                    <i class="fas fa-skull-crossbones pirate-icon"></i>
+                    <div class="pirate-glow"></div>
+                </div>
+                
+                <!-- Power aura effect -->
+                <div class="power-aura"></div>
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -313,12 +697,16 @@
                         <a class="nav-link nav-link-fancy" href="{{ url_for('updates') }}">Updates</a>
                     </li>
                 </ul>
-                <form class="search-form" action="{{ url_for('search') }}" method="get">
+                <form class="search-form position-relative" action="{{ url_for('search') }}" method="get" id="header-search-form">
                     <div class="modern-search">
-                        <input type="search" name="q" placeholder="Search..." class="modern-search-input">
+                        <input type="search" name="q" placeholder="Search..." class="modern-search-input" id="header-search-input" autocomplete="off">
                         <button type="submit" class="modern-search-button">
                             <i class="fas fa-search"></i>
                         </button>
+                    </div>
+                    <!-- Suggestions Container -->
+                    <div class="search-suggestions" id="header-search-suggestions">
+                        <ul id="header-suggestions-list"></ul>
                     </div>
                 </form>
             </div>
@@ -635,11 +1023,7 @@
             document.addEventListener('mousedown', (e) => {
                 cursorFollower.classList.add('clicking');
                 cursorDot.classList.add('clicking');
-
-                // Create a wave effect on click
-                createWaveEffect(e.clientX, e.clientY);
-                // Create One Piece inspired particle effect instead of ripple
-                // createParticleEffect(e.clientX, e.clientY); // Commented out to remove particle effect
+                // Wave effect removed by request
             });
             
             document.addEventListener('mouseup', () => {
@@ -830,6 +1214,145 @@
         });
     </script>
     {% block extra_js %}{% endblock %}
+
+    {# Add Search Suggestions Script #}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('header-search-input');
+            const suggestionsContainer = document.getElementById('header-search-suggestions');
+            const suggestionsList = document.getElementById('header-suggestions-list');
+            const searchForm = document.getElementById('header-search-form');
+
+            // --- Define Searchable Items ---
+            // Ideally, this would come from the server or a separate JSON file
+            const searchableItems = [
+                { name: 'Home', url: '{{ url_for("home") }}', type: 'Page' },
+                { name: 'Fruits', url: '{{ url_for("fruits") }}', type: 'Page' },
+                { name: 'Bosses', url: '{{ url_for("bosses") }}', type: 'Page' },
+                { name: 'Maps', url: '{{ url_for("maps") }}', type: 'Page' },
+                { name: 'Mechanics', url: '{{ url_for("mechanics") }}', type: 'Page' },
+                { name: 'Leveling Guide', url: '{{ url_for("leveling_guide") }}', type: 'Page' },
+                { name: 'Codes', url: '{{ url_for("codes") }}', type: 'Page' },
+                { name: 'Updates', url: '{{ url_for("updates") }}', type: 'Page' },
+                // Add specific fruits/bosses here if desired, e.g.:
+                // { name: 'Leopard Fruit', url: '{ { url_for("fruit_detail") } }', type: 'Fruit' },
+                // { name: 'Kaido Boss', url: '{{ url_for("bosses") }}#kaido', type: 'Boss' },
+            ];
+
+            function showSuggestions(filteredItems) {
+                suggestionsList.innerHTML = ''; // Clear previous suggestions
+                if (filteredItems.length === 0 || searchInput.value.trim() === '') {
+                    suggestionsContainer.style.display = 'none';
+                    return;
+                }
+
+                // Add type headings to organize suggestions
+                const typeGroups = {};
+                filteredItems.forEach(item => {
+                    if (!typeGroups[item.type]) {
+                        typeGroups[item.type] = [];
+                    }
+                    typeGroups[item.type].push(item);
+                });
+
+                // Limit to total 10 suggestions maximum for better UX
+                let count = 0;
+                const maxSuggestions = 10;
+
+                // Create a header element for each type if we have multiple types
+                Object.keys(typeGroups).forEach(type => {
+                    // Skip if we've reached max suggestions
+                    if (count >= maxSuggestions) return;
+                    
+                    // Add items for this type (limited by remaining slots)
+                    const items = typeGroups[type];
+                    items.slice(0, maxSuggestions - count).forEach(item => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = item.url;
+                        a.innerHTML = `<span class="suggestion-name">${item.name}</span>`;
+                        if (Object.keys(typeGroups).length > 1) {
+                            a.innerHTML += `<small class="suggestion-type">${item.type}</small>`;
+                        }
+                        
+                        // Prevent form submission when clicking suggestion
+                        a.addEventListener('click', function(e) { 
+                            // e.preventDefault(); // REMOVED this line
+                            // searchInput.value = item.name; // REMOVED this line
+                            // Allow default link behavior or Turbo Drive to handle navigation
+                            // window.location.href = this.href; // Commented out - let default behavior work
+                        });
+                        li.appendChild(a);
+                        suggestionsList.appendChild(li);
+                        count++;
+                    });
+                });
+
+                // Append "View all results" option if we have results
+                if (filteredItems.length > 0) {
+                    const li = document.createElement('li');
+                    li.className = 'view-all-results';
+                    const a = document.createElement('a');
+                    a.href = '{{ url_for("search") }}?q=' + encodeURIComponent(searchInput.value);
+                    a.innerHTML = '<i class="fas fa-search me-2"></i>View all results';
+                    a.addEventListener('click', function(e) {
+                        // Allow this to submit normally
+                        searchForm.submit();
+                        e.preventDefault();
+                    });
+                    li.appendChild(a);
+                    suggestionsList.appendChild(li);
+                }
+                
+                // Position the suggestions correctly and show
+                suggestionsContainer.style.display = 'block';
+            }
+
+            function hideSuggestions() {
+                // Remove the delay - hide immediately when focus is lost or click outside
+                // setTimeout(() => {
+                    suggestionsContainer.style.display = 'none';
+                // }, 150);
+            }
+
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                if (query === '') {
+                    hideSuggestions();
+                    return;
+                }
+
+                const filteredItems = searchableItems.filter(item => 
+                    item.name.toLowerCase().includes(query)
+                );
+                showSuggestions(filteredItems);
+            });
+
+            searchInput.addEventListener('focus', function() {
+                // Show suggestions again on focus if there's text
+                if (this.value.trim() !== '') {
+                    const query = this.value.toLowerCase().trim();
+                    const filteredItems = searchableItems.filter(item => 
+                        item.name.toLowerCase().includes(query)
+                    );
+                    showSuggestions(filteredItems);
+                }
+            });
+
+            // Hide suggestions when clicking outside the search form
+            document.addEventListener('click', function(event) {
+                if (!searchForm.contains(event.target)) {
+                   // Check if suggestions are currently visible before hiding
+                   if (suggestionsContainer.style.display === 'block') {
+                       hideSuggestions();
+                   }
+                }
+            });
+            
+            // Hide on blur - this might be needed if tabbing away
+            // searchInput.addEventListener('blur', hideSuggestions); // REMOVED this listener
+        });
+    </script>
 
     {# Add Lightning Effect Script #}
     <script>

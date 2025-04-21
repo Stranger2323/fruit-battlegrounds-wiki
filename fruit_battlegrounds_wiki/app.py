@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
-from sqlalchemy import inspect
+from sqlalchemy import inspect, or_ # Added or_
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default_secret_key_for_dev') # Read from env var
@@ -226,13 +226,118 @@ def search():
     query = request.args.get('q', '')
     if not query:
         return redirect(url_for('home'))
+
+    results = {
+        'fruits': [],
+        'bosses': [],
+        'maps': [],
+        'codes': [],
+        'pages': [],
+        'updates': []  # Added updates to the results dictionary
+    }
+    query_lower = query.lower()
+
+    # Search Database Records - Use both "like" and "ilike" for case insensitivity
+    # Also expand search to check more fields in each model
+    results['fruits'] = Fruit.query.filter(
+        or_(
+            Fruit.name.ilike(f'%{query}%'), 
+            Fruit.description.ilike(f'%{query}%'),
+            Fruit.rarity.ilike(f'%{query}%'),
+            Fruit.type.ilike(f'%{query}%')
+        )
+    ).all()
     
-    fruits = Fruit.query.filter(Fruit.name.ilike(f'%{query}%')).all()
-    bosses = Boss.query.filter(Boss.name.ilike(f'%{query}%')).all()
-    maps = Map.query.filter(Map.name.ilike(f'%{query}%')).all()
-    codes = Code.query.filter(Code.code.ilike(f'%{query}%')).all()
+    results['bosses'] = Boss.query.filter(
+        or_(
+            Boss.name.ilike(f'%{query}%'), 
+            Boss.description.ilike(f'%{query}%'),
+            Boss.location.ilike(f'%{query}%')
+        )
+    ).all()
     
-    return render_template('search_results.html', query=query, fruits=fruits, bosses=bosses, maps=maps, codes=codes)
+    results['maps'] = Map.query.filter(
+        or_(
+            Map.name.ilike(f'%{query}%'), 
+            Map.description.ilike(f'%{query}%')
+        )
+    ).all()
+    
+    results['codes'] = Code.query.filter(
+        or_(
+            Code.code.ilike(f'%{query}%'),
+            Code.reward.ilike(f'%{query}%')
+        )
+    ).all()
+    
+    # Add search for updates
+    results['updates'] = Update.query.filter(
+        or_(
+            Update.title.ilike(f'%{query}%'),
+            Update.description.ilike(f'%{query}%'),
+            Update.version.ilike(f'%{query}%')
+        )
+    ).all()
+
+    # Search Page Names/Topics
+    page_map = {
+        'home': {'name': 'Home', 'url': url_for('home'), 'icon': 'fa-home'},
+        'fruits': {'name': 'Fruits', 'url': url_for('fruits'), 'icon': 'fa-apple-alt'},
+        'bosses': {'name': 'Bosses', 'url': url_for('bosses'), 'icon': 'fa-dragon'},
+        'maps': {'name': 'Maps', 'url': url_for('maps'), 'icon': 'fa-map'},
+        'mechanics': {'name': 'Mechanics', 'url': url_for('mechanics'), 'icon': 'fa-cogs'},
+        'leveling guide': {'name': 'Leveling Guide', 'url': url_for('leveling_guide'), 'icon': 'fa-arrow-up'},
+        'codes': {'name': 'Codes', 'url': url_for('codes'), 'icon': 'fa-gift'},
+        'updates': {'name': 'Updates', 'url': url_for('updates'), 'icon': 'fa-newspaper'},
+        'pvp': {'name': 'PvP Guide', 'url': url_for('pvp'), 'icon': 'fa-fist-raised'}
+        # Add other relevant pages/keywords if needed
+    }
+
+    for key, page_info in page_map.items():
+        # Check if query matches page name or keywords associated with it
+        if query_lower in key or query_lower in page_info['name'].lower():
+            results['pages'].append(page_info)
+            
+    # Remove duplicate page results if a code result also points to the codes page
+    codes_page_info = next((p for p in results['pages'] if p['name'] == 'Codes'), None)
+    if results['codes'] and codes_page_info:
+         results['pages'].remove(codes_page_info) # Remove the specific page dict
+
+    # Check for Whole Cake map specifically (additional check if normal search fails)
+    if 'cake' in query_lower or 'whole' in query_lower:
+        whole_cake = Map.query.filter(Map.name.ilike('%Whole Cake%')).first()
+        if whole_cake and whole_cake not in results['maps']:
+            results['maps'].append(whole_cake)
+            
+    # Check for Tournament map specifically
+    if 'tournament' in query_lower or 'pvp' in query_lower or 'arena' in query_lower:
+        tournament = Map.query.filter(Map.name.ilike('%Tournament%')).first()
+        if tournament and tournament not in results['maps']:
+            results['maps'].append(tournament)
+            
+    # Special handling for maps in general
+    if 'map' in query_lower or 'maps' in query_lower:
+        # Get all maps if searching for maps generally
+        all_maps = Map.query.all()
+        # Add any maps that aren't already in results
+        for map_item in all_maps:
+            if map_item not in results['maps']:
+                results['maps'].append(map_item)
+
+    # Explicitly check if the 'Codes' page is among the found pages *after* potential removal
+    codes_page_found = any(p['name'] == 'Codes' for p in results['pages'])
+    updates_page_found = any(p['name'] == 'Updates' for p in results['pages'])
+
+    total_results = sum(len(v) for v in results.values())
+
+    return render_template(
+        'search_results.html', 
+        query=query, 
+        results=results, 
+        total_results=total_results,
+        codes_page_found=codes_page_found, # Pass the boolean to the template
+        updates_page_found=updates_page_found # Pass updates page boolean
+    )
 
 # Add missing mythical fruits from Update 20
 @app.route('/add-mythical-fruits')
