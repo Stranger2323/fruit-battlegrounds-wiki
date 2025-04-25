@@ -1,0 +1,11 @@
+{
+  "build": {
+    "builder": "nixpacks",
+    "buildCommand": "cd fruit_battlegrounds_wiki && pip install -r requirements.txt"
+  },
+  "deploy": {
+    "startCommand": "cd fruit_battlegrounds_wiki && gunicorn app:app",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+} 
