@@ -16,12 +16,12 @@
 <div class="row mb-4">
     <div class="col-lg-8" data-aos="fade-right" data-aos-delay="100">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header bg-primary text-white">
                 <div class="d-flex align-items-center">
                     <div class="icon-wrapper me-3">
                         <i class="fas fa-info-circle text-white"></i>
                     </div>
-                <h4 class="mb-0">How to Redeem Codes</h4>
+                <h2 class="h4 mb-0">How to Redeem Codes</h2>
                 </div>
             </div>
             <div class="card-body">
@@ -57,31 +57,36 @@
                         </div>
                     </li>
                 </ol>
-                <div class="alert alert-warning">
-                    <i class="fas fa-exclamation-triangle me-2"></i>
-                    Each code can only be redeemed once per account.
+                <div class="alert alert-warning custom-alert">
+                    <div class="alert-icon-container">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <strong>Important:</strong> Each code can only be redeemed once per account.
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-4" data-aos="fade-left" data-aos-delay="150">
         <div class="card h-100 border-0 shadow-sm">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header bg-primary text-white">
                 <div class="d-flex align-items-center">
                     <div class="icon-wrapper me-3">
                         <i class="fas fa-check-circle text-white"></i>
                     </div>
-                <h4 class="mb-0">Code Status</h4>
+                <h2 class="h4 mb-0">Code Status</h2>
                 </div>
             </div>
             <div class="card-body d-flex flex-column justify-content-center">
                 <div class="text-center">
-                    <span class="badge rounded-pill px-3 py-2" style="min-width: 120px; text-align: center; background: linear-gradient(to right, #28a745, #20c997); box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);">
-                        <i class="fas fa-check me-1"></i> 8 Active Codes
-                    </span>
-                    <p>Last Updated: April 19, 2025</p>
-                    <div class="mt-3">
-                        <button class="btn btn-copy-all" onclick="copyAllCodes()">
+                    <div class="active-codes-badge mb-3">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <span>8 Active Codes</span>
+                    </div>
+                    <p class="last-updated">Last Updated: April 19, 2025</p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary copy-all-btn" onclick="copyAllCodes()">
                             <i class="fas fa-clipboard me-2"></i>Copy All Codes
                         </button>
                     </div>
@@ -124,7 +129,7 @@
                   <span class="text">Copy</span>
                 </button>
             </div>
-            
+
             <div class="code-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="code-content">
                     <div class="code-text fw-bold">BIGUPDATE20</div>
@@ -150,7 +155,7 @@
                   <span class="text">Copy</span>
                 </button>
             </div>
-            
+
             <div class="code-card" data-aos="fade-up" data-aos-delay="350">
                 <div class="code-content">
                     <div class="code-text fw-bold">ANTICIPATION</div>
@@ -176,7 +181,7 @@
                   <span class="text">Copy</span>
                 </button>
             </div>
-            
+
             <div class="code-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="code-content">
                     <div class="code-text fw-bold">BIGDAY</div>
@@ -202,7 +207,7 @@
                   <span class="text">Copy</span>
                 </button>
             </div>
-            
+
             <div class="code-card" data-aos="fade-up" data-aos-delay="450">
                 <div class="code-content">
                     <div class="code-text fw-bold">MAGNIFICENT890K!!</div>
@@ -228,7 +233,7 @@
                   <span class="text">Copy</span>
                 </button>
             </div>
-            
+
             <div class="code-card" data-aos="fade-up" data-aos-delay="500">
                 <div class="code-content">
                     <div class="code-text fw-bold">OMG9HUNDRED!</div>
@@ -254,7 +259,7 @@
                   <span class="text">Copy</span>
                 </button>
             </div>
-            
+
             <div class="code-card" data-aos="fade-up" data-aos-delay="550">
                 <div class="code-content">
                     <div class="code-text fw-bold">WOWZER910</div>
@@ -280,7 +285,7 @@
                   <span class="text">Copy</span>
                 </button>
             </div>
-            
+
             <div class="code-card" data-aos="fade-up" data-aos-delay="600">
                 <div class="code-content">
                     <div class="code-text fw-bold">HYPEE920K!</div>
@@ -329,14 +334,21 @@
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#codesFAQ">
             <div class="accordion-body">
-                There are several reasons why a code might not work:
+                <p>There are several reasons why a code might not work:</p>
                 <ul>
                     <li>The code has expired</li>
                     <li>You've already redeemed this code</li>
                     <li>There might be a typo in the code (codes are case-sensitive)</li>
                     <li>The game might be experiencing issues with code redemption</li>
                 </ul>
-                Try copying the code directly from this page to avoid typos. If you still have issues, check the game's official Discord for announcements about code issues.
+                <div class="alert alert-info custom-alert mt-3">
+                    <div class="alert-icon-container">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="alert-content">
+                        <strong>Tip:</strong> Try copying the code directly from this page to avoid typos. If you still have issues, check the game's official Discord for announcements about code issues.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -353,14 +365,21 @@
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#codesFAQ">
             <div class="accordion-body">
-                New codes are typically released for:
+                <p>New codes are typically released for:</p>
                 <ul>
                     <li>Game updates and new content releases</li>
                     <li>Player milestones (like number of visits or likes)</li>
                     <li>Special events and holidays</li>
                     <li>Fixes after game shutdowns or maintenance</li>
                 </ul>
-                The best places to find new codes are the official Fruit Battlegrounds Discord server, the developer's social media accounts, and this wiki.
+                <div class="alert alert-primary custom-alert mt-3">
+                    <div class="alert-icon-container">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <strong>Note:</strong> The best places to find new codes are the official Fruit Battlegrounds Discord server, the developer's social media accounts, and this wiki.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -377,14 +396,21 @@
         </h2>
         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#codesFAQ">
             <div class="accordion-body">
-                Most codes in Fruit Battlegrounds provide Gems, which are used for spinning fruits. Some special codes might also provide:
+                <p>Most codes in Fruit Battlegrounds provide Gems, which are used for spinning fruits. Some special codes might also provide:</p>
                 <ul>
                     <li>Luck boosters for spinning</li>
                     <li>Cash</li>
                     <li>Special titles</li>
                     <li>Temporary boosts</li>
                 </ul>
-                Gems are the most common reward, as they let you spin for better fruits to improve your character.
+                <div class="alert alert-success custom-alert mt-3">
+                    <div class="alert-icon-container">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="alert-content">
+                        <strong>Benefit:</strong> Gems are the most common reward, as they let you spin for better fruits to improve your character.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -636,80 +662,80 @@
         grid-template-columns: 1fr;
         gap: 0.8rem;
     }
-    
+
     /* More compact code cards */
     .code-card {
         padding: 1rem;
     }
-    
+
     .code-text {
         font-size: 0.9rem;
     }
-    
+
     /* Smaller reward buttons */
     .reward-btn {
         width: 100px;
         height: 36px;
     }
-    
+
     .text {
         width: 60px;
         font-size: 12px;
     }
-    
+
     /* Improve redemption steps */
     .redemption-step {
         margin-bottom: 1rem;
     }
-    
+
     .step-number {
         width: 30px;
         height: 30px;
         font-size: 0.9rem;
     }
-    
+
     .step-content {
         font-size: 0.9rem;
     }
-    
+
     /* Accordion improvements */
     .accordion-button {
         padding: 0.75rem 1rem;
         font-size: 1rem;
     }
-    
+
     .accordion-body {
         padding: 1rem;
         font-size: 0.9rem;
     }
-    
+
     /* Copy all button */
     .btn-copy-all {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
     }
-    
+
     /* Improve card spacing */
     .card-body {
         padding: 1rem;
     }
-    
+
     /* Reduce size of icon wrappers */
     .icon-wrapper {
         width: 32px;
         height: 32px;
         font-size: 1rem;
     }
-    
+
     /* Section headers */
     .section-header {
         margin-bottom: 1.5rem;
     }
-    
+
     .section-title {
         font-size: 1.75rem;
     }
-    
+
     .section-subtitle {
         font-size: 1rem;
     }
@@ -729,7 +755,7 @@
                 offset: 50 // Offset (in px) from the original trigger point
             });
         }
-        
+
         // Individual code copy
         const codeCopyBtns = document.querySelectorAll('.reward-btn');
         codeCopyBtns.forEach(btn => {
@@ -751,11 +777,11 @@
     function copyAllCodes() {
         const codeElements = document.querySelectorAll('.code-text');
         let allCodes = '';
-        
+
         codeElements.forEach(elem => {
             allCodes += elem.textContent + '\n';
         });
-        
+
         navigator.clipboard.writeText(allCodes).then(() => {
             const btn = document.querySelector('.btn-copy-all');
             const originalHtml = btn.innerHTML;
@@ -766,4 +792,4 @@
         });
     }
 </script>
-{% endblock %} 
+{% endblock %}

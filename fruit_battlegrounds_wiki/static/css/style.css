@@ -1,5 +1,32 @@
 /* Fruit Battlegrounds Wiki - Main Styles */
 
+/* Add sticky footer styles to the beginning of the file */
+/* Sticky Footer Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main.container {
+    flex: 1 0 auto;
+}
+
+.modern-footer {
+    flex-shrink: 0;
+    width: 100%;
+    margin-top: auto;
+}
+
+.spacer {
+    display: none;
+}
+
 :root {
     --primary-color: #ff5722;    /* Fruit-themed orange */
     --secondary-color: #4a148c;   /* Deep purple */
@@ -10,6 +37,8 @@
     --text-light: #fafafa;        /* White text */
     --bg-light: #f5f5f5;
     --text-dark: #212121;
+    --bullet-color: #ff7e47;      /* Custom color for bullet points */
+    --bullet-glow: #ffcba7;       /* Glow color for bullet points */
 }
 
 body {
@@ -24,11 +53,11 @@ body {
 
 /* Navigation - Modern Design */
 .modern-navbar {
-    background: linear-gradient(90deg, 
+    background: linear-gradient(90deg,
         #1a0047,
-        #2b0064, 
-        #41038f, 
-        #570497, 
+        #2b0064,
+        #41038f,
+        #570497,
         #41038f,
         #2b0064,
         #1a0047);
@@ -159,13 +188,14 @@ body {
     position: relative;
     color: rgba(255, 255, 255, 0.85) !important;
     font-weight: 500;
-    padding: 0.6rem 0.8rem !important;
-    margin: 0 3px;
+    padding: 0.5rem 0.6rem !important; /* Reduced from 0.6rem 0.8rem */
+    margin: 0 2px; /* Reduced from 0 3px */
     transition: all 0.3s ease;
     z-index: 1;
     border-radius: 6px;
     overflow: hidden;
     letter-spacing: 0.5px;
+    font-size: 0.95rem; /* Added to make text slightly smaller */
 }
 
 .nav-link-fancy::before {
@@ -364,43 +394,43 @@ body {
         padding: 0.5rem 0;
         align-items: flex-start;
     }
-    
+
     .nav-link-fancy {
         padding: 0.6rem 0.8rem !important;
     }
-    
+
     .nav-link-fancy::before {
         bottom: 5px;
     }
-    
+
     .search-form {
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
         width: 100%;
         margin-left: 0;
     }
-    
+
     .search-container {
         width: 100%;
     }
-    
-    .search-input, 
+
+    .search-input,
     .search-input:focus {
         width: 100%;
     }
-    
+
     .brand-text {
         font-size: 1.2rem;
     }
-    
+
     .fruit-icon {
         font-size: 1.6rem;
     }
-    
+
     .pirate-icon {
         font-size: 1rem;
     }
-    
+
     .modern-navbar {
         padding: 0.5rem 1rem;
     }
@@ -771,7 +801,7 @@ footer {
     border-radius: 5px;
 }
 
-.bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before, 
+.bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before,
 .bs-tooltip-top .tooltip-arrow::before {
     border-top-color: var(--secondary-color);
 }
@@ -921,7 +951,7 @@ footer {
 }
 
 .modern-search-input {
-    width: 250px;
+    width: 220px; /* Reduced from 250px */
     padding: 8px 15px;
     font-size: 14px;
     color: #fff;
@@ -934,7 +964,7 @@ footer {
 
 .modern-search-input:focus {
     outline: none;
-    width: 280px;
+    width: 250px; /* Reduced from 280px */
     background-color: rgba(255, 255, 255, 0.12);
     border-color: rgba(255, 165, 0, 0.5);
     box-shadow: 0 0 0 2px rgba(255, 165, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -981,11 +1011,11 @@ footer {
         margin: 10px 0;
         width: 100%;
     }
-    
+
     .modern-search {
         width: 100%;
     }
-    
+
     .modern-search-input,
     .modern-search-input:focus {
         width: 100%;
@@ -1216,7 +1246,7 @@ Rarity Badge Effects (One Piece Inspired)
     display: none;
 }
 
-/* From Uiverse.io by Nawsome */ 
+/* From Uiverse.io by Nawsome */
 .continue-application {
   --color: var(--text-light); /* Use website variable */
   --background: var(--secondary-color); /* Use website secondary purple */
@@ -1718,12 +1748,6 @@ Rarity Badge Effects (One Piece Inspired)
     color: white;
     border: 1px solid #56ab2f;
 }
-
-/* Position styling for type badges */
-.fruit-card .type-badge {
-    /* Removed margin-bottom here as it's added to the base .type-badge now */
-}
-
 /* Animation for type badges */
 .type-badge {
     transition: all 0.3s ease;
@@ -2041,8 +2065,8 @@ Rarity Badge Effects (One Piece Inspired)
 .btn:not(.continue-application):not(.boss-guide-button):not(.redeem-code-button):not(.copy-code-btn):not(.copy-code):focus {
     outline: none; /* Remove default outline */
     box-shadow: 0 0 0 3px rgba(var(--bs-primary-rgb), 0.4), /* Keep existing enhanced shadows */
-                0 6px 10px rgba(0, 0, 0, 0.15), 
-                0 3px 6px rgba(0, 0, 0, 0.1); 
+                0 6px 10px rgba(0, 0, 0, 0.15),
+                0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Specific adjustments for btn-primary */
@@ -2054,7 +2078,7 @@ Rarity Badge Effects (One Piece Inspired)
 }
 .btn-primary:not(.continue-application):not(.boss-guide-button):not(.redeem-code-button):not(.copy-code-btn):not(.copy-code):hover {
     background-color: #e64a19; /* Slightly darker shade of primary */
-    border-color: #e64a19; 
+    border-color: #e64a19;
 }
 
 /* Specific adjustments for btn-outline-primary */
@@ -2072,4 +2096,397 @@ Rarity Badge Effects (One Piece Inspired)
     color: var(--text-light) !important;
     border-color: #e64a19 !important;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15) !important; /* Keep inset shadow */
+}
+
+/* New Tag Style */
+.new-tag-red {
+    background-color: #dc3545; /* Bootstrap danger red */
+    color: #fff;
+    padding: 0.4em 0.7em; /* Match other badges */
+    border-radius: 0.3rem; /* Match other badges */
+    font-weight: 600;
+    transition: all 0.3s ease-out;
+    cursor: default; /* Indicate it's not clickable */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    vertical-align: middle; /* Align with other items */
+}
+
+.new-tag-red:hover {
+    transform: scale(1.1) translateY(-1px); /* Scale and lift */
+    background-color: #c82333; /* Darker red on hover */
+    box-shadow: 0 5px 10px rgba(220, 53, 69, 0.4); /* More pronounced shadow */
+    filter: brightness(1.1); /* Slightly brighter */
+}
+
+/* Particle style (can be empty if all styles are inline JS) */
+.new-tag-particle {
+    /* Base styles are set via JS, but could add common ones here */
+    z-index: 10000; /* Ensure particles are on top */
+    pointer-events: none !important;
+}
+
+/* Optional: Click effect for the tag itself */
+.new-tag-red.tag-clicked-effect {
+    animation: tag-click-pulse 0.3s ease-out;
+}
+
+@keyframes tag-click-pulse {
+    0% { transform: scale(1) translateY(-1px); } /* Start from hover state if hovered */
+    50% { transform: scale(1.15) translateY(-1px); background-color: #ff4d4d; } /* Brighter red during pulse, keep lift */
+    100% { transform: scale(1.1) translateY(-1px); } /* Return to hover state scale */
+}
+
+/* Enhanced Release Date Styles */
+.release-date-header {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(245, 245, 245, 0.5));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    border-left: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.release-date-header:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 248, 248, 0.7));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.release-date-label {
+    font-weight: 500;
+    color: #777;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    position: relative;
+}
+
+.release-date-label::after {
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 3px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.release-date-value {
+    font-weight: 600;
+    color: #333;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    margin-left: 6px;
+}
+
+/* Icon for the date display */
+.release-date-header::before {
+    content: '\f073';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+    opacity: 0.85;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.release-date-header:hover::before {
+    transform: rotate(10deg);
+    opacity: 1;
+}
+
+.release-date-header:hover .release-date-label,
+.release-date-header:hover .release-date-value {
+    color: var(--primary-color);
+}
+
+/* Pulse effect on the date value */
+@keyframes subtle-pulse {
+    0% { opacity: 0.9; }
+    50% { opacity: 1; }
+    100% { opacity: 0.9; }
+}
+
+.release-date-header:hover .release-date-value {
+    animation: subtle-pulse 2s infinite;
+}
+
+/* Remove the existing pulsing animation */
+.release-date-header:hover {
+    animation: none;
+}
+
+/* Subtle shine effect */
+.release-date-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.release-date-header:hover::after {
+    left: 200%;
+}
+
+/* How to Redeem Steps */
+.redemption-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.redemption-step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.redemption-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 18px;
+    width: 2px;
+    height: calc(100% + 0.5rem);
+    background: linear-gradient(to bottom, var(--primary-color) 60%, transparent);
+    z-index: 1;
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ff5722, #ff9800);
+    color: white;
+    font-weight: bold;
+    margin-right: 1rem;
+    box-shadow: 0 2px 6px rgba(255, 87, 34, 0.3);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.redemption-step:hover .step-number {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(255, 87, 34, 0.4);
+}
+
+.step-content {
+    flex-grow: 1;
+    padding: 0.5rem 0;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+
+.redemption-step:hover .step-content {
+    transform: translateX(5px);
+}
+
+/* Active Codes Badge */
+.active-codes-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(to right, #28a745, #20c997);
+    color: white;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+    transition: all 0.3s ease;
+}
+
+.active-codes-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+}
+
+.active-codes-badge i {
+    font-size: 1.1rem;
+}
+
+.last-updated {
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+/* Copy All Button */
+.copy-all-btn {
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Custom Alert Styling */
+.custom-alert {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid;
+    background-color: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.custom-alert:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.alert-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 193, 7, 0.2);
+    margin-right: 1rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.custom-alert:hover .alert-icon-container {
+    transform: scale(1.1);
+}
+
+.alert-icon-container i {
+    color: #ffc107;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.custom-alert:hover .alert-icon-container i {
+    transform: rotate(5deg);
+    filter: brightness(1.2);
+}
+
+.alert-content {
+    flex-grow: 1;
+    color: #856404;
+}
+
+.alert-content strong {
+    font-weight: 600;
+    margin-right: 0.25rem;
+}
+
+/* Alert Variations */
+.alert-warning.custom-alert {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+.alert-warning .alert-icon-container {
+    background-color: rgba(255, 193, 7, 0.2);
+}
+
+.alert-warning .alert-icon-container i {
+    color: #ffc107;
+}
+
+.alert-warning .alert-content {
+    color: #856404;
+}
+
+.alert-info.custom-alert {
+    background-color: rgba(23, 162, 184, 0.1);
+    border-color: #17a2b8;
+}
+
+.alert-info .alert-icon-container {
+    background-color: rgba(23, 162, 184, 0.2);
+}
+
+.alert-info .alert-icon-container i {
+    color: #17a2b8;
+}
+
+.alert-info .alert-content {
+    color: #0c5460;
+}
+
+.alert-primary.custom-alert {
+    background-color: rgba(13, 110, 253, 0.1);
+    border-color: #0d6efd;
+}
+
+.alert-primary .alert-icon-container {
+    background-color: rgba(13, 110, 253, 0.2);
+}
+
+.alert-primary .alert-icon-container i {
+    color: #0d6efd;
+}
+
+.alert-primary .alert-content {
+    color: #084298;
+}
+
+.alert-success.custom-alert {
+    background-color: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+}
+
+.alert-success .alert-icon-container {
+    background-color: rgba(40, 167, 69, 0.2);
+}
+
+.alert-success .alert-icon-container i {
+    color: #28a745;
+}
+
+.alert-success .alert-content {
+    color: #155724;
+}
+
+.alert-danger.custom-alert {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+}
+
+.alert-danger .alert-icon-container {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+.alert-danger .alert-icon-container i {
+    color: #dc3545;
+}
+
+.alert-danger .alert-content {
+    color: #721c24;
 }

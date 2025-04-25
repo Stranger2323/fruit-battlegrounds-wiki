@@ -25,44 +25,61 @@
                                 <i class="fas fa-code-branch text-primary"></i>
                             </div>
                             <h2 class="h5 mb-0">{{ update.title }}</h2>
+                            {% if loop.first %} <!-- Condition to show only for the first (most recent) update -->
+                            <span class="badge new-tag-red ms-2">New</span> <!-- Moved Tag -->
+                            {% endif %}
                         </div>
                         <div class="d-flex align-items-center">
                             <span class="badge bg-secondary me-3">{{ update.version }}</span>
                             <div class="icon-wrapper me-2 bg-primary star-icon">
                                 <i class="fas fa-star text-white"></i>
-                    </div>
-                            <button class="btn btn-sm btn-outline-primary update-collapse-btn" type="button" data-bs-toggle="collapse" data-bs-target="#update{{ update.version|replace('.', '') }}Content" aria-expanded="true" aria-controls="update{{ update.version|replace('.', '') }}Content">
+                            </div>
+                             <!-- Removed Tag from here -->
+                            <button class="btn btn-sm btn-outline-primary update-collapse-btn ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#update{{ update.version|replace('.', '') }}Content" aria-expanded="true" aria-controls="update{{ update.version|replace('.', '') }}Content">
                                 <i class="fas fa-chevron-down"></i>
                             </button>
                         </div>
                     </div>
                     <div class="collapse show" id="update{{ update.version|replace('.', '') }}Content">
-                    <div class="card-body">
-                        <p class="small text-muted mb-3">Released: {{ update.date_released.strftime('%B %d, %Y') }}</p>
-                        
+                    <div class="card-body p-4">
+                        <div class="release-date-header">
+                            <span class="release-date-label">Released:</span>
+                            <span class="release-date-value">{{ update.date_released.strftime('%B %d, %Y') }}</span>
+                        </div>
+
                         {% set description_lines = update.description.split(',') %}
                         <ul class="update-features">
                             {% for line in description_lines %}
                             <li>{{ line.strip() }}</li>
                             {% endfor %}
                         </ul>
-                        
+
                         {% if 'Leopard V2' in update.title %}
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="card mb-3 border-0 shadow-sm">
-                                    <div class="card-header bg-secondary text-white">
+                                    <div class="card-header bg-warning text-dark">
                                         <div class="d-flex align-items-center">
-                                            <div class="icon-wrapper me-3">
-                                                <i class="fas fa-plus-circle text-white"></i>
+                                            <div class="icon-wrapper me-3 animated-icon new-features-icon">
+                                                <i class="fas fa-plus-circle text-dark"></i>
                                             </div>
                                             <h5 class="h6 mb-0">New Features</h5>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="mb-0">
-                                            <li>Leopard V2 Fruit (New Mythical)</li>
-                                            <li>Snow Fruit (New Epic)</li>
+                                            <li>
+                                                Leopard V2 Fruit
+                                                <span class="badge-effect badge-effect-mythical" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
+                                                    <canvas class="mythical-lightning-canvas"></canvas>
+                                                    <span class="badge-text">New Mythical</span>
+                                                </span>
+                                            </li>
+                                            <li>Snow Fruit
+                                                <span class="badge-effect badge-effect-epic" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
+                                                    <span class="badge-text">New Epic</span>
+                                                </span>
+                                            </li>
                                             <li>Rebirth System</li>
                                             <li>Rayleigh NPC</li>
                                         </ul>
@@ -73,7 +90,7 @@
                                 <div class="card border-0 shadow-sm">
                                     <div class="card-header bg-warning text-dark">
                                         <div class="d-flex align-items-center">
-                                            <div class="icon-wrapper me-3">
+                                            <div class="icon-wrapper me-3 animated-icon balance-changes-icon">
                                                 <i class="fas fa-balance-scale-right text-dark"></i>
                                             </div>
                                             <h5 class="h6 mb-0">Balance Changes</h5>
@@ -81,7 +98,7 @@
                                     </div>
                                     <div class="card-body">
                                         <ul class="mb-0">
-                                            <li>Leopard moved to 
+                                            <li>Leopard moved to
                                                 <span class="badge-effect badge-effect-legendary" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
                                                     <canvas class="legendary-shine-canvas"></canvas>
                                                     <span class="badge-text">Legendary</span>
@@ -96,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="mt-4">
                             <div class="accordion" id="update20Accordion">
                                     <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="100" data-aos-duration="600" data-aos-anchor-placement="top-bottom">
@@ -123,7 +140,7 @@
                                                 LeopardV2 is an enhanced version of the original Leopard fruit with improved transformation capabilities and devastating attacks. The fruit grants users enhanced agility, powerful melee attacks, and the ability to utilize afterimage techniques.
                                             </p>
                                             <p>
-                                                With the introduction of LeopardV2, the original Leopard fruit has been moved from Mythical to 
+                                                With the introduction of LeopardV2, the original Leopard fruit has been moved from Mythical to
                                                 <span class="badge-effect badge-effect-legendary" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
                                                     <canvas class="legendary-shine-canvas"></canvas>
                                                     <span class="badge-text">Legendary</span>
@@ -199,40 +216,305 @@
                                             <div class="alert alert-info">
                                                 <strong>Note:</strong> V2 fruits are not included in the Rebirth pool!
                                             </div>
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered">
-                                                    <thead class="table-dark">
-                                                        <tr>
-                                                            <th>Rarity Progression</th>
-                                                            <th>Gem Cost</th>
-                                                            <th>Requirements</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Common → Uncommon</td>
-                                                            <td>250 Gems</td>
-                                                            <td rowspan="5">Fruit must be at max level (300)</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Uncommon → Rare</td>
-                                                            <td>500 Gems</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Rare → Epic</td>
-                                                            <td>2,500 Gems</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Epic → Legendary</td>
-                                                            <td>10,000 Gems</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Legendary → Mythical</td>
-                                                            <td>25,000 Gems</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+
+                                            <!-- Modern Rebirth Table -->
+                                            <div class="rebirth-table-container">
+                                                <div class="rebirth-table-header">
+                                                    <div class="rebirth-table-column" style="font-weight: 600; color: #333;">Rarity Progression</div>
+                                                    <div class="rebirth-table-column" style="font-weight: 600; color: #333;">Gem Cost</div>
+                                                </div>
+
+                                                <div class="rebirth-table-row">
+                                                    <div class="rebirth-table-column">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge-effect badge-effect-common me-1">
+                                                                <span class="badge-text">Common</span>
+                                                            </span>
+                                                            <span class="progression-indicator">
+                                                                <i class="fas fa-chevron-right"></i>
+                                                            </span>
+                                                            <span class="badge-effect badge-effect-uncommon ms-1">
+                                                                <span class="badge-text">Uncommon</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rebirth-table-column">
+                                                        <span class="gem-cost">250 Gems</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="rebirth-table-row">
+                                                    <div class="rebirth-table-column">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge-effect badge-effect-uncommon me-1">
+                                                                <span class="badge-text">Uncommon</span>
+                                                            </span>
+                                                            <span class="progression-indicator">
+                                                                <i class="fas fa-chevron-right"></i>
+                                                            </span>
+                                                            <span class="badge-effect badge-effect-rare ms-1">
+                                                                <span class="badge-text">Rare</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rebirth-table-column">
+                                                        <span class="gem-cost">500 Gems</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="rebirth-table-row">
+                                                    <div class="rebirth-table-column">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge-effect badge-effect-rare me-1">
+                                                                <span class="badge-text">Rare</span>
+                                                            </span>
+                                                            <span class="progression-indicator">
+                                                                <i class="fas fa-chevron-right"></i>
+                                                            </span>
+                                                            <span class="badge-effect badge-effect-epic ms-1">
+                                                                <span class="badge-text">Epic</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rebirth-table-column">
+                                                        <span class="gem-cost">2,500 Gems</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="rebirth-table-row">
+                                                    <div class="rebirth-table-column">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge-effect badge-effect-epic me-1">
+                                                                <span class="badge-text">Epic</span>
+                                                            </span>
+                                                            <span class="progression-indicator">
+                                                                <i class="fas fa-chevron-right"></i>
+                                                            </span>
+                                                            <span class="badge-effect badge-effect-legendary ms-1">
+                                                                <canvas class="legendary-shine-canvas"></canvas>
+                                                                <span class="badge-text">Legendary</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rebirth-table-column">
+                                                        <span class="gem-cost">10,000 Gems</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="rebirth-table-row">
+                                                    <div class="rebirth-table-column">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge-effect badge-effect-legendary me-1">
+                                                                <canvas class="legendary-shine-canvas"></canvas>
+                                                                <span class="badge-text">Legendary</span>
+                                                            </span>
+                                                            <span class="progression-indicator">
+                                                                <i class="fas fa-chevron-right"></i>
+                                                            </span>
+                                                            <span class="badge-effect badge-effect-mythical ms-1">
+                                                                <canvas class="mythical-lightning-canvas"></canvas>
+                                                                <span class="badge-text">Mythical</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rebirth-table-column">
+                                                        <span class="gem-cost">25,000 Gems</span>
+                                                    </div>
+                                                </div>
                                             </div>
+
+                                            <style>
+                                            /* Modern Rebirth Table Styles */
+                                            .rebirth-table-container {
+                                                border-radius: 12px;
+                                                overflow: hidden;
+                                                box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+                                                margin: 2rem 0;
+                                                background: #fff;
+                                            }
+
+                                            .rebirth-table-header {
+                                                display: flex;
+                                                background: linear-gradient(135deg, #ff9f43, #ff5e62);
+                                                color: white;
+                                                padding: 16px 20px;
+                                                font-weight: 600;
+                                                letter-spacing: 0.5px;
+                                            }
+
+                                            /* Standardized Rarity Badge Styles */
+                                            .rebirth-table-container .badge-effect {
+                                                min-width: 110px;
+                                                height: 32px;
+                                                display: inline-flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                border-radius: 6px;
+                                                position: relative;
+                                                padding: 0 10px;
+                                                box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+                                            }
+
+                                            .rebirth-table-container .badge-text {
+                                                font-size: 14px;
+                                                font-weight: 600;
+                                                position: relative;
+                                                z-index: 2;
+                                                text-align: center;
+                                                white-space: nowrap;
+                                            }
+
+                                            .rebirth-table-container .badge-effect-common {
+                                                background-color: #6c757d;
+                                                color: white;
+                                            }
+
+                                            .rebirth-table-container .badge-effect-uncommon {
+                                                background-color: #28a745;
+                                                color: white;
+                                            }
+
+                                            .rebirth-table-container .badge-effect-rare {
+                                                background-color: #007bff;
+                                                color: white;
+                                            }
+
+                                            .rebirth-table-container .badge-effect-epic {
+                                                background-color: #9933cc;
+                                                color: white;
+                                            }
+
+                                            .rebirth-table-container .badge-effect-legendary {
+                                                background-color: #ffc107;
+                                                color: black;
+                                                box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+                                            }
+
+                                            .rebirth-table-container .badge-effect-mythical {
+                                                background-color: #dc3545;
+                                                color: white;
+                                                box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+                                            }
+
+                                            .rebirth-table-container .legendary-shine-canvas,
+                                            .rebirth-table-container .mythical-lightning-canvas {
+                                                position: absolute;
+                                                top: 0;
+                                                left: 0;
+                                                width: 100%;
+                                                height: 100%;
+                                                z-index: 1;
+                                            }
+
+                                            .rebirth-table-row {
+                                                display: flex;
+                                                padding: 16px 20px;
+                                                border-bottom: 1px solid rgba(0,0,0,0.06);
+                                                transition: all 0.2s ease;
+                                                position: relative;
+                                            }
+
+                                            .rebirth-table-row:hover {
+                                                background-color: rgba(0,0,0,0.02);
+                                                transform: translateY(-2px);
+                                                box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+                                            }
+
+                                            .rebirth-table-row:last-child {
+                                                border-bottom: none;
+                                            }
+
+                                            .rebirth-table-column {
+                                                flex: 1;
+                                                display: flex;
+                                                align-items: center;
+                                            }
+
+                                            .progression-arrow {
+                                                font-size: 20px;
+                                                color: #666;
+                                                margin: 0 8px;
+                                                transform: translateY(-1px);
+                                            }
+
+                                            .gem-cost {
+                                                font-weight: 600;
+                                                color: #333;
+                                                display: inline-flex;
+                                                align-items: center;
+                                                font-size: 16px;
+                                            }
+
+                                            .gem-cost:before {
+                                                content: "";
+                                                display: inline-block;
+                                                width: 16px;
+                                                height: 16px;
+                                                background: linear-gradient(135deg, #ff9f43, #ff5e62);
+                                                border-radius: 50%;
+                                                margin-right: 8px;
+                                                box-shadow: 0 0 8px rgba(255, 159, 67, 0.6);
+                                            }
+
+                                            @media (max-width: 576px) {
+                                                .rebirth-table-row {
+                                                    padding: 12px 16px;
+                                                }
+
+                                                .progression-arrow {
+                                                    font-size: 16px;
+                                                    margin: 0 4px;
+                                                }
+
+                                                .gem-cost {
+                                                    font-size: 14px;
+                                                }
+                                            }
+
+                                            /* New progression indicator styling */
+                                            .progression-indicator {
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                width: 30px;
+                                                height: 30px;
+                                                margin: 0 5px;
+                                                border-radius: 50%;
+                                                background-color: #f3f3f3;
+                                                color: #ff7b00;
+                                                position: relative;
+                                                overflow: hidden;
+                                                transition: all 0.3s ease;
+                                            }
+
+                                            .progression-indicator:before {
+                                                content: '';
+                                                position: absolute;
+                                                top: 0;
+                                                left: 0;
+                                                width: 100%;
+                                                height: 100%;
+                                                background: linear-gradient(45deg, rgba(255,159,67,0.1), rgba(255,94,98,0.1));
+                                                z-index: 0;
+                                            }
+
+                                            .progression-indicator i {
+                                                position: relative;
+                                                z-index: 1;
+                                                font-size: 14px;
+                                                transition: transform 0.3s ease;
+                                            }
+
+                                            .rebirth-table-row:hover .progression-indicator {
+                                                box-shadow: 0 0 8px rgba(255,159,67,0.3);
+                                                background-color: #fff5e9;
+                                            }
+
+                                            .rebirth-table-row:hover .progression-indicator i {
+                                                transform: translateX(2px);
+                                            }
+                                            </style>
+
                                             <p>
                                                 When you Rebirth a Legendary fruit, you are guaranteed a new Mythical fruit that you don't already have. After Rebirth, your fruit level will reset to 1, allowing you to level it up to 300 again with no nerf to gems acquired per level.
                                             </p>
@@ -269,7 +551,7 @@
                                     <h2 class="accordion-header" id="balanceChangesHeading">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#balanceChangesCollapse" aria-expanded="false" aria-controls="balanceChangesCollapse">
                                             <div class="d-flex align-items-center">
-                                                <div class="icon-wrapper me-3">
+                                                <div class="icon-wrapper me-3 animated-icon balance-changes-icon">
                                                     <i class="fas fa-balance-scale text-primary"></i>
                                                 </div>
                                                 Update 20 Balance Changes
@@ -279,7 +561,7 @@
                                     <div id="balanceChangesCollapse" class="accordion-collapse collapse" aria-labelledby="balanceChangesHeading" data-bs-parent="#update20Accordion">
                                         <div class="accordion-body">
                                             <h5>Detailed Fruit Balance Changes</h5>
-                                            
+
                                             <div class="balance-search-container mb-4">
                                                 <form class="form relative w-100">
                                                   <button type="button" class="absolute left-2 -translate-y-1/2 top-1/2 p-1 search-icon-btn">
@@ -516,22 +798,28 @@
                             </div>
                         </div>
                         {% endif %}
-                        
+
                         {% if 'FlameV2' in update.title %}
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="card mb-3 border-0 shadow-sm">
-                                    <div class="card-header bg-secondary text-white">
+                                    <div class="card-header bg-warning text-dark">
                                         <div class="d-flex align-items-center">
-                                            <div class="icon-wrapper me-3">
-                                                <i class="fas fa-plus-circle text-white"></i>
+                                            <div class="icon-wrapper me-3 animated-icon new-features-icon">
+                                                <i class="fas fa-plus-circle text-dark"></i>
                                             </div>
                                             <h5 class="h6 mb-0">New Features</h5>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="mb-0">
-                                            <li>FlameV2 (New Mythical)</li>
+                                            <li>
+                                                FlameV2
+                                                <span class="badge-effect badge-effect-mythical" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
+                                                    <canvas class="mythical-lightning-canvas"></canvas>
+                                                    <span class="badge-text">New Mythical</span>
+                                                </span>
+                                            </li>
                                             <li>Ash Fruit (New Epic)</li>
                                             <li>M1 System Changes</li>
                                             <li>New PvP Mechanics</li>
@@ -543,7 +831,7 @@
                                 <div class="card border-0 shadow-sm">
                                     <div class="card-header bg-warning text-dark">
                                         <div class="d-flex align-items-center">
-                                            <div class="icon-wrapper me-3">
+                                            <div class="icon-wrapper me-3 animated-icon balance-changes-icon">
                                                 <i class="fas fa-balance-scale-right text-dark"></i>
                                             </div>
                                             <h5 class="h6 mb-0">Balance Changes</h5>
@@ -607,7 +895,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="200" data-aos-duration="600">
                                     <h2 class="accordion-header" id="ashHeading">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ashCollapse" aria-expanded="false" aria-controls="ashCollapse">
@@ -648,12 +936,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="accordion-item border-0 shadow-sm" data-aos="zoom-in-up" data-aos-delay="300" data-aos-duration="600">
                                     <h2 class="accordion-header" id="balance18Heading">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#balance18Collapse" aria-expanded="false" aria-controls="balance18Collapse">
                                             <div class="d-flex align-items-center">
-                                                <div class="icon-wrapper me-3">
+                                                <div class="icon-wrapper me-3 animated-icon balance-changes-icon">
                                                     <i class="fas fa-balance-scale text-primary"></i>
                                                 </div>
                                                 Update 18 Balance Changes
@@ -663,7 +951,7 @@
                                     <div id="balance18Collapse" class="accordion-collapse collapse" aria-labelledby="balance18Heading" data-bs-parent="#update18Accordion">
                                         <div class="accordion-body">
                                             <h5>Detailed Balance Changes</h5>
-                                            
+
                                             <div class="balance-search-container mb-4">
                                                 <form class="form relative w-100">
                                                   <button type="button" class="absolute left-2 -translate-y-1/2 top-1/2 p-1 search-icon-btn">
@@ -682,7 +970,7 @@
                                                     No fruits found matching your search.
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="fruit-balance-changes">
                                                 <div class="fruit-change">
                                                     <h6 class="fruit-title">Flame V2</h6>
@@ -899,22 +1187,28 @@
                             </div>
                         </div>
                         {% endif %}
-                        
+
                         {% if 'Dough V2' in update.title %}
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="card mb-3 border-0 shadow-sm">
-                                    <div class="card-header bg-secondary text-white">
+                                    <div class="card-header bg-warning text-dark">
                                         <div class="d-flex align-items-center">
-                                            <div class="icon-wrapper me-3">
-                                                <i class="fas fa-plus-circle text-white"></i>
+                                            <div class="icon-wrapper me-3 animated-icon new-features-icon">
+                                                <i class="fas fa-plus-circle text-dark"></i>
                                             </div>
                                             <h5 class="h6 mb-0">New Features</h5>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="mb-0">
-                                            <li>Dough V2 Fruit (New Mythical)</li>
+                                            <li>
+                                                Dough V2 Fruit
+                                                <span class="badge-effect badge-effect-mythical" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
+                                                    <canvas class="mythical-lightning-canvas"></canvas>
+                                                    <span class="badge-text">New Mythical</span>
+                                                </span>
+                                            </li>
                                             <li>Mirror World Area</li>
                                             <li>Katakuri Boss</li>
                                             <li>Ranked PvP System</li>
@@ -926,7 +1220,7 @@
                                 <div class="card border-0 shadow-sm">
                                     <div class="card-header bg-warning text-dark">
                                         <div class="d-flex align-items-center">
-                                            <div class="icon-wrapper me-3">
+                                            <div class="icon-wrapper me-3 animated-icon balance-changes-icon">
                                                 <i class="fas fa-balance-scale-right text-dark"></i>
                                             </div>
                                             <h5 class="h6 mb-0">Balance Changes</h5>
@@ -946,7 +1240,7 @@
 
                         <div class="mt-4">
                             <div class="accordion" id="update19Accordion">
-                                
+
                                 <div class="accordion-item border-0 shadow-sm mb-3" data-aos="zoom-in-up" data-aos-delay="100" data-aos-duration="600">
                                     <h2 class="accordion-header" id="doughV2Heading">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#doughV2Collapse" aria-expanded="false" aria-controls="doughV2Collapse">
@@ -971,7 +1265,7 @@
                                                 Dough V2 is an enhanced version of the original Dough fruit with improved awakened abilities and devastating attack combinations. This fruit grants users the power to create and manipulate mochi (rice cake) with enhanced properties.
                                             </p>
                                             <p>
-                                                With the introduction of Dough V2, the original Dough fruit has been moved from Mythical to 
+                                                With the introduction of Dough V2, the original Dough fruit has been moved from Mythical to
                                                 <span class="badge-effect badge-effect-legendary" style="display: inline-block; vertical-align: middle; margin: 0 5px;">
                                                     <canvas class="legendary-shine-canvas"></canvas>
                                                     <span class="badge-text">Legendary</span>
@@ -1142,12 +1436,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="accordion-item border-0 shadow-sm" data-aos="zoom-in-up" data-aos-delay="500" data-aos-duration="600">
                                     <h2 class="accordion-header" id="patchChangesHeading">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#patchChangesCollapse" aria-expanded="false" aria-controls="patchChangesCollapse">
                                             <div class="d-flex align-items-center">
-                                                <div class="icon-wrapper me-3">
+                                                <div class="icon-wrapper me-3 animated-icon balance-changes-icon">
                                                     <i class="fas fa-balance-scale text-primary"></i>
                                                 </div>
                                                 Update 19 Balance Changes
@@ -1157,7 +1451,7 @@
                                     <div id="patchChangesCollapse" class="accordion-collapse collapse" aria-labelledby="patchChangesHeading" data-bs-parent="#update19Accordion">
                                         <div class="accordion-body">
                                             <h5>Detailed Balance Changes</h5>
-                                            
+
                                             <div class="balance-search-container mb-4">
                                                 <form class="form relative w-100">
                                                   <button type="button" class="absolute left-2 -translate-y-1/2 top-1/2 p-1 search-icon-btn">
@@ -1176,7 +1470,7 @@
                                                     No fruits found matching your search.
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="fruit-balance-changes">
                                                 <div class="fruit-change">
                                                     <h6 class="fruit-title">Ice V1</h6>
@@ -1479,43 +1773,30 @@
     position: relative;
     padding: 40px 0;
 }
-    
+
 .timeline:before {
     display: none; /* Hide the vertical blue line */
 }
-    
+
 .timeline-item {
     position: relative;
     margin-bottom: 30px;
 }
-    
+
 .timeline-content {
     margin-left: 0; /* Remove the left margin since there's no marker anymore */
     margin-right: 0;
 }
-    
+
 .update-features li {
     margin-bottom: 8px;
     list-style-type: none;
     position: relative;
-    padding-left: 1.8em;
-}
-
-.update-features li:before, .card-body ul li:before, .accordion-body ul li:before {
-    content: "\f005"; /* Star icon from Font Awesome */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    position: absolute;
-    left: 0;
-    color: #f1c40f; /* Golden yellow color */
-    font-size: 0.9em;
-    transform: translateY(1px);
 }
 
 .card-body ul li, .accordion-body ul li {
     list-style-type: none;
     position: relative;
-    padding-left: 1.8em;
     margin-bottom: 0.5em;
 }
 
@@ -1766,88 +2047,277 @@
     .timeline-item {
         margin-bottom: 1.5rem;
     }
-    
+
     .timeline-content .card-header {
         padding: 0.75rem 1rem;
     }
-    
+
     .timeline-content .card-body {
         padding: 1rem;
     }
-    
+
     /* Adjust icon wrapper size */
     .icon-wrapper {
         width: 32px;
         height: 32px;
         font-size: 1rem;
     }
-    
+
     /* Better card spacing and headers */
     .card-header h2.h5 {
         font-size: 1.1rem;
     }
-    
+
     /* Make update features list more compact */
     .update-features li {
         font-size: 0.9rem;
         margin-bottom: 0.25rem;
     }
-    
+
     /* Improve nested cards in update details */
     .row .card-header {
         padding: 0.6rem 0.8rem;
     }
-    
+
     .row .card-header h5.h6 {
         font-size: 1rem;
     }
-    
+
     .row .card-body {
         padding: 0.8rem;
         font-size: 0.9rem;
     }
-    
+
     /* Accordion adjustments */
     .accordion-button {
         padding: 0.75rem 1rem;
     }
-    
+
     .accordion-body {
         padding: 1rem;
         font-size: 0.9rem;
     }
-    
+
     /* Make tables scrollable */
     .table-responsive {
         font-size: 0.85rem;
     }
-    
+
     .table th, .table td {
         padding: 0.5rem;
     }
-    
+
     /* Balance search input */
     .balance-search-container .input {
         font-size: 0.9rem;
         padding: 0.6rem 2rem 0.6rem 2.5rem; /* Adjust padding for icons */
     }
-    
+
     /* Balance change lists */
     .fruit-change ul li {
         font-size: 0.85rem;
     }
-    
+
     /* Section headers */
     .section-header {
         margin-bottom: 1.5rem;
     }
-    
+
     .section-title {
         font-size: 1.75rem;
     }
-    
+
     .section-subtitle {
         font-size: 1rem;
+    }
+}
+
+/* Restore padding and add new styles for 3D orange dot bullets */
+.update-features li,
+.card-body ul li,
+.accordion-body ul li {
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.8em; /* Restore padding for the dot */
+    margin-bottom: 0.5em;
+}
+
+.update-features li:before,
+.card-body ul li:before,
+.accordion-body ul li:before {
+    content: ''; /* Empty content for the pseudo-element */
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    /* 3D effect gradient (light source top-left) */
+    background: radial-gradient(circle at 30% 30%, #ffcc80, var(--primary-color));
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    position: absolute;
+    left: 0.5em; /* Position dot */
+    top: 0.6em;  /* Adjust vertical alignment */
+    transform: translateY(-50%); /* Center vertically */
+    /* Reset font properties that might be inherited */
+    font-family: initial;
+    font-weight: normal;
+    color: initial;
+}
+
+/* Orange outline for feature/balance cards */
+.updates-page .row .card {
+    border: 2px solid transparent !important;
+    transition: all 0.3s ease;
+}
+
+.updates-page .row .card:hover {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 10px 20px rgba(255, 87, 34, 0.15) !important;
+}
+
+/* Always show orange outline for feature cards */
+.updates-page .row .card {
+    border-color: rgba(255, 87, 34, 0.3) !important;
+}
+
+/* Enhanced list items styling */
+.update-features li,
+.card-body ul li {
+    font-weight: 600 !important;
+    font-size: 1.05rem;
+    margin-bottom: 0.9em;
+    padding-left: 2em;
+    transition: all 0.2s ease-out;
+    position: relative;
+    z-index: 1;
+}
+
+/* Create subtle highlight effect */
+.update-features li:after,
+.card-body ul li:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 87, 34, 0.08), rgba(255, 87, 34, 0.01));
+    border-radius: 4px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover effect */
+.update-features li:hover,
+.card-body ul li:hover {
+    transform: translateX(5px);
+}
+
+.update-features li:hover:after,
+.card-body ul li:hover:after {
+    opacity: 1;
+}
+
+/* Make bullets more prominent */
+.update-features li:before,
+.card-body ul li:before {
+    width: 10px;
+    height: 10px;
+    top: 0.7em;
+    left: 0.5em;
+    background: radial-gradient(circle at 30% 30%, #ffdb9e, var(--primary-color));
+    box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.1),
+        0 0 6px rgba(255, 126, 71, 0.5),
+        1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Preserve accordion body list styling */
+.accordion-body ul li {
+    font-weight: normal;
+    font-size: inherit;
+}
+
+/* Modern Rebirth Table Styles */
+.rebirth-table-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    margin: 2rem 0;
+    background: #fff;
+}
+
+.rebirth-table-header {
+    display: flex;
+    background: linear-gradient(135deg, #ff9f43, #ff5e62);
+    color: white;
+    padding: 16px 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.rebirth-table-row {
+    display: flex;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.rebirth-table-row:hover {
+    background-color: rgba(0,0,0,0.02);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.rebirth-table-row:last-child {
+    border-bottom: none;
+}
+
+.rebirth-table-column {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.progression-arrow {
+    font-size: 20px;
+    color: #666;
+    margin: 0 8px;
+    transform: translateY(-1px);
+}
+
+.gem-cost {
+    font-weight: 600;
+    color: #333;
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.gem-cost:before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #ff9f43, #ff5e62);
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 8px rgba(255, 159, 67, 0.6);
+}
+
+@media (max-width: 576px) {
+    .rebirth-table-row {
+        padding: 12px 16px;
+    }
+
+    .progression-arrow {
+        font-size: 16px;
+        margin: 0 4px;
+    }
+
+    .gem-cost {
+        font-size: 14px;
     }
 }
 </style>
@@ -1872,12 +2342,12 @@ document.addEventListener('DOMContentLoaded', function() {
             startEvent: 'DOMContentLoaded', // Name of the event dispatched on the document
             disableMutationObserver: false, // Disable auto-refresh on DOM changes
         });
-        
+
         // Refresh AOS when new content might be loaded
         document.addEventListener('lazyloaded', function() {
             AOS.refresh();
         });
-        
+
         // Refresh AOS when tabs are clicked or accordions are toggled
         document.querySelectorAll('[data-bs-toggle]').forEach(function(element) {
             element.addEventListener('click', function() {
@@ -1887,12 +2357,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
-    // Apply floating animation to section headers
-    document.querySelectorAll('.section-header').forEach(function(header) {
-        header.classList.add('float-animation');
-    });
-    
+
     // Update collapse button icon rotation
     const updateCollapseButtons = document.querySelectorAll('.update-collapse-btn');
     updateCollapseButtons.forEach(button => {
@@ -1900,11 +2365,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (button.getAttribute('aria-expanded') === 'false') {
             button.querySelector('i').style.transform = 'rotate(-90deg)';
         }
-        
+
         button.addEventListener('click', function() {
             // Disable button temporarily to prevent rapid clicking
             this.disabled = true;
-            
+
             // Toggle will happen after this event, so we need to check the opposite
             const willBeCollapsed = this.getAttribute('aria-expanded') === 'true';
             // Toggle the rotation based on the state it will be in
@@ -1913,37 +2378,37 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 this.querySelector('i').style.transform = 'rotate(0deg)';
             }
-            
+
             // Re-enable button after animation completes
             setTimeout(() => {
                 this.disabled = false;
             }, 200); // Slightly longer than the animation to ensure it's complete
         });
     });
-    
+
     // Add star icon interactions
     const starIcons = document.querySelectorAll('.star-icon');
     starIcons.forEach(star => {
         star.addEventListener('click', function(e) {
             // Create flash effect
             this.classList.add('star-clicked');
-            
+
             // Create explosion particles
             createStarParticles(this);
-            
+
             // Remove the class after animation completes
             setTimeout(() => {
                 this.classList.remove('star-clicked');
             }, 700);
         });
     });
-    
+
     // Function to create star particles on click
     function createStarParticles(starElement) {
         const rect = starElement.getBoundingClientRect();
         const x = rect.left + rect.width / 2;
         const y = rect.top + rect.height / 2;
-        
+
         // Create container for particles if it doesn't exist
         let particleContainer = document.getElementById('star-particle-container');
         if (!particleContainer) {
@@ -1958,16 +2423,16 @@ document.addEventListener('DOMContentLoaded', function() {
             particleContainer.style.zIndex = '9999';
             document.body.appendChild(particleContainer);
         }
-        
+
         // Create particles
         for (let i = 0; i < 8; i++) {
             const particle = document.createElement('div');
             particle.className = 'star-particle';
-            
+
             // Random position offsets
             const angle = Math.random() * Math.PI * 2;
             const distance = 20 + Math.random() * 30;
-            
+
             // Style the particle
             particle.style.position = 'absolute';
             particle.style.width = '8px';
@@ -1980,10 +2445,10 @@ document.addEventListener('DOMContentLoaded', function() {
             particle.style.transform = 'translate(-50%, -50%)';
             particle.style.opacity = '1';
             particle.style.pointerEvents = 'none';
-            
+
             // Add to container
             particleContainer.appendChild(particle);
-            
+
             // Animate the particle
             setTimeout(() => {
                 particle.style.transition = 'all 0.5s ease-out';
@@ -1992,7 +2457,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 particle.style.opacity = '0';
                 particle.style.width = '4px';
                 particle.style.height = '4px';
-                
+
                 // Clean up
                 setTimeout(() => {
                     particleContainer.removeChild(particle);
@@ -2000,26 +2465,106 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 10);
         }
     }
-    
+
     // Animate timeline items on scroll
     const fadeElements = document.querySelectorAll('.fade-in');
-    
+
     const fadeInOnScroll = function() {
         fadeElements.forEach(element => {
             const elementTop = element.getBoundingClientRect().top;
             const elementVisible = 150;
-            
+
             if (elementTop < window.innerHeight - elementVisible) {
                 element.classList.add('visible');
             }
         });
     };
-    
+
     // Run once on page load
     fadeInOnScroll();
-    
+
     // Run on scroll
     window.addEventListener('scroll', fadeInOnScroll);
+
+    // --- START: New Tag Particle Effect --- //
+
+    // Function to create particles for the new tag
+    function createNewTagParticles(tagElement) {
+        const rect = tagElement.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+
+        // Reuse or create particle container
+        let particleContainer = document.getElementById('new-tag-particle-container');
+        if (!particleContainer) {
+            particleContainer = document.createElement('div');
+            particleContainer.id = 'new-tag-particle-container';
+            particleContainer.style.position = 'fixed';
+            particleContainer.style.top = '0';
+            particleContainer.style.left = '0';
+            particleContainer.style.width = '100%';
+            particleContainer.style.height = '100%';
+            particleContainer.style.pointerEvents = 'none';
+            particleContainer.style.zIndex = '9999';
+            document.body.appendChild(particleContainer);
+        }
+
+        // Create particles
+        for (let i = 0; i < 10; i++) { // Create 10 particles
+            const particle = document.createElement('div');
+            particle.className = 'new-tag-particle'; // Use a new class
+
+            // Random direction and distance
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 15 + Math.random() * 25; // Explosion radius
+
+            // Style the particle (initial state at the center of the tag)
+            particle.style.position = 'absolute';
+            particle.style.width = '6px'; // Smaller particles
+            particle.style.height = '6px';
+            particle.style.backgroundColor = '#dc3545'; // Red color
+            particle.style.borderRadius = '50%'; // Circular
+            particle.style.boxShadow = '0 0 5px 1px rgba(220, 53, 69, 0.7)'; // Red glow
+            particle.style.top = `${y}px`;
+            particle.style.left = `${x}px`;
+            particle.style.transform = 'translate(-50%, -50%) scale(1)';
+            particle.style.opacity = '1';
+            particle.style.pointerEvents = 'none';
+
+            // Add to container
+            particleContainer.appendChild(particle);
+
+            // Animate the particle outwards and fade
+            setTimeout(() => {
+                particle.style.transition = 'all 0.6s ease-out';
+                particle.style.top = `${y + Math.sin(angle) * distance}px`;
+                particle.style.left = `${x + Math.cos(angle) * distance}px`;
+                particle.style.opacity = '0';
+                particle.style.transform = 'translate(-50%, -50%) scale(0.5)'; // Shrink as it fades
+
+                // Clean up the particle element after animation
+                setTimeout(() => {
+                    if (particle.parentNode === particleContainer) { // Check if it still exists before removing
+                         particleContainer.removeChild(particle);
+                    }
+                }, 600); // Match the animation duration
+            }, 10); // Small delay before animation starts
+        }
+    }
+
+    // Add click listener to the new tags
+    document.querySelectorAll('.new-tag-red').forEach(tag => {
+        tag.addEventListener('click', function(e) {
+            // Optional: Add a visual click effect to the tag itself
+            this.classList.add('tag-clicked-effect');
+            setTimeout(() => this.classList.remove('tag-clicked-effect'), 300);
+
+            // Create particles
+            createNewTagParticles(this);
+        });
+    });
+    // --- END: New Tag Particle Effect --- //
+
 });
 
 // Fruit search functionality
@@ -2029,10 +2574,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearFruitSearch = document.getElementById('clearFruitSearch');
     const fruitChangesContainer = document.querySelector('.fruit-balance-changes');
     const noFruitResults = document.getElementById('noFruitResults');
-    
+
     if (fruitSearchInput && fruitChangesContainer) {
         const fruitChanges = Array.from(fruitChangesContainer.querySelectorAll('.fruit-change'));
-        
+
         fruitChanges.forEach(fruit => {
             // Ensure transition listeners are added only once
             fruit.addEventListener('transitionend', () => {
@@ -2045,18 +2590,18 @@ document.addEventListener('DOMContentLoaded', function() {
         fruitSearchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
             let visibleCount = 0;
-            
+
             fruitChanges.forEach(fruit => {
                 const fruitTitle = fruit.querySelector('.fruit-title').textContent.toLowerCase();
                 const fruitContent = fruit.textContent.toLowerCase();
                 const shouldShow = searchTerm === '' || fruitTitle.includes(searchTerm) || fruitContent.includes(searchTerm);
-                
+
                 if (shouldShow) {
                     // Make visible before starting transition
                     if (fruit.style.display === 'none') {
                        fruit.style.display = ''; // Reset display first
                        // Force reflow to ensure display change registers before class removal
-                       void fruit.offsetWidth; 
+                       void fruit.offsetWidth;
                     }
                     fruit.classList.remove('fruit-hidden');
                     fruit.style.opacity = '1'; // Explicitly set opacity for transition in
@@ -2067,7 +2612,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // display: none will be set by the transitionend listener
                 }
             });
-            
+
             // Show/hide no results message
             if (noFruitResults) {
                 if (visibleCount === 0 && searchTerm !== '') {
@@ -2077,7 +2622,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        
+
         // Clear search button
         if (clearFruitSearch) {
             clearFruitSearch.addEventListener('click', function() {
@@ -2088,16 +2633,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-    
+
     // Add search functionality for Update 19
     const fruitSearchInput19 = document.getElementById('fruitSearchInput19');
     const clearFruitSearch19 = document.getElementById('clearFruitSearch19');
     const fruitChangesContainer19 = document.querySelector('#update19Collapse .fruit-balance-changes');
     const noFruitResults19 = document.getElementById('noFruitResults19');
-    
+
     if (fruitSearchInput19 && fruitChangesContainer19) {
         const fruitChanges19 = Array.from(fruitChangesContainer19.querySelectorAll('.fruit-change'));
-        
+
         fruitChanges19.forEach(fruit => {
             // Ensure transition listeners are added only once
             fruit.addEventListener('transitionend', () => {
@@ -2110,18 +2655,18 @@ document.addEventListener('DOMContentLoaded', function() {
         fruitSearchInput19.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
             let visibleCount = 0;
-            
+
             fruitChanges19.forEach(fruit => {
                 const fruitTitle = fruit.querySelector('.fruit-title').textContent.toLowerCase();
                 const fruitContent = fruit.textContent.toLowerCase();
                 const shouldShow = searchTerm === '' || fruitTitle.includes(searchTerm) || fruitContent.includes(searchTerm);
-                
+
                 if (shouldShow) {
                     // Make visible before starting transition
                     if (fruit.style.display === 'none') {
                        fruit.style.display = ''; // Reset display first
                        // Force reflow to ensure display change registers before class removal
-                       void fruit.offsetWidth; 
+                       void fruit.offsetWidth;
                     }
                     fruit.classList.remove('fruit-hidden');
                     fruit.style.opacity = '1'; // Explicitly set opacity for transition in
@@ -2132,7 +2677,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // display: none will be set by the transitionend listener
                 }
             });
-            
+
             // Show/hide no results message
             if (noFruitResults19) {
                 if (visibleCount === 0 && searchTerm !== '') {
@@ -2142,7 +2687,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        
+
         // Clear search button
         if (clearFruitSearch19) {
             clearFruitSearch19.addEventListener('click', function() {
@@ -2153,16 +2698,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-    
+
     // Add search functionality for Update 18
     const fruitSearchInput18 = document.getElementById('fruitSearchInput18');
     const clearFruitSearch18 = document.getElementById('clearFruitSearch18');
     const fruitChangesContainer18 = document.querySelector('#balance18Collapse .fruit-balance-changes');
     const noFruitResults18 = document.getElementById('noFruitResults18');
-    
+
     if (fruitSearchInput18 && fruitChangesContainer18) {
         const fruitChanges18 = Array.from(fruitChangesContainer18.querySelectorAll('.fruit-change'));
-        
+
         fruitChanges18.forEach(fruit => {
             // Ensure transition listeners are added only once
             fruit.addEventListener('transitionend', () => {
@@ -2175,18 +2720,18 @@ document.addEventListener('DOMContentLoaded', function() {
         fruitSearchInput18.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
             let visibleCount = 0;
-            
+
             fruitChanges18.forEach(fruit => {
                 const fruitTitle = fruit.querySelector('.fruit-title').textContent.toLowerCase();
                 const fruitContent = fruit.textContent.toLowerCase();
                 const shouldShow = searchTerm === '' || fruitTitle.includes(searchTerm) || fruitContent.includes(searchTerm);
-                
+
                 if (shouldShow) {
                     // Make visible before starting transition
                     if (fruit.style.display === 'none') {
                        fruit.style.display = ''; // Reset display first
                        // Force reflow to ensure display change registers before class removal
-                       void fruit.offsetWidth; 
+                       void fruit.offsetWidth;
                     }
                     fruit.classList.remove('fruit-hidden');
                     fruit.style.opacity = '1'; // Explicitly set opacity for transition in
@@ -2197,7 +2742,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // display: none will be set by the transitionend listener
                 }
             });
-            
+
             // Show/hide no results message
             if (noFruitResults18) {
                 if (visibleCount === 0 && searchTerm !== '') {
@@ -2207,7 +2752,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        
+
         // Clear search button
         if (clearFruitSearch18) {
             clearFruitSearch18.addEventListener('click', function() {
@@ -2220,4 +2765,131 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-{% endblock %} 
+
+<style>
+/* Animated Icons Styles */
+.animated-icon {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.animated-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.animated-icon i {
+    position: relative;
+    z-index: 2;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* New Features Icon Animation */
+.new-features-icon {
+    animation: pulse-grow 3s infinite alternate;
+}
+
+.new-features-icon i {
+    animation: rotate-slight 6s ease-in-out infinite;
+}
+
+.new-features-icon:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 12px rgba(255, 193, 7, 0.3);
+    background-color: rgba(255, 193, 7, 0.2);
+}
+
+.new-features-icon:hover i {
+    transform: rotate(180deg) scale(1.2);
+    color: #000 !important;
+}
+
+.new-features-icon:hover::before {
+    opacity: 0.6;
+    animation: shine 1.5s infinite;
+}
+
+/* Balance Changes Icon Animation */
+.balance-changes-icon {
+    animation: float 4s ease-in-out infinite;
+}
+
+.balance-changes-icon i {
+    animation: balance-tilt 5s ease-in-out infinite;
+}
+
+.balance-changes-icon:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 12px rgba(255, 193, 7, 0.3);
+    background-color: rgba(255, 193, 7, 0.2);
+}
+
+.balance-changes-icon:hover i {
+    animation: balance-tilt-fast 1s ease-in-out infinite;
+    color: #000 !important;
+}
+
+.balance-changes-icon:hover::before {
+    opacity: 0.6;
+    animation: shine 1.5s infinite;
+}
+
+/* Animation Keyframes */
+@keyframes pulse-grow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes rotate-slight {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes balance-tilt {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+
+@keyframes balance-tilt-fast {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+}
+
+@keyframes shine {
+    0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0); }
+    50% { opacity: 0.6; transform: translate(-30%, -30%) scale(1.5); }
+    100% { opacity: 0.4; transform: translate(0%, 0%) scale(0); }
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .animated-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .animated-icon:hover {
+        transform: scale(1.1);
+    }
+}
+</style>
+{% endblock %}

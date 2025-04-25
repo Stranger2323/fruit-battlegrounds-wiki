@@ -9,10 +9,10 @@
     <div class="loading-content-wrapper">
         <!-- Added Game Logo Back -->
         <img src="{{ url_for('static', filename='images/game_logo.png') }}" alt="Fruit Battlegrounds Logo" class="loading-logo-img">
-        
+
         <!-- Wave Loader -->
         <div class="loader"></div>
-        
+
         <!-- Added Text Loader Below -->
         <div class="text-loader-card">
           <div class="text-loader">
@@ -69,7 +69,7 @@
                         </div>
                     <!-- Description Text -->
                     <p class="card-text text-muted mb-3">Quickly find fruits by typing their name below.</p>
-                    
+
                     <!-- Animated Search Input -->
                     <div class="mt-auto"> <!-- Push search to bottom if needed, or remove mt-auto for normal flow -->
                         <label for="fruit-search-input" class="label">
@@ -84,7 +84,7 @@
 
     <div class="fruit-container position-relative">
         <!-- Loading animation removed -->
-        
+
         <div class="fruit-grid" id="fruit-list">
         {% for fruit in fruits %}
             <div class="fruit-card" data-fruit="{{ fruit.name }}" data-aos="zoom-in-up" data-aos-delay="{{ (loop.index0 % 4) * 50 }}">
@@ -193,7 +193,7 @@
                     The Pity System helps players obtain rarer fruits by increasing the chances of getting them after multiple unsuccessful spins.
                     There are three Pity categories: Rare, Epic, and Legendary.
                 </p>
-                
+
                         <ul class="pity-list">
                             <li>
                                 <span class="pity-tag pity-tag-rare">Rare Pity</span>
@@ -214,12 +214,16 @@
                             When each pity reaches its threshold, you are automatically <strong>GUARANTEED</strong> a fruit from that rarity.
                     However, there is a pity timer that resets 5 hours after you start spinning.
                 </p>
-                        
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i>
-                    The pity saves when you leave the server so do not worry if you unfortunately disconnect from the game, your pity is safe!
+
+                        <div class="alert alert-info custom-alert">
+                            <div class="alert-icon-container">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="alert-content">
+                                <strong>Note:</strong> The pity saves when you leave the server so do not worry if you unfortunately disconnect from the game, your pity is safe!
+                            </div>
                         </div>
-                
+
                 <p>
                     Fruits with a rarity of Legendary or higher will be guaranteed to be a fruit you do not have in your fruit storage.
                 </p>
@@ -266,7 +270,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="rebirth-system-card" data-aos="fade-up" data-aos-delay="100">
             <div class="rebirth-header">
                 <div class="d-flex align-items-center">
@@ -278,12 +282,16 @@
                 <p>
                     The new Rebirth system allows you to exchange a maxed-level fruit and gems for another fruit of the next rarity tier. Talk to Rayleigh NPC located in the Live Floor of Onigashima (opposite side of the dummies) to access this feature.
                 </p>
-                
-                <div class="info-box mb-4 mt-3">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <span><strong>Note:</strong> V2 fruits are not included in the Rebirth pool!</span>
+
+                <div class="alert alert-info custom-alert mb-4 mt-3">
+                    <div class="alert-icon-container">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <strong>Note:</strong> V2 fruits are not included in the Rebirth pool!
+                    </div>
                 </div>
-                
+
                 <h6 class="mb-3">Rebirth Requirements:</h6>
                 <div class="table-responsive">
                     <table class="rebirth-table">
@@ -372,7 +380,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <p class="mt-4">
                     When you Rebirth a Legendary fruit, you are guaranteed a new Mythical fruit that you don't already have. After Rebirth, your fruit level will reset to 1, allowing you to level it up to 300 again with no nerf to gems acquired per level.
                 </p>
@@ -396,8 +404,8 @@
     align-items: center;
     /* Removed padding-bottom to center new loader */
     /* Transition applies mainly to fade-out now - Smoother easing and longer duration */
-    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
                 filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -410,7 +418,7 @@
     opacity: 0; /* Start hidden */
     filter: blur(5px); /* Start blurred */
     /* Smoother easing and longer duration for fade-in */
-    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
                 filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -609,7 +617,7 @@
     transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1),
                 0 3px 6px rgba(0, 0, 0, 0.05);
     transform-style: preserve-3d;
     transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
@@ -618,8 +626,8 @@
 
 .fruit-card-inner:hover {
     transform: perspective(1000px) translateY(-5px) translateZ(10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), 
-                0 8px 10px rgba(0, 0, 0, 0.05), 
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15),
+                0 8px 10px rgba(0, 0, 0, 0.05),
                 0 0 20px rgba(var(--bs-primary-rgb), 0.1);
 }
 
@@ -757,14 +765,7 @@
     padding: 24px;
 }
 
-.info-box {
-    background-color: rgba(204, 229, 255, 0.6);
-    border-radius: 8px;
-    padding: 12px 16px;
-    color: #0075ff;
-    display: flex;
-    align-items: center;
-}
+/* info-box class replaced with custom-alert */
 
 .rebirth-table {
     width: 100%;
@@ -1032,7 +1033,7 @@
 
 /* Simplified Fruit Container */
 .loading-fruits-simple {
-    position: relative; 
+    position: relative;
     margin-bottom: 35px; /* Increased space */
     height: 60px; /* Increased height */
 }
@@ -1050,7 +1051,7 @@
 /* Removed other fruit delays */
 
 .loading-text {
-    margin-top: 0; 
+    margin-top: 0;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 28px; /* Further increased size */
@@ -1062,12 +1063,12 @@
 
 /* Simplified Fruit Pop Animation */
 @keyframes fruitPopSimple {
-    0%, 100% { 
-        opacity: 0.6; 
+    0%, 100% {
+        opacity: 0.6;
         transform: translate(-50%, -50%) scale(0.8);
     }
-    50% { 
-        opacity: 1; 
+    50% {
+        opacity: 1;
         transform: translate(-50%, -50%) scale(1.1);
     }
 }
@@ -1243,7 +1244,7 @@
     transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1),
                 0 3px 6px rgba(0, 0, 0, 0.05);
     transform-style: preserve-3d;
     transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
@@ -1302,45 +1303,45 @@
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 0.8rem;
     }
-    
+
     /* Smaller fruit cards for mobile */
     .fruit-image-container {
         height: 120px;
     }
-    
+
     /* More compact card body */
     .fruit-card-inner .card-body {
         padding: 0.75rem;
     }
-    
+
     /* Smaller card title and text */
     .fruit-card-inner .card-title {
         font-size: 1rem;
         margin-bottom: 0.5rem;
     }
-    
+
     .fruit-card-inner .card-text {
         font-size: 0.8rem;
     }
-    
+
     /* Make rebirth table scroll horizontally */
     .rebirth-table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
-    
+
     /* Adjust section spacing */
     .section-header {
         margin-bottom: 1.5rem;
     }
-    
+
     /* Improve search input on mobile */
     .label > .label-title {
         translate: 5px -10px;
         font-size: 0.6rem;
     }
-    
+
     .label:focus-within .input {
         scale: 1.05;
     }
@@ -1354,7 +1355,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 const loadingOverlay = document.getElementById('loading-overlay');
     const contentWrapper = loadingOverlay ? loadingOverlay.querySelector('.loading-content-wrapper') : null;
-    
+
     if (loadingOverlay && contentWrapper) {
         // Slightly delay adding 'visible' class to container to trigger wrapper fade-in
         setTimeout(function() {
@@ -1363,33 +1364,33 @@ const loadingOverlay = document.getElementById('loading-overlay');
 
         // Hide loading animation after 1.5 seconds
         setTimeout(function() {
-            loadingOverlay.classList.remove('visible'); 
+            loadingOverlay.classList.remove('visible');
         loadingOverlay.classList.add('hidden');
-        
+
             // Remove from DOM after transition completes - Adjusted timeout duration
             setTimeout(function() {
-                if (loadingOverlay.parentNode) { 
+                if (loadingOverlay.parentNode) {
                     loadingOverlay.remove();
                 }
             }, 800); /* Match transition duration (700ms) + buffer */
         }, 1500); /* Updated duration to 1.5 seconds */
     }
 });
-    
+
 // --- 3D Tilt Effect for Fruit Cards ---
 document.addEventListener('DOMContentLoaded', function() {
     const fruitCards = document.querySelectorAll('.fruit-card-inner');
-    
+
     fruitCards.forEach(card => {
         // Initialize variables to track if animation is active
         let isHovered = false;
         let tiltAnimation = null;
-        
+
         // Add event listeners
         card.addEventListener('mouseenter', startTiltEffect);
         card.addEventListener('mousemove', tiltEffect);
         card.addEventListener('mouseleave', resetTilt);
-        
+
         function startTiltEffect() {
             isHovered = true;
             // If there's an active animation, cancel it
@@ -1398,7 +1399,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cancelAnimationFrame(tiltAnimation);
                 tiltAnimation = null;
             }
-            
+
             // Add specific class for when tilt effect is active
             card.classList.add('tilt-active');
             const fruitImg = card.querySelector('.fruit-img');
@@ -1407,30 +1408,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 fruitImg.classList.add('tilt-active');
             }
         }
-        
+
         function tiltEffect(e) {
             if (!isHovered) return;
-            
+
             // Get the dimensions and position of the card
             const rect = card.getBoundingClientRect();
-            
+
             // Calculate the mouse position relative to the center of the card
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             const mouseX = e.clientX;
             const mouseY = e.clientY;
-            
+
             // Calculate how far from center the mouse is (in percentage)
             const percentX = (mouseX - centerX) / (rect.width / 2);
             const percentY = (mouseY - centerY) / (rect.height / 2);
-            
+
             // Calculate the tilt angles (limit to 15 degrees max)
             const tiltX = -percentY * 15;
             const tiltY = percentX * 15;
-            
+
             // Apply the tilt effect - more dramatic for the image
             card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
-            
+
             // Apply a more dramatic effect to the fruit image
             const fruitImg = card.querySelector('.fruit-img');
             if (fruitImg) {
@@ -1439,7 +1440,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const translateZ = 30 + Math.abs(percentX * percentY) * 30; // Dynamic depth
                 fruitImg.style.transform = `rotateX(${imgTiltX}deg) rotateY(${imgTiltY}deg) translateZ(${translateZ}px) scale(1.1)`;
             }
-            
+
             // Dynamic lighting effect based on tilt
             const imgContainer = card.querySelector('.fruit-image-container');
             if (imgContainer) {
@@ -1448,45 +1449,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 imgContainer.style.background = `radial-gradient(circle at ${lightingX}% ${lightingY}%, rgba(255,255,255,0.8) 0%, rgba(240,240,240,0.5) 100%)`;
             }
         }
-        
+
         function resetTilt() {
             isHovered = false;
-            
+
             // Remove tilt-active class
             card.classList.remove('tilt-active');
             const fruitImg = card.querySelector('.fruit-img');
             if (fruitImg) {
                 fruitImg.classList.remove('tilt-active');
             }
-            
+
             // Smooth transition back
             card.style.transition = 'all 0.5s ease-out';
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-            
+
             // Reset the fruit image with animation
             if (fruitImg) {
                 fruitImg.style.transition = 'all 0.5s ease-out';
                 fruitImg.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)';
-                
+
                 // Restore the original animation after a brief delay
                 setTimeout(() => {
                     fruitImg.style.transition = '';
                     fruitImg.style.animation = 'float-rotate 4s ease-in-out infinite';
                 }, 500);
             }
-            
+
             // Reset the background
             const imgContainer = card.querySelector('.fruit-image-container');
             if (imgContainer) {
                 imgContainer.style.transition = 'background 0.5s ease-out';
                 imgContainer.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(240,240,240,0.7) 100%)';
-                
+
                 // Reset the transition property after the transition completes
                 setTimeout(() => {
                     imgContainer.style.transition = '';
                 }, 500);
             }
-            
+
             // Reset the transition property after the transition completes
             setTimeout(() => {
                 card.style.transition = '';
@@ -1494,8 +1495,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-    
-// --- Search Functionality --- 
+
+// --- Search Functionality ---
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('fruit-search-input');
     const fruitListContainer = document.getElementById('fruit-list');
@@ -1507,11 +1508,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const searchTerm = searchInput.value.toLowerCase().trim();
         let visibleCount = 0;
-        
+
         allFruitCards.forEach(card => {
             const fruitName = card.getAttribute('data-fruit')?.toLowerCase() || '';
             const shouldShow = searchTerm === '' || fruitName.includes(searchTerm);
-            
+
             if (shouldShow) {
                 card.style.display = 'block';
                 visibleCount++;
@@ -1521,12 +1522,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         noResultsMessage.style.display = (visibleCount === 0 && searchTerm !== '') ? 'block' : 'none';
-            
+
         if (typeof AOS !== 'undefined') {
              AOS.refresh();
         }
     }
-    
+
     // Debounce function (keep as is)
     function debounce(func, wait) {
         let timeout;
@@ -1548,4 +1549,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-{% endblock %} 
+{% endblock %}
