@@ -1,8 +1,10 @@
+providers = ["python"]
+
 [phases.setup]
-nixPkgs = ['python310', 'python310Packages.pip', 'gcc', 'postgresql']
+nixPkgs = ['python310', 'gcc', 'postgresql']
 
 [phases.install]
-cmds = ['python -m pip install --upgrade pip', 'ls -la', 'cd ./fruit_battlegrounds_wiki && python -m pip install -r requirements.txt']
+cmds = ['pip install --upgrade pip', 'ls -la', 'cd ./fruit_battlegrounds_wiki && pip install -r requirements.txt']
 
 [start]
-cmd = 'cd ./fruit_battlegrounds_wiki && python -m gunicorn app:app' 
+cmd = 'cd ./fruit_battlegrounds_wiki && gunicorn app:app' 
